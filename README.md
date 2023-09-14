@@ -3,5 +3,5 @@ The SecurePass is a desktop application that provides users with ability yo quic
 
 ## Members
 - Horbal Daniil
-- Mural` Ruslan
+- Mural' Ruslan
 - Tymchyshyn Yarema
