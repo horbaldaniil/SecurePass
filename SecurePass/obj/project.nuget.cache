@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "aMXKPjtKjQg8/5K8SJ39MoE7B6USIZkp7FOv+PopzKdmXI60nvHOnDTN7GKwK3OCoja5gzQ9UPRch4I0hxWbFA==",
+  "success": true,
+  "projectFilePath": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\gorba\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\6.0.0\\microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\gorba\\.nuget\\packages\\npgsql\\7.0.6\\npgsql.7.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}
