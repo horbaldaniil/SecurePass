@@ -31,15 +31,15 @@ while (true)
                         await PrintTableAsync("users");
                         break;
                     case 2:
-                        await PrintTableAsync("Folders");
+                        await PrintTableAsync("folders");
                         break;
                     case 3:
-                        await PrintTableAsync("Passwords");
+                        await PrintTableAsync("passwords");
                         break;
                 }
                 break;
             }
-            break;     
+            break;
         case 2:
             while (true)
             {
@@ -60,7 +60,7 @@ while (true)
                             var User = JsonSerializer.Deserialize<User>(userString);
 
                             await using (var cmd = dataSource.CreateCommand("INSERT INTO users (email, password) VALUES ($1, $2)"))
-                            {
+                            {     
                                 cmd.Parameters.AddWithValue(User.email);
                                 cmd.Parameters.AddWithValue(User.password);
                                 await cmd.ExecuteNonQueryAsync();
@@ -93,7 +93,6 @@ while (true)
                             string passwordString = await responsePasswords.Content.ReadAsStringAsync();
                             var password = JsonSerializer.Deserialize<Password>(passwordString);
 
-
                             await using (var cmd = dataSource.CreateCommand("INSERT INTO passwords (title, email_username, password, folder_id, user_id, last_updated, deleted) VALUES ($1, $2, $3, $4, $5, $6, $7)"))
                             {
                                 cmd.Parameters.AddWithValue(password.title);
@@ -123,7 +122,7 @@ while (true)
                                 await cmd.ExecuteNonQueryAsync();
                             }
                         }
-                        
+
                         break;
                 }
                 break;
@@ -140,13 +139,13 @@ async Task PrintTableAsync(string tableName)
 {
     await using (var cmd = dataSource.CreateCommand("SELECT * FROM " + tableName))
     await using (var reader = await cmd.ExecuteReaderAsync())
-    {  
+    {
         while (await reader.ReadAsync())
         {
             Console.WriteLine("-------------------------------------");
             for (int i = 0; i < reader.GetColumnSchema().Count; i++)
             {
-                Console.WriteLine("{0}: {1} \t", reader.GetColumnSchema()[i].ColumnName, reader.GetValue(i) == DBNull.Value? "null" : reader.GetValue(i));
+                Console.WriteLine("{0}: {1} \t", reader.GetColumnSchema()[i].ColumnName, reader.GetValue(i) == DBNull.Value ? "null" : reader.GetValue(i));
             }
             Console.WriteLine("-------------------------------------");
         }
@@ -162,12 +161,12 @@ public class User
 public class Password
 {
     public required string title { get; set; }
-    public string? email_username {  get; set; }
+    public string? email_username { get; set; }
     public required string password { get; set; }
     public int? folder_id { get; set; }
     public int user_id { get; set; }
-    public required string last_updated {  get; set; }
-    public bool deleted {  get; set; }
+    public required string last_updated { get; set; }
+    public bool deleted { get; set; }
 }
 
 public class Folder
