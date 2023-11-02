@@ -1,0 +1,11 @@
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\bin\Debug\net7.0-windows\SecurePass.BLL.deps.json
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\bin\Debug\net7.0-windows\SecurePass.BLL.dll
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\bin\Debug\net7.0-windows\SecurePass.BLL.pdb
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\SecurePass.BLL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\SecurePass.BLL.AssemblyInfoInputs.cache
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\SecurePass.BLL.AssemblyInfo.cs
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\SecurePass.BLL.csproj.CoreCompileInputs.cache
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\SecurePass.BLL.dll
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\refint\SecurePass.BLL.dll
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\SecurePass.BLL.pdb
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\ref\SecurePass.BLL.dll

@@ -1,0 +1,116 @@
+﻿<Window x:Class="SecurePass.Presentation.LogInWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SecurePass.Presentation"
+        mc:Ignorable="d"
+        Title="Log In" Height="550" Width="400" Background="#FFE1ECF6" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="Label" x:Key="SecurePassLoginTitle" BasedOn="{StaticResource BasicLabel}">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+        <Style TargetType="Label" x:Key="TextBoxLabel" BasedOn="{StaticResource BasicLabel}">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Padding" Value="0,0,0,4"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="AutorithationTextBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="#A9B1B8"/>
+            <Setter Property="Padding" Value="5,0,0,0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#A9B1B8"/>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="LoginButton">
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="FontFamily" Value="/Fonts/#Inria Sans"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#41C6FF"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="0,40,0,7"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#54CCFF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Label" x:Key="SignUp" BasedOn="{StaticResource BasicLabel}">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+
+        
+    </Window.Resources>
+    <StackPanel Margin="55, 55, 55, 0">
+
+        <Label Content="SecurePass" Style="{StaticResource SecurePassLoginTitle}" />
+        <Label Content="Login" Style="{StaticResource SecurePassLoginTitle}"/>
+
+        <Label Content="Email" Margin="0,35,0,0" Style="{StaticResource TextBoxLabel}"/>
+        <TextBox x:Name="EmailTextBox" GotFocus="RemoveText" LostFocus="AddText" Tag="Email" Text="Email" Style="{StaticResource AutorithationTextBox}">
+            <TextBox.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"></Setter>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <Label x:Name="EmailErrorLabel" Style="{StaticResource ErrorLabel}"/>
+
+        <Label Content="Password" Margin="0,25,0,0" Style="{StaticResource TextBoxLabel}"/>
+        <TextBox x:Name="PasswordTextBox" GotFocus="RemoveText" LostFocus="AddText" Tag="Password" Text="Password" Style="{StaticResource AutorithationTextBox}">
+            <TextBox.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"></Setter>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <Label x:Name="PasswordErrorLabel" Style="{StaticResource ErrorLabel}"/>
+
+        <Button Content="Login" Style="{StaticResource LoginButton}" Click="LoginButton_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Label Style="{StaticResource SignUp}">
+            <TextBlock>
+                Don't have an account? 
+                <Hyperlink TextDecorations="None"  Click="SignUpLabel_Click">
+                    <Hyperlink.Style>
+                        <Style TargetType="Hyperlink">
+                            <Setter Property="Foreground" Value="#41C6FF" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="#54CCFF" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Hyperlink.Style>
+                    <Run Text="Sign up"/>
+                </Hyperlink>
+            </TextBlock>
+        </Label>
+
+    </StackPanel>
+</Window>

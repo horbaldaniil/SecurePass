@@ -1,0 +1,195 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.Presentation\\SecurePass.Presentation.csproj": {}
+  },
+  "projects": {
+    "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.BLL\\SecurePass.BLL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.BLL\\SecurePass.BLL.csproj",
+        "projectName": "SecurePass.BLL",
+        "projectPath": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.BLL\\SecurePass.BLL.csproj",
+        "packagesPath": "C:\\Users\\gorba\\.nuget\\packages\\",
+        "outputPath": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.BLL\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\gorba\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0-windows7.0": {
+            "targetAlias": "net7.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0-windows7.0": {
+          "targetAlias": "net7.0-windows",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.DAL\\SecurePass.DAL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.DAL\\SecurePass.DAL.csproj",
+        "projectName": "SecurePass.DAL",
+        "projectPath": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.DAL\\SecurePass.DAL.csproj",
+        "packagesPath": "C:\\Users\\gorba\\.nuget\\packages\\",
+        "outputPath": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.DAL\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\gorba\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0-windows7.0": {
+            "targetAlias": "net7.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0-windows7.0": {
+          "targetAlias": "net7.0-windows",
+          "dependencies": {
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.Presentation\\SecurePass.Presentation.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.Presentation\\SecurePass.Presentation.csproj",
+        "projectName": "SecurePass.Presentation",
+        "projectPath": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.Presentation\\SecurePass.Presentation.csproj",
+        "packagesPath": "C:\\Users\\gorba\\.nuget\\packages\\",
+        "outputPath": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.Presentation\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\gorba\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0-windows7.0": {
+            "targetAlias": "net7.0-windows",
+            "projectReferences": {
+              "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.BLL\\SecurePass.BLL.csproj": {
+                "projectPath": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.BLL\\SecurePass.BLL.csproj"
+              },
+              "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.DAL\\SecurePass.DAL.csproj": {
+                "projectPath": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.DAL\\SecurePass.DAL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0-windows7.0": {
+          "targetAlias": "net7.0-windows",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

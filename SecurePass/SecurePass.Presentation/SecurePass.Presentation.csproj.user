@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="CreatePasswordWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="FoldersWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="PasswordsWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="SignUpWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="TrashWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="CreatePasswordWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="FoldersWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="LogInWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PasswordsWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SignUpWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TrashWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>
