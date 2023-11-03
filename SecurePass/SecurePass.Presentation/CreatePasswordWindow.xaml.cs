@@ -64,6 +64,7 @@ namespace SecurePass.Presentation
         private void GeneratePassword_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             GenaratePassword.Visibility = Visibility.Visible;
+            GenaratePasswordBackground.Visibility = Visibility.Visible;
         }
 
 
@@ -80,6 +81,7 @@ namespace SecurePass.Presentation
             if (!GenaratePassword.IsMouseOver)
             {
                 GenaratePassword.Visibility = Visibility.Collapsed;
+                GenaratePasswordBackground.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -101,6 +103,26 @@ namespace SecurePass.Presentation
             PasswordsWindow passwordsWindow = new PasswordsWindow();
             passwordsWindow.Show();
             Close();
+        }
+
+        public void RemoveText(object sender, EventArgs e)
+        {
+            TextBox instance = (TextBox)sender;
+            instance.Foreground = Brushes.Black;
+            if (instance.Text == instance.Tag.ToString())
+                instance.Text = "";
+        }
+
+        public void AddText(object sender, EventArgs e)
+        {
+            TextBox instance = (TextBox)sender;
+            Color color = (Color)ColorConverter.ConvertFromString("#A9B1B8");
+
+            if (string.IsNullOrWhiteSpace(instance.Text))
+            {
+                instance.Text = instance.Tag.ToString();
+                instance.Foreground = new SolidColorBrush(color);
+            }
         }
     }
 }
