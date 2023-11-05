@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\App.xaml
-6-1955045986
+8-1709296086
 
-8-204120617
+91277110508
 2141801207713
-CreatePasswordWindow.xaml;FoldersWindow.xaml;LogInWindow.xaml;PasswordsWindow.xaml;SignUpWindow.xaml;TrashWindow.xaml;
+CreatePasswordWindow.xaml;FoldersWindow.xaml;Languages\Dictionary-en-US.xaml;Languages\Dictionary-uk-UA.xaml;LogInWindow.xaml;PasswordsWindow.xaml;SignUpWindow.xaml;TrashWindow.xaml;
 
 False
 

@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Threading;
+using System.Globalization;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Controls;
 
 namespace SecurePass.Presentation
 {
@@ -22,6 +15,7 @@ namespace SecurePass.Presentation
         public PasswordsWindow()
         {
             InitializeComponent();
+            SetLang(Properties.Settings.Default.lang);
         }
 
         private void Folders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -81,5 +75,39 @@ namespace SecurePass.Presentation
             logInWindow.Show();
             Close();
         }
+        private void Lang_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            SetLang(((Label)sender).Tag.ToString());
+        }
+        private void SetLang(string lang)
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
+
+            Application.Current.Resources.MergedDictionaries.Clear();
+            ResourceDictionary resdict = new ResourceDictionary()
+            {
+                Source = new Uri($"/Languages/Dictionary-{lang}.xaml", UriKind.Relative)
+            };
+            Application.Current.Resources.MergedDictionaries.Add(resdict);
+
+            Properties.Settings.Default.lang = lang;
+            Properties.Settings.Default.Save();
+
+            switch (lang)
+            {
+                case "en-US":
+                    EnLang.Style = (Style)FindResource("SettingItemLabelActive");
+                    UaLang.Style = (Style)FindResource("SettingItemLabel");
+                    break;
+                case "uk-UA":
+                    UaLang.Style = (Style)FindResource("SettingItemLabelActive");
+                    EnLang.Style = (Style)FindResource("SettingItemLabel");
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 }

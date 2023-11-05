@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
+using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -18,6 +18,23 @@ namespace SecurePass.Presentation
         public LogInWindow()
         {
             InitializeComponent();
+            SetLang(Properties.Settings.Default.lang);
+        }
+
+        private void SetLang(string lang)
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
+
+            Application.Current.Resources.MergedDictionaries.Clear();
+            ResourceDictionary resdict = new ResourceDictionary()
+            {
+                Source = new Uri($"/Languages/Dictionary-{lang}.xaml", UriKind.Relative)
+            };
+            Application.Current.Resources.MergedDictionaries.Add(resdict);
+
+            Properties.Settings.Default.lang = lang;
+            Properties.Settings.Default.Save();
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -30,7 +47,7 @@ namespace SecurePass.Presentation
 
             if (!IsValidEmail(email))
             {
-                EmailErrorLabel.Content = "Invalid email format";
+                EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
                 return;
             }
 
@@ -48,12 +65,12 @@ namespace SecurePass.Presentation
                     }
                     else
                     {
-                        PasswordErrorLabel.Content = "Invalid password";
+                        PasswordErrorLabel.SetResourceReference(ContentProperty, "InvalidPassword");
                     }
                 }
                 else
                 {
-                    EmailErrorLabel.Content = "Email not found";
+                    EmailErrorLabel.SetResourceReference(ContentProperty, "NotFoundEmail");
                 }
             }
         }

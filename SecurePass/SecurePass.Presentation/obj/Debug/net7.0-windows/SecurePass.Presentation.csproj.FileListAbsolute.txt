@@ -49,3 +49,6 @@ D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\bin\Debug\net7.0-window
 D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\bin\Debug\net7.0-windows\SecurePass.DAL.pdb
 D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\obj\Debug\net7.0-windows\SecurePass.Presentation.csproj.AssemblyReference.cache
 D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\obj\Debug\net7.0-windows\SecurePass.Presentation.csproj.CopyComplete
+D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\obj\Debug\net7.0-windows\Languages\Dictionary-en-US.baml
+D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\obj\Debug\net7.0-windows\Languages\Dictionary-uk-UA.baml
+D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\bin\Debug\net7.0-windows\SecurePass.Presentation.dll.config

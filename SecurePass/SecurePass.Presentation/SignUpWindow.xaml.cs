@@ -1,19 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SecurePass.DAL.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SecurePass.Presentation
 {
@@ -25,6 +18,23 @@ namespace SecurePass.Presentation
         public SignUpWindow()
         {
             InitializeComponent();
+            SetLang(Properties.Settings.Default.lang);
+        }
+
+        private void SetLang(string lang)
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
+
+            Application.Current.Resources.MergedDictionaries.Clear();
+            ResourceDictionary resdict = new ResourceDictionary()
+            {
+                Source = new Uri($"/Languages/Dictionary-{lang}.xaml", UriKind.Relative)
+            };
+            Application.Current.Resources.MergedDictionaries.Add(resdict);
+
+            Properties.Settings.Default.lang = lang;
+            Properties.Settings.Default.Save();
         }
         private async void SignUpButton_Click(object sender, RoutedEventArgs e)
         {
@@ -36,13 +46,13 @@ namespace SecurePass.Presentation
 
             if (!IsValidEmail(email))
             {
-                EmailErrorLabel.Content = "Invalid email format";
+                EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
                 return;
             }
 
             if (!IsValidPassword(password))
             {
-                PasswordErrorLabel.Content = "Invalid password format";
+                PasswordErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatPassword");
                 return;
             }
 
@@ -50,7 +60,7 @@ namespace SecurePass.Presentation
             {
                 if (await db.Users.AnyAsync(u => u.Email == email))
                 {
-                    EmailErrorLabel.Content = "Email already in use";
+                    EmailErrorLabel.SetResourceReference(ContentProperty, "InUseEmail");
                     return;
                 }
 

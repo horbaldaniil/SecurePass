@@ -1,0 +1,66 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=System.Runtime">
+    
+    <!-- Language Panel -->
+    <System:String x:Key="LanguageTitle">Languege</System:String>
+    
+    <!-- Theme Panel -->
+    <System:String x:Key="ThemeTitle">Theme</System:String>
+    <System:String x:Key="ThemeOptionLight">Light</System:String>
+    <System:String x:Key="ThemeOptionDark">Dark</System:String>
+    
+    <!-- UserInfo Panel -->
+    <System:String x:Key="LogOutButton">Log out</System:String>
+    
+    <!-- Menu -->
+    <System:String x:Key="MenuOptionPasswords">Passwords</System:String>
+    <System:String x:Key="MenuOptionFolders">Folders</System:String>
+    <System:String x:Key="MenuOptionTrash">Trash</System:String>
+    
+    <!-- Passwords Page -->
+    <System:String x:Key="PasswordsPageTitle">All Passwords</System:String>
+    
+    <!-- Folders Page -->
+    <System:String x:Key="FoldersPageTitle">Folders</System:String>
+    <System:String x:Key="AddNewFolderPanelTitle">Add new folder</System:String>
+    <System:String x:Key="AddNewFolderPanelSaveButton">Save</System:String>
+
+    <!-- Trash Page -->
+    <System:String x:Key="TrashPageTitle">Trash</System:String>
+    <System:String x:Key="TrashPageEmptyTitle">Trash is empty</System:String>
+
+    <!-- CreatePassword Page -->
+    <System:String x:Key="CreatePasswordPageTitle">New Password</System:String>
+    <System:String x:Key="CreatePasswordTitleTextBoxTitle">Title*</System:String>
+    <System:String x:Key="CreatePasswordEmailTextBoxTitle">Email or Username</System:String>
+    <System:String x:Key="CreatePasswordPasswordTextBoxTitle">Password*</System:String>
+    <System:String x:Key="CreatePasswordFolderTextBoxTitle">Folder</System:String>
+    <System:String x:Key="CreatePasswordDetailsTitle">Details</System:String>
+    <System:String x:Key="CreatePasswordOtherTitle">Other</System:String>
+    <System:String x:Key="CreatePasswordGeneratePasswordLabel">Generate password</System:String>
+    <System:String x:Key="CreatePasswordSaveButton">Save</System:String>
+    <System:String x:Key="CreatePasswordCancelButton">Cancel</System:String>
+    <System:String x:Key="PasswrodGeneratorTitle">Password Generator</System:String>
+    <System:String x:Key="LengthStr">Length</System:String>
+    <System:String x:Key="CapitalLettersStr">Use capital letters (A-Z)</System:String>
+    <System:String x:Key="DigitsStr">Use digits (0-9)</System:String>
+    <System:String x:Key="SymbolsStr">Use symbols (!@#$%^*)</System:String>
+    <System:String x:Key="FillPasswordStr">Fill password</System:String>
+
+    <!-- Login/SignUp Page -->
+    <System:String x:Key="LoginTitle">Login</System:String>
+    <System:String x:Key="SignUpTitle">Sign up</System:String>
+    <System:String x:Key="EmailTitle">Email</System:String>
+    <System:String x:Key="PasswordTitle">Password</System:String>
+    <System:String x:Key="LogInButton">Login</System:String>
+    <System:String x:Key="SignupRedirectLabel">Sign up</System:String>
+    <System:String x:Key="LoginUnderPageStr" xml:space="preserve">Don't have an account? </System:String>
+    <System:String x:Key="SignUpUnderPageStr" xml:space="preserve">Already have an account? </System:String>
+    <System:String x:Key="InvalidFormatEmail">Invalid email format</System:String>
+    <System:String x:Key="InvalidPassword">Invalid password</System:String>
+    <System:String x:Key="InvalidFormatPassword">Invalid password format</System:String>
+    <System:String x:Key="NotFoundEmail">Email not found</System:String>
+    <System:String x:Key="InUseEmail">Email already in use</System:String>
+    <System:String x:Key="FolderName">Folder name</System:String>
+</ResourceDictionary>

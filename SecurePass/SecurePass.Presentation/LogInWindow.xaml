@@ -57,6 +57,7 @@
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="0"/>
+            
         </Style>
 
         
@@ -64,10 +65,10 @@
     <StackPanel Margin="55, 55, 55, 0">
 
         <Label Content="SecurePass" Style="{StaticResource SecurePassLoginTitle}" />
-        <Label Content="Login" Style="{StaticResource SecurePassLoginTitle}"/>
+        <Label Content="{DynamicResource LoginTitle}" Style="{StaticResource SecurePassLoginTitle}"/>
 
-        <Label Content="Email" Margin="0,35,0,0" Style="{StaticResource TextBoxLabel}"/>
-        <TextBox x:Name="EmailTextBox" GotFocus="RemoveText" LostFocus="AddText" Tag="Email" Text="Email" Style="{StaticResource AutorithationTextBox}">
+        <Label Content="{DynamicResource EmailTitle}" Margin="0,35,0,0" Style="{StaticResource TextBoxLabel}"/>
+        <TextBox x:Name="EmailTextBox" GotFocus="RemoveText" LostFocus="AddText" Tag="{DynamicResource EmailTitle}" Text="{DynamicResource EmailTitle}" Style="{StaticResource AutorithationTextBox}">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"></Setter>
@@ -76,8 +77,8 @@
         </TextBox>
         <Label x:Name="EmailErrorLabel" Style="{StaticResource ErrorLabel}"/>
 
-        <Label Content="Password" Margin="0,25,0,0" Style="{StaticResource TextBoxLabel}"/>
-        <TextBox x:Name="PasswordTextBox" GotFocus="RemoveText" LostFocus="AddText" Tag="Password" Text="Password" Style="{StaticResource AutorithationTextBox}">
+        <Label Content="{DynamicResource PasswordTitle}" Margin="0,25,0,0" Style="{StaticResource TextBoxLabel}"/>
+        <TextBox x:Name="PasswordTextBox" GotFocus="RemoveText" LostFocus="AddText" Tag="{DynamicResource PasswordTitle}" Text="{DynamicResource PasswordTitle}" Style="{StaticResource AutorithationTextBox}">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"></Setter>
@@ -86,16 +87,17 @@
         </TextBox>
         <Label x:Name="PasswordErrorLabel" Style="{StaticResource ErrorLabel}"/>
 
-        <Button Content="Login" Style="{StaticResource LoginButton}" Click="LoginButton_Click">
+        <Button Content="{DynamicResource LogInButton}" Style="{StaticResource LoginButton}" Click="LoginButton_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20" />
                 </Style>
             </Button.Resources>
         </Button>
-        <Label Style="{StaticResource SignUp}">
-            <TextBlock>
-                Don't have an account? 
+        <Label Style="{StaticResource SignUp}" >
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center">
+                <TextBlock Text="{DynamicResource LoginUnderPageStr}"/>       
+                
                 <Hyperlink TextDecorations="None"  Click="SignUpLabel_Click">
                     <Hyperlink.Style>
                         <Style TargetType="Hyperlink">
@@ -107,7 +109,7 @@
                             </Style.Triggers>
                         </Style>
                     </Hyperlink.Style>
-                    <Run Text="Sign up"/>
+                    <Run Text="{DynamicResource SignupRedirectLabel}"/>
                 </Hyperlink>
             </TextBlock>
         </Label>
