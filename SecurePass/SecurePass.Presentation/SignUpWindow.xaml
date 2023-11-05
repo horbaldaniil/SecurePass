@@ -61,7 +61,9 @@
         </Style>
     </Window.Resources>
     <StackPanel Margin="55, 55, 55, 0">
-
+        <Canvas>
+            <Image x:Name="LangImage" Tag="en-US" MouseLeftButtonDown="Lang_MouseLeftButtonDown" Source="/Images/en-US.png" Style="{StaticResource LangImage}"/>
+        </Canvas>
         <Label Content="SecurePass" Style="{StaticResource SecurePassLoginTitle}" />
         <Label Content="{DynamicResource SignUpTitle}" Style="{StaticResource SecurePassLoginTitle}"/>
 

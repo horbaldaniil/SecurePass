@@ -27,6 +27,13 @@
                 <Setter Property="Margin" Value="0,0,0,-15"/>
             </Style>
 
+            <Style TargetType="Image" x:Key="LangImage">
+                <Setter Property="Width" Value="25"/>
+                <Setter Property="Canvas.Right" Value="-40"/>
+                <Setter Property="Canvas.Bottom" Value="20"/>
+                <Setter Property="Cursor" Value="Hand"/>
+            </Style>
+
             <!-- Menu styles -->
 
             <Style TargetType="Label" x:Key="MenuLabel" BasedOn="{StaticResource BasicLabel}">

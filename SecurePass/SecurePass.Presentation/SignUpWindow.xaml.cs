@@ -6,7 +6,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace SecurePass.Presentation
 {
@@ -21,6 +23,11 @@ namespace SecurePass.Presentation
             SetLang(Properties.Settings.Default.lang);
         }
 
+        private void Lang_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            SetLang(((Image)sender).Tag.ToString());
+        }
+
         private void SetLang(string lang)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
@@ -32,6 +39,20 @@ namespace SecurePass.Presentation
                 Source = new Uri($"/Languages/Dictionary-{lang}.xaml", UriKind.Relative)
             };
             Application.Current.Resources.MergedDictionaries.Add(resdict);
+
+            switch (lang)
+            {
+                case "en-US":
+                    LangImage.Source = new BitmapImage(new Uri($"/Images/uk-UA.png", UriKind.Relative));
+                    LangImage.Tag = "uk-UA";
+                    break;
+                case "uk-UA":
+                    LangImage.Source = new BitmapImage(new Uri($"/Images/en-US.png", UriKind.Relative));
+                    LangImage.Tag = "en-US";
+                    break;
+                default:
+                    break;
+            }
 
             Properties.Settings.Default.lang = lang;
             Properties.Settings.Default.Save();
