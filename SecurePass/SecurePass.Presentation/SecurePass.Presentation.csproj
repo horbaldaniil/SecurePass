@@ -8,8 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\InriaSans-Bold.ttf" />
-    <None Remove="Fonts\InriaSans-Regular.ttf" />
     <None Remove="Images\en-US.png" />
     <None Remove="Images\folder.png" />
     <None Remove="Images\plus.png" />
@@ -21,17 +19,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SecurePass.BLL\SecurePass.BLL.csproj" />
     <ProjectReference Include="..\SecurePass.DAL\SecurePass.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Fonts\InriaSans-Bold.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Fonts\InriaSans-Regular.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Images\en-US.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

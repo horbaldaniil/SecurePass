@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\App.xaml
-8-1709296086
+91676873644
 
-111533364024
-2141801207713
-CreatePasswordWindow.xaml;FoldersWindow.xaml;Languages\Dictionary-en-US.xaml;Languages\Dictionary-uk-UA.xaml;LogInWindow.xaml;PasswordsWindow.xaml;SignUpWindow.xaml;TrashWindow.xaml;
+12-1886842252
+217-2055319624
+Languages\Dictionary-en-US.xaml;Languages\Dictionary-uk-UA.xaml;LogInWindow.xaml;MainWindow.xaml;Pages\CreatePasswordPage.xaml;Pages\FoldersPage.xaml;Pages\PasswordsPage.xaml;Pages\TrashPage.xaml;SignUpWindow.xaml;
 
-True
+False
 

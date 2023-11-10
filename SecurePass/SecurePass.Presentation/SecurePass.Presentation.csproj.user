@@ -7,29 +7,26 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="CreatePasswordWindow.xaml.cs">
+    <Compile Update="MainWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="FoldersWindow.xaml.cs">
+    <Compile Update="Pages\CreatePasswordPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="PasswordsWindow.xaml.cs">
+    <Compile Update="Pages\FoldersPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\PasswordsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\TrashPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="SignUpWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="TrashWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="CreatePasswordWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="FoldersWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Languages\Dictionary-en-US.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -39,13 +36,22 @@
     <Page Update="LogInWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PasswordsWindow.xaml">
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\CreatePasswordPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\FoldersPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\PasswordsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\TrashPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="SignUpWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="TrashWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

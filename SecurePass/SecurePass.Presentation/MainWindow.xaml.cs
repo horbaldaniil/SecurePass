@@ -1,50 +1,61 @@
-﻿using System;
+﻿using SecurePass.DAL.Model;
+using SecurePass.Presentation.Pages;
+using System;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace SecurePass.Presentation
 {
     /// <summary>
-    /// Interaction logic for CreatePasswordWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class CreatePasswordWindow : Window
+    public partial class MainWindow : Window
     {
-        public CreatePasswordWindow()
+        public int LoggedInUserId { get; set; }
+        public MainWindow(int Id)
         {
+            LoggedInUserId = Id;
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
+            var passwordsPage = new PasswordsPage(Main, LoggedInUserId);
+            Main.Navigate(passwordsPage);
 
+            using (var db = new SecurePassDbContext())
+            {
+                var User = db.Users.FirstOrDefault(u => u.Id == LoggedInUserId);
+                UserEmail.Content = User.Email;
+            }
         }
-        private void Folders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+         private void Folders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            FoldersWindow foldersWindow = new FoldersWindow();
-            foldersWindow.Show();
-            Close();
+            FoldersMenuLabel.Style = (Style)FindResource("ActiveMenu");
+            PasswordsMenuLabel.Style = (Style)FindResource("MenuLabel");
+            TrashMenuLabel.Style = (Style)FindResource("MenuLabel");
+
+            var foldersPage = new FoldersPage(LoggedInUserId);
+            Main.Navigate(foldersPage);
         }
 
         private void Trash_MouseLeftButtonDown(Object sender, MouseButtonEventArgs e)
         {
-            TrashWindow trashWindow = new TrashWindow();
-            trashWindow.Show();
-            Close();
+            FoldersMenuLabel.Style = (Style)FindResource("MenuLabel");
+            PasswordsMenuLabel.Style = (Style)FindResource("MenuLabel");
+            TrashMenuLabel.Style = (Style)FindResource("ActiveMenu");
+            var trashPage = new TrashPage();
+            Main.Navigate(trashPage);
         }
 
         private void Passwords_MouseLeftButtonDown(Object sender, MouseButtonEventArgs e)
         {
-            PasswordsWindow passwordsWindow = new PasswordsWindow();
-            passwordsWindow.Show();
-            Close();
-        }
-
-        private void AddNewButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            CreatePasswordWindow createPasswordWindow = new CreatePasswordWindow();
-            createPasswordWindow.Show();
-            Close();
+            FoldersMenuLabel.Style = (Style)FindResource("MenuLabel");
+            PasswordsMenuLabel.Style = (Style)FindResource("ActiveMenu");
+            TrashMenuLabel.Style = (Style)FindResource("MenuLabel");
+            var passwordsPage = new PasswordsPage(Main, LoggedInUserId);
+            Main.Navigate(passwordsPage);
         }
 
         private void UserImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -57,13 +68,6 @@ namespace SecurePass.Presentation
             SettingsPanel.Visibility = Visibility.Visible;
         }
 
-        private void GeneratePassword_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            GenaratePassword.Visibility = Visibility.Visible;
-            GenaratePasswordBackground.Visibility = Visibility.Visible;
-        }
-
-
         private void Window_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!UserInfoPanel.IsMouseOver)
@@ -74,11 +78,6 @@ namespace SecurePass.Presentation
             {
                 SettingsPanel.Visibility = Visibility.Collapsed;
             }
-            if (!GenaratePassword.IsMouseOver)
-            {
-                GenaratePassword.Visibility = Visibility.Collapsed;
-                GenaratePasswordBackground.Visibility = Visibility.Collapsed;
-            }
         }
 
         private void LogOut_Click(object sender, RoutedEventArgs e)
@@ -88,44 +87,11 @@ namespace SecurePass.Presentation
             Close();
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            PasswordsWindow passwordsWindow = new PasswordsWindow();
-            passwordsWindow.Show();
-            Close();
-        }
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            PasswordsWindow passwordsWindow = new PasswordsWindow();
-            passwordsWindow.Show();
-            Close();
-        }
-
-        public void RemoveText(object sender, EventArgs e)
-        {
-            TextBox instance = (TextBox)sender;
-            instance.Foreground = Brushes.Black;
-            if (instance.Text == instance.Tag.ToString())
-                instance.Text = "";
-        }
-
-        public void AddText(object sender, EventArgs e)
-        {
-            TextBox instance = (TextBox)sender;
-            Color color = (Color)ColorConverter.ConvertFromString("#A9B1B8");
-
-            if (string.IsNullOrWhiteSpace(instance.Text))
-            {
-                instance.Text = instance.Tag.ToString();
-                instance.Foreground = new SolidColorBrush(color);
-            }
-        }
-
         private void Lang_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             SetLang(((Label)sender).Tag.ToString());
-
         }
+
         private void SetLang(string lang)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);

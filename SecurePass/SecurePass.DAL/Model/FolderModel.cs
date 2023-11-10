@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SecurePass.DAL.Model
+namespace SecurePass.DAL.Model;
+
+[Table("folders")]
+public class FolderModel
 {
-    public class FolderModel
-    {
-        public int Id { get; set; }
-        public required string Title {  get; set; }
-        public required int UserId { get; set; }
-    }
+    [Column("id")]
+    public int Id { get; set; }
+    [Column("title")]
+    public required string Title {  get; set; }
+    [Column("user_id")]
+    public required int UserId { get; set; }
 }

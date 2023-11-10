@@ -21,6 +21,8 @@ namespace SecurePass.Presentation
         {
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
+            EmailTextBox.Text = "gorbal@gmail.com";
+            PasswordTextBox.Text = "Gorbal1234!";
         }
 
         private void Lang_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -80,7 +82,7 @@ namespace SecurePass.Presentation
                 {
                     if (VerifyPassword(password, user.Password))
                     {
-                        PasswordsWindow window = new PasswordsWindow();
+                        MainWindow window = new MainWindow(user.Id);
                         window.Show();
                         Close();
                     }

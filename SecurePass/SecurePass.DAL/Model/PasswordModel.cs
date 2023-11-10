@@ -1,21 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+namespace SecurePass.DAL.Model;
 
-namespace SecurePass.DAL.Model
+[Table("passwords")]
+public class PasswordModel 
 {
-    public class PasswordModel
-    {
-        public int Id { get; set; }
-        public required string Title { get; set; }
-        public string? Email_Username {  get; set; }
-        public required string Password {  get; set; }
-        public int? FolderId { get; set; }
-        public required int UserId { get; set; }
-        public DateTime LastUpdated { get; set; }
-        public bool Deleted {  get; set; }
+    [Column("id")]
+    public int Id { get; set; }
 
-    }
+    [Column("title")]
+    public required string Title { get; set; }
+
+    [Column("email_username")]
+    public string? Email_Username { get; set; }
+
+    [Column("password")]
+    public required string Password { get; set; }
+
+    [Column("folder_id")]
+    public int? FolderId { get; set; }
+
+    [Column("user_id")]
+    public required int UserId { get; set; }
+
+    [Column("last_updated")]
+    public DateTime LastUpdated { get; set; }
+
+    [Column("deleted")]
+    public bool Deleted { get; set; }
+
+
 }

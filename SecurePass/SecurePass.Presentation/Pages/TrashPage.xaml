@@ -1,0 +1,35 @@
+﻿<Page x:Class="SecurePass.Presentation.Pages.TrashPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SecurePass.Presentation.Pages"
+      mc:Ignorable="d" 
+      d:Width="1500"
+      Title="TrashPage">
+    <Page.Resources>
+        <Style TargetType="Label" x:Key="TrashEmpty" BasedOn="{StaticResource BasicLabel}">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#444444"/>
+        </Style>
+
+        <Style TargetType="Image" x:Key="TrashImage">
+            <Setter Property="Margin" Value="0,100,0,0"/>
+            <Setter Property="Height" Value="90"/>
+        </Style>
+
+        <Style TargetType="StackPanel" x:Key="PagePanel">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Margin" Value="60,40,60,0"/>
+        </Style>
+
+    </Page.Resources>
+    <StackPanel Style="{StaticResource PagePanel}" Grid.Column="1">
+        <Label Content="{DynamicResource TrashPageTitle}" Style="{StaticResource pageLabel}"/>
+
+        <Image Source="/Images/trash.png" Style="{StaticResource TrashImage}"/>
+        <Label Content="{DynamicResource TrashPageEmptyTitle}" Style="{StaticResource TrashEmpty}"/>
+    </StackPanel>
+</Page>

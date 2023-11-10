@@ -25,6 +25,8 @@
     <System:String x:Key="FoldersPageTitle">Folders</System:String>
     <System:String x:Key="AddNewFolderPanelTitle">Add new folder</System:String>
     <System:String x:Key="AddNewFolderPanelSaveButton">Save</System:String>
+    <System:String x:Key="FolderName">Folder name</System:String>
+    <System:String x:Key="FolderNameExist">Folder with that name already exists!</System:String>
 
     <!-- Trash Page -->
     <System:String x:Key="TrashPageTitle">Trash</System:String>
@@ -62,5 +64,5 @@
     <System:String x:Key="InvalidFormatPassword">Invalid password format</System:String>
     <System:String x:Key="NotFoundEmail">Email not found</System:String>
     <System:String x:Key="InUseEmail">Email already in use</System:String>
-    <System:String x:Key="FolderName">Folder name</System:String>
+    
 </ResourceDictionary>

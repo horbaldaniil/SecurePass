@@ -16,7 +16,6 @@
 
             <!-- Basic styles -->
             <Style TargetType="Label" x:Key="BasicLabel">
-                <!--<Setter Property="FontFamily" Value="/Fonts/#Inria Sans"/>-->
                 <Setter Property="FontFamily" Value="OpenSans"/>
                 <Setter Property="IsEnabled" Value="True"/>
             </Style>
@@ -173,7 +172,6 @@
             <!-- Page -->
 
             <Style TargetType="Label" x:Key="pageLabel" BasedOn="{StaticResource BasicLabel}">
-                <Setter Property="Margin" Value="60,40,70,0"/>
                 <Setter Property="FontWeight" Value="Bold"/>
                 <Setter Property="FontSize" Value="30"/>
                 <Setter Property="BorderBrush" Value="#D9D9D9"/>
