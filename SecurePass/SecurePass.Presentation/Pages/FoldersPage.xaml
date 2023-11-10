@@ -21,15 +21,45 @@
             <Setter Property="Margin" Value="0,0,0,40"/>
             <Setter Property="Padding" Value="0"/>
         </Style>
-        <Style TargetType="TextBox" x:Key="NewFolderTextBox">
+        
+        <Style x:Key="NewFolderTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <TextBox Text="{Binding Path=Text,
+                                            RelativeSource={RelativeSource TemplatedParent},
+                                            Mode=TwoWay,
+                                            UpdateSourceTrigger=PropertyChanged}"
+                                x:Name="textSource"
+                                Background="Transparent"
+                                Panel.ZIndex="2" 
+                                VerticalContentAlignment="Center"
+                                BorderBrush="#444444"
+                                BorderThickness="0,0,0,2">
+       
+                            </TextBox>
+                            <TextBox Text="{TemplateBinding Tag}" Background="Transparent" BorderThickness="0" Panel.ZIndex="1">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Setter Property="Foreground" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Text, Source={x:Reference textSource}}" Value="">
+                                                <Setter Property="Foreground" Value="#A9B1B8"/>
+                                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Height" Value="45"/>
             <Setter Property="FontSize" Value="24"/>
-            <Setter Property="FontFamily" Value="/Fonts/#Inria Sans"/>
-            <Setter Property="Foreground" Value="#A9B1B8"/>
-            <Setter Property="Height" Value="38"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
             <Setter Property="Margin" Value="25,0,0,6"/>
-            <Setter Property="BorderBrush" Value="#444444"/>
-            <Setter Property="BorderThickness" Value="0,0,0,2"/>
         </Style>
 
         <Style TargetType="Button" x:Key="NewFolderSaveButton">
@@ -88,7 +118,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Image Source="/Images/folder.png"/>
-                        <TextBox x:Name="NewFolderTextBox" GotFocus="RemoveText" LostFocus="AddText" Tag="{DynamicResource FolderName}" Text="{DynamicResource FolderName}" Grid.Column="1" Style="{StaticResource NewFolderTextBox}"/>
+                        <TextBox x:Name="NewFolderTextBox" Tag="{DynamicResource FolderName}" Grid.Column="1" Style="{StaticResource NewFolderTextBox}"/>
                     </Grid>
                     <Label x:Name="FolderNameError" Visibility="Collapsed" Style="{StaticResource ErrorLabel}" Content="{DynamicResource FolderNameExist}"/>
                     <Button Content="{DynamicResource AddNewFolderPanelSaveButton}" Style="{StaticResource NewFolderSaveButton}" Click="SaveButton_Click">

@@ -33,25 +33,6 @@ public partial class FoldersPage : Page
         GenaratePasswordBackground.Visibility = Visibility.Visible;
     }
 
-    public void RemoveText(object sender, EventArgs e)
-    {
-        TextBox instance = (TextBox)sender;
-        instance.Foreground = Brushes.Black;
-        if (instance.Text == instance.Tag.ToString())
-            instance.Text = "";
-    }
-
-    public void AddText(object sender, EventArgs e)
-    {
-        TextBox instance = (TextBox)sender;
-        Color color = (Color)ColorConverter.ConvertFromString("#A9B1B8");
-
-        if (string.IsNullOrWhiteSpace(instance.Text))
-        {
-            instance.Text = instance.Tag.ToString();
-            instance.Foreground = new SolidColorBrush(color);
-        }
-    }
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
@@ -78,10 +59,6 @@ public partial class FoldersPage : Page
                     var folders = db.Folders.Where(f => f.UserId == currentUser.Id).ToList();
                     DataBinding.ItemsSource = folders;
 
-                    Color color = (Color)ColorConverter.ConvertFromString("#A9B1B8");
-                    NewFolderTextBox.Text = NewFolderTextBox.Tag.ToString();
-                    NewFolderTextBox.Foreground = new SolidColorBrush(color);
-
                     NewFolderPanel.Visibility = Visibility.Collapsed;
                     GenaratePasswordBackground.Visibility = Visibility.Collapsed;
                 }
@@ -99,6 +76,7 @@ public partial class FoldersPage : Page
         {
             NewFolderPanel.Visibility = Visibility.Collapsed;
             GenaratePasswordBackground.Visibility = Visibility.Collapsed;
+            NewFolderTextBox.Text = "";
         }
     }
 

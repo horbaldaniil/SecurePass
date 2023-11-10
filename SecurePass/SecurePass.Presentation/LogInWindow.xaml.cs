@@ -24,6 +24,9 @@ namespace SecurePass.Presentation
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
             loginLogic = new LoginLogic();
+
+            EmailTextBox.Text = "gorbaldaniil@gmail.com";
+            PasswordTextBox.Text = "Gorbal1234!";
         }
 
         private void Lang_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -111,25 +114,6 @@ namespace SecurePass.Presentation
             SignUpWindow window = new SignUpWindow();
             window.Show();
             Close();
-        }
-        public void RemoveText(object sender, EventArgs e)
-        {
-            TextBox instance = (TextBox)sender;
-            instance.Foreground = Brushes.Black;
-            if (instance.Text == instance.Tag.ToString())
-                instance.Text = "";
-        }
-
-        public void AddText(object sender, EventArgs e)
-        {
-            TextBox instance = (TextBox)sender;
-            Color color = (Color)ColorConverter.ConvertFromString("#A9B1B8");
-
-            if (string.IsNullOrWhiteSpace(instance.Text))
-            {
-                instance.Text = instance.Tag.ToString();
-                instance.Foreground = new SolidColorBrush(color);
-            }
         }
     }
 }

@@ -13,19 +13,10 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Padding" Value="0"/>
         </Style>
-    
+
         <Style TargetType="Label" x:Key="TextBoxLabel" BasedOn="{StaticResource BasicLabel}">
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="Padding" Value="0,0,0,4"/>
-        </Style>
-        <Style TargetType="TextBox" x:Key="AutorithationTextBox">
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Foreground" Value="#A9B1B8"/>
-            <Setter Property="Padding" Value="5,0,0,0"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="#A9B1B8"/>
         </Style>
 
         <Style TargetType="{x:Type Button}" x:Key="LoginButton">
@@ -59,6 +50,49 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="0"/>
         </Style>
+
+        <Style x:Key="AutorithationTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <TextBox Text="{Binding Path=Text,
+                                    RelativeSource={RelativeSource TemplatedParent},
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}"
+                        x:Name="textSource"
+                        Background="Transparent"
+                        Panel.ZIndex="2" 
+                        VerticalContentAlignment="Center"
+                        Padding="5,0,0,0"
+                        BorderBrush="#A9B1B8">
+                                <TextBox.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"></Setter>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <TextBox Text="{TemplateBinding Tag}" Background="Transparent" BorderThickness="0" Panel.ZIndex="1">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Setter Property="Foreground" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Text, Source={x:Reference textSource}}" Value="">
+                                                <Setter Property="Foreground" Value="#A9B1B8"/>
+                                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                <Setter Property="Padding" Value="5,0,0,0"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
     </Window.Resources>
     <StackPanel Margin="55, 55, 55, 0">
         <Canvas>
@@ -68,23 +102,14 @@
         <Label Content="{DynamicResource SignUpTitle}" Style="{StaticResource SecurePassLoginTitle}"/>
 
         <Label Content="{DynamicResource EmailTitle}" Margin="0,35,0,0" Style="{StaticResource TextBoxLabel}"/>
-        <TextBox x:Name="EmailTextBox" GotFocus="RemoveText" LostFocus="AddText" Tag="{DynamicResource EmailTitle}" Text="{DynamicResource EmailTitle}" Style="{StaticResource AutorithationTextBox}">
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"></Setter>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
+        <TextBox x:Name="EmailTextBox" Tag="{DynamicResource EmailTitle}" Style="{StaticResource AutorithationTextBox}"/>
+
         <Label x:Name="EmailErrorLabel" Style="{StaticResource ErrorLabel}"/>
 
         <Label Content="{DynamicResource PasswordTitle}" Margin="0,25,0,0" Style="{StaticResource TextBoxLabel}"/>
-        <TextBox x:Name="PasswordTextBox" GotFocus="RemoveText" LostFocus="AddText" Tag="{DynamicResource PasswordTitle}" Text="{DynamicResource PasswordTitle}" Style="{StaticResource AutorithationTextBox}">
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"></Setter>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
+        <TextBox x:Name="PasswordTextBox" Tag="{DynamicResource PasswordTitle}" Style="{StaticResource AutorithationTextBox}"/>
+
+
         <Label x:Name="PasswordErrorLabel" Style="{StaticResource ErrorLabel}"/>
 
         <Button Content="{DynamicResource SignupRedirectLabel}" Style="{StaticResource LoginButton}" Click="SignUpButton_Click">
