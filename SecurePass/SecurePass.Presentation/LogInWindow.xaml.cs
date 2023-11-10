@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SecurePass.BLL;
+using SecurePass.DAL.Model;
+using System;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Microsoft.EntityFrameworkCore;
-using SecurePass.BLL;
-using SecurePass.DAL.Model;
 
 namespace SecurePass.Presentation
 {

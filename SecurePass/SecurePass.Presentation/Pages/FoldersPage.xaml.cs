@@ -26,7 +26,7 @@ public partial class FoldersPage : Page
         }
 
     }
-    
+
     private void AddNewFolder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         NewFolderPanel.Visibility = Visibility.Visible;

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SecurePass.DAL.Model;
 
 [Table("passwords")]
-public class PasswordModel 
+public class PasswordModel
 {
     [Column("id")]
     public int Id { get; set; }

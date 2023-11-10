@@ -4,7 +4,7 @@ namespace SecurePass.DAL.Model
 {
     public class SecurePassDbContext : DbContext
     {
-        
+
         public DbSet<UserModel> Users { get; set; }
         public DbSet<FolderModel> Folders { get; set; }
         public DbSet<PasswordModel> Passwords { get; set; }
