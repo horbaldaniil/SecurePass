@@ -9,3 +9,7 @@ D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\SecureP
 D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\refint\SecurePass.BLL.dll
 D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\SecurePass.BLL.pdb
 D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\ref\SecurePass.BLL.dll
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\bin\Debug\net7.0-windows\SecurePass.DAL.dll
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\bin\Debug\net7.0-windows\SecurePass.DAL.pdb
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\SecurePass.BLL.csproj.AssemblyReference.cache
+D:\Study\3\SecurePass\SecurePass\SecurePass.BLL\obj\Debug\net7.0-windows\SecurePass.BLL.csproj.CopyComplete

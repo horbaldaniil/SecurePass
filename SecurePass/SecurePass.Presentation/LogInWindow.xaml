@@ -90,7 +90,7 @@
         </TextBox>
         <Label x:Name="PasswordErrorLabel" Style="{StaticResource ErrorLabel}"/>
 
-        <Button Content="{DynamicResource LogInButton}" Style="{StaticResource LoginButton}" Click="LoginButton_Click">
+        <Button x:Name="LoginButton" Content="{DynamicResource LogInButton}" Style="{StaticResource LoginButton}" Click="LoginButton_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20" />

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SecurePass.BLL;
 using SecurePass.DAL.Model;
 using System;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,10 +17,12 @@ namespace SecurePass.Presentation
     /// </summary>
     public partial class SignUpWindow : Window
     {
+        private SignUpLogic signUpLogic;
         public SignUpWindow()
         {
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
+            signUpLogic = new SignUpLogic();
         }
 
         private void Lang_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -65,13 +67,13 @@ namespace SecurePass.Presentation
             string email = EmailTextBox.Text;
             string password = PasswordTextBox.Text;
 
-            if (!IsValidEmail(email))
+            if (!signUpLogic.IsValidEmail(email))
             {
                 EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
                 return;
             }
 
-            if (!IsValidPassword(password))
+            if (!signUpLogic.IsValidPassword(password))
             {
                 PasswordErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatPassword");
                 return;
@@ -85,7 +87,7 @@ namespace SecurePass.Presentation
                     return;
                 }
 
-                string hashedPassword = HashPassword(password);
+                string hashedPassword = signUpLogic.HashPassword(password);
 
                 var newUser = new UserModel
                 {
@@ -104,35 +106,6 @@ namespace SecurePass.Presentation
             }
         }
 
-        private bool IsValidEmail(string email)
-        {
-            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-
-            if (Regex.IsMatch(email, pattern))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private bool IsValidPassword(string password)
-        {
-            if (password.Length < 11)
-            {
-                return false;
-            }
-
-            string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]+$";
-            return Regex.IsMatch(password, pattern);
-        }
-
-        private string HashPassword(string password)
-        {
-            return password;
-        }
         private void LoginLabel_Click(object sender, RoutedEventArgs e)
         {
             LogInWindow window = new LogInWindow();

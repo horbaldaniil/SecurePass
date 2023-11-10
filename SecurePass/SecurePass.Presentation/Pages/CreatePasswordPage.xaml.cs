@@ -1,9 +1,10 @@
-﻿using SecurePass.DAL.Model;
+﻿using SecurePass.BLL;
+using SecurePass.DAL.Model;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using System.Windows.Media;
 
 namespace SecurePass.Presentation.Pages;
 
@@ -12,13 +13,12 @@ namespace SecurePass.Presentation.Pages;
 /// </summary>
 public partial class CreatePasswordPage : Page
 {
-    public int loggedInUserId { get; set; }
-    public CreatePasswordPage(int Id)
+    public event EventHandler OnPasswordCreated;
+    private UserModel currentUser = CurrentUserManager.CurrentUser;
+    public CreatePasswordPage()
     {
-        loggedInUserId = Id;
         InitializeComponent();
     }
-
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
         string passwordTitle = PasswordTitleTextBox.Text;
@@ -33,29 +33,41 @@ public partial class CreatePasswordPage : Page
                 {
                     Title = passwordTitle,
                     Password = password,
-                    UserId = loggedInUserId
+                    UserId = currentUser.Id
                 };
 
                 db.Passwords.Add(newPassword);
                 db.SaveChanges();
+                
             }
         }
+        OnPasswordCreated?.Invoke(this, EventArgs.Empty);
         this.NavigationService.GoBack();
     }
 
-    
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
         this.NavigationService.GoBack();
     }
+
     public void RemoveText(object sender, EventArgs e)
     {
-        ((App)Application.Current).RemoveText(sender, e);
+        TextBox instance = (TextBox)sender;
+        instance.Foreground = Brushes.Black;
+        if (instance.Text == instance.Tag.ToString())
+            instance.Text = "";
     }
 
     public void AddText(object sender, EventArgs e)
     {
-        ((App)Application.Current).AddText(sender, e);
+        TextBox instance = (TextBox)sender;
+        Color color = (Color)ColorConverter.ConvertFromString("#A9B1B8");
+
+        if (string.IsNullOrWhiteSpace(instance.Text))
+        {
+            instance.Text = instance.Tag.ToString();
+            instance.Foreground = new SolidColorBrush(color);
+        }
     }
 
     private void GeneratePassword_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

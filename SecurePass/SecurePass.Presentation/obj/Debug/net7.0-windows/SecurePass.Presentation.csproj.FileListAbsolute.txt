@@ -62,3 +62,4 @@ D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\bin\Debug\net7.0-window
 D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\bin\Debug\net7.0-windows\runtimes\win-x86\native\sni.dll
 D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\bin\Debug\net7.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\bin\Debug\net7.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Study\3\SecurePass\SecurePass\SecurePass.Presentation\bin\Debug\net7.0-windows\BCrypt.Net-Next.dll

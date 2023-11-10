@@ -1,4 +1,5 @@
-﻿using SecurePass.DAL.Model;
+﻿using SecurePass.BLL;
+using SecurePass.DAL.Model;
 using SecurePass.Presentation.Pages;
 using System;
 using System.Globalization;
@@ -15,29 +16,27 @@ namespace SecurePass.Presentation
     /// </summary>
     public partial class MainWindow : Window
     {
-        public int LoggedInUserId { get; set; }
-        public MainWindow(int Id)
+        private UserModel currentUser = CurrentUserManager.CurrentUser;
+        public MainWindow()
         {
-            LoggedInUserId = Id;
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
-            var passwordsPage = new PasswordsPage(Main, LoggedInUserId);
-            Main.Navigate(passwordsPage);
+            Main.Navigate(new PasswordsPage());
 
             using (var db = new SecurePassDbContext())
             {
-                var User = db.Users.FirstOrDefault(u => u.Id == LoggedInUserId);
+                var User = db.Users.FirstOrDefault(u => u.Id == currentUser.Id);
                 UserEmail.Content = User.Email;
             }
         }
-         private void Folders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+        private void Folders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             FoldersMenuLabel.Style = (Style)FindResource("ActiveMenu");
             PasswordsMenuLabel.Style = (Style)FindResource("MenuLabel");
             TrashMenuLabel.Style = (Style)FindResource("MenuLabel");
 
-            var foldersPage = new FoldersPage(LoggedInUserId);
-            Main.Navigate(foldersPage);
+            Main.Navigate(new FoldersPage());
         }
 
         private void Trash_MouseLeftButtonDown(Object sender, MouseButtonEventArgs e)
@@ -45,8 +44,7 @@ namespace SecurePass.Presentation
             FoldersMenuLabel.Style = (Style)FindResource("MenuLabel");
             PasswordsMenuLabel.Style = (Style)FindResource("MenuLabel");
             TrashMenuLabel.Style = (Style)FindResource("ActiveMenu");
-            var trashPage = new TrashPage();
-            Main.Navigate(trashPage);
+            Main.Navigate(new TrashPage());
         }
 
         private void Passwords_MouseLeftButtonDown(Object sender, MouseButtonEventArgs e)
@@ -54,8 +52,7 @@ namespace SecurePass.Presentation
             FoldersMenuLabel.Style = (Style)FindResource("MenuLabel");
             PasswordsMenuLabel.Style = (Style)FindResource("ActiveMenu");
             TrashMenuLabel.Style = (Style)FindResource("MenuLabel");
-            var passwordsPage = new PasswordsPage(Main, LoggedInUserId);
-            Main.Navigate(passwordsPage);
+            Main.Navigate(new PasswordsPage());
         }
 
         private void UserImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

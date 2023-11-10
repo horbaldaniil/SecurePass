@@ -1,4 +1,6 @@
-﻿using SecurePass.DAL.Model;
+﻿using SecurePass.BLL;
+using SecurePass.DAL.Model;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,15 +14,14 @@ namespace SecurePass.Presentation.Pages;
 /// </summary>
 public partial class FoldersPage : Page
 {
-    public int loggedInUserId { get; set; }
-    public FoldersPage(int Id)
+    private UserModel currentUser = CurrentUserManager.CurrentUser;
+    public FoldersPage()
     {
         InitializeComponent();
-        loggedInUserId = Id;
 
         using (var db = new SecurePassDbContext())
         {
-            var folders = db.Folders.Where(f => f.UserId == Id).ToList();
+            var folders = db.Folders.Where(f => f.UserId == currentUser.Id).ToList();
             DataBinding.ItemsSource = folders;
         }
 
@@ -32,14 +33,24 @@ public partial class FoldersPage : Page
         GenaratePasswordBackground.Visibility = Visibility.Visible;
     }
 
-    private void AddText(object sender, RoutedEventArgs e)
+    public void RemoveText(object sender, EventArgs e)
     {
-        ((App)Application.Current).AddText(sender, e);
+        TextBox instance = (TextBox)sender;
+        instance.Foreground = Brushes.Black;
+        if (instance.Text == instance.Tag.ToString())
+            instance.Text = "";
     }
 
-    private void RemoveText(object sender, RoutedEventArgs e)
+    public void AddText(object sender, EventArgs e)
     {
-        ((App)Application.Current).RemoveText(sender, e);
+        TextBox instance = (TextBox)sender;
+        Color color = (Color)ColorConverter.ConvertFromString("#A9B1B8");
+
+        if (string.IsNullOrWhiteSpace(instance.Text))
+        {
+            instance.Text = instance.Tag.ToString();
+            instance.Foreground = new SolidColorBrush(color);
+        }
     }
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -51,20 +62,20 @@ public partial class FoldersPage : Page
         {
             using (var db = new SecurePassDbContext())
             {
-                var existingFolder = db.Folders.FirstOrDefault(f => f.UserId == loggedInUserId && f.Title == newFolderName);
+                var existingFolder = db.Folders.FirstOrDefault(f => f.UserId == currentUser.Id && f.Title == newFolderName);
 
                 if (existingFolder == null)
                 {
                     var newFolder = new FolderModel
                     {
                         Title = newFolderName,
-                        UserId = loggedInUserId
+                        UserId = currentUser.Id
                     };
 
                     db.Folders.Add(newFolder);
                     db.SaveChanges();
 
-                    var folders = db.Folders.Where(f => f.UserId == loggedInUserId).ToList();
+                    var folders = db.Folders.Where(f => f.UserId == currentUser.Id).ToList();
                     DataBinding.ItemsSource = folders;
 
                     Color color = (Color)ColorConverter.ConvertFromString("#A9B1B8");

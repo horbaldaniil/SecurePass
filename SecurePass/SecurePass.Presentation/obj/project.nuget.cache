@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "pAyxoGG0C7EKKE+DWIOBvXp3ocSGq8KzM/KBeeZELmS+zSSXs0KEweCsUzvbzAIPq7/rBIae0slv4B/EqmEPAA==",
+  "dgSpecHash": "tNk4dh5HLkCIlyVSfR9RqSi21l+f8D3ikxr6CgiQtOWth9jS3aqSC+qIqHzT59H20sDjdPHGnyBJQ1qkTVv/vQ==",
   "success": true,
   "projectFilePath": "D:\\Study\\3\\SecurePass\\SecurePass\\SecurePass.Presentation\\SecurePass.Presentation.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\gorba\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\gorba\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\gorba\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\gorba\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.11\\microsoft.entityframeworkcore.7.0.11.nupkg.sha512",

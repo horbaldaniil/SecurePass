@@ -1,8 +1,11 @@
-﻿using SecurePass.DAL.Model;
+﻿using SecurePass.BLL;
+using SecurePass.DAL.Model;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace SecurePass.Presentation.Pages;
 
@@ -11,12 +14,21 @@ namespace SecurePass.Presentation.Pages;
 /// </summary>
 public partial class PasswordsPage : Page
 {
-    private Frame _mainFrame;
-    public int loggedInUserId { get; set; }
+    private UserModel currentUser = CurrentUserManager.CurrentUser;
 
     public PasswordsPage()
     {
         InitializeComponent();
+        GetData();
+    }
+
+    public void GetData()
+    {
+        using (var db = new SecurePassDbContext())
+        {
+            var passwordItems = db.Passwords.Where(f => f.UserId == currentUser.Id).ToList();
+            DataBinding.ItemsSource = passwordItems;
+        }
     }
 
     private void TextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -30,28 +42,20 @@ public partial class PasswordsPage : Page
             e.Handled = false;
         }
     }
-    public PasswordsPage(Frame mainFrame, int Id)
-    {
-        _mainFrame = mainFrame;
-        InitializeComponent();
-        GetData(Id);
-    }
-
-
-    public void GetData(int Id)
-    {
-        loggedInUserId = Id;
-        using (var db = new SecurePassDbContext())
-        {
-            var passwordItems = db.Passwords.Where(f => f.UserId == loggedInUserId).ToList();
-
-            DataBinding.ItemsSource = passwordItems;
-        }
-    }
 
     private void AddNewButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        var CreatePasswordPage = new CreatePasswordPage(loggedInUserId);
-        _mainFrame.Navigate(CreatePasswordPage);
+        NavigationService navigationService = NavigationService.GetNavigationService(this);
+
+        if (navigationService != null)
+        {
+            var CreatePasswordPage = new CreatePasswordPage();
+            CreatePasswordPage.OnPasswordCreated += PasswordCreatedHandler;
+            navigationService.Navigate(CreatePasswordPage);
+        }
+    }
+    private void PasswordCreatedHandler(object sender, EventArgs e)
+    {
+        GetData();
     }
 }

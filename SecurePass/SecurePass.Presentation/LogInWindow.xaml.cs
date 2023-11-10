@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.EntityFrameworkCore;
+using SecurePass.BLL;
 using SecurePass.DAL.Model;
 
 namespace SecurePass.Presentation
@@ -17,12 +18,13 @@ namespace SecurePass.Presentation
     /// </summary>
     public partial class LogInWindow : Window
     {
+        private LoginLogic loginLogic;
+
         public LogInWindow()
         {
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
-            EmailTextBox.Text = "gorbal@gmail.com";
-            PasswordTextBox.Text = "Gorbal1234!";
+            loginLogic = new LoginLogic();
         }
 
         private void Lang_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -62,61 +64,47 @@ namespace SecurePass.Presentation
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            PasswordErrorLabel.Content = "";
-            EmailErrorLabel.Content = "";
+            LoginButton.IsEnabled = false;
 
-            string email = EmailTextBox.Text;
-            string password = PasswordTextBox.Text;
-
-            if (!IsValidEmail(email))
+            try
             {
-                EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
-                return;
-            }
+                PasswordErrorLabel.Content = "";
+                EmailErrorLabel.Content = "";
 
-            using (var db = new SecurePassDbContext())
-            {
-                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == email);
+                string email = EmailTextBox.Text;
+                string password = PasswordTextBox.Text;
 
-                if (user != null)
+                if (!loginLogic.IsValidEmail(email))
                 {
-                    if (VerifyPassword(password, user.Password))
+                    EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
+                    return;
+                }
+
+                using (SecurePassDbContext db = new SecurePassDbContext())
+                {
+                    var user = await db.Users.SingleOrDefaultAsync(u => u.Email == email);
+
+                    if (user != null)
                     {
-                        MainWindow window = new MainWindow(user.Id);
-                        window.Show();
-                        Close();
+                        if (await loginLogic.VerifyPasswordAsync(password, user.Password))
+                        {
+                            CurrentUserManager.SetCurrentUser(user);
+                            MainWindow window = new MainWindow();
+                            window.Show();
+                            Close();
+                        }
+                        else
+                        {
+                            PasswordErrorLabel.SetResourceReference(ContentProperty, "InvalidPassword");
+                        }
                     }
                     else
                     {
-                        PasswordErrorLabel.SetResourceReference(ContentProperty, "InvalidPassword");
+                        EmailErrorLabel.SetResourceReference(ContentProperty, "NotFoundEmail");
                     }
                 }
-                else
-                {
-                    EmailErrorLabel.SetResourceReference(ContentProperty, "NotFoundEmail");
-                }
             }
-        }
-
-        private bool IsValidEmail(string email)
-        {
-            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-
-            if (Regex.IsMatch(email, pattern))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private bool VerifyPassword(string enteredPassword, string storedHashedPassword)
-        {
-            return enteredPassword == storedHashedPassword;
-            // Перевірка паролю збереженого в базі даних з введеним паролем
-            // Використовуйте бібліотеку для перевірки паролів, як BCrypt.NET.
+            finally { LoginButton.IsEnabled = true; }
         }
 
         private void SignUpLabel_Click(object sender, RoutedEventArgs e)
