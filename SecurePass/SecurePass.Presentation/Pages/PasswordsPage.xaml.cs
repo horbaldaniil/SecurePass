@@ -33,23 +33,11 @@ public partial class PasswordsPage : Page
     {
         using (var db = new SecurePassDbContext())
         {
-            var passwordItems = db.Passwords.Where(f => f.UserId == currentUser.Id).ToList();
+            var passwordItems = db.Passwords.Where(f => f.UserId == currentUser.Id && f.Deleted == false).ToList();
             passwordViewModels = new ObservableCollection<PasswordViewModel>(
                 passwordItems.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
             );
             DataBinding.ItemsSource = passwordViewModels;
-        }
-    }
-
-    private void TextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        TextBox textBox = sender as TextBox;
-        if (textBox != null)
-        {
-            textBox.Focus();
-            textBox.SelectAll();
-            Clipboard.SetText(textBox.Text);
-            e.Handled = false;
         }
     }
 
@@ -78,7 +66,9 @@ public partial class PasswordsPage : Page
         {
             using (var db = new SecurePassDbContext())
             {
-                db.Passwords.Remove(passwordViewModel.Password);
+                var existingPassword = db.Passwords.Find(passwordViewModel.Password.Id);
+                existingPassword.Deleted = true;
+                ShowSnackbar("Password moved to trash!");
                 db.SaveChanges();
             }
 
@@ -107,7 +97,6 @@ public partial class PasswordsPage : Page
         {
             Clipboard.SetText(passwordViewModel.Password.Password);
             ShowSnackbar("Password copied!");
-
         }
     }
 
