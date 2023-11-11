@@ -5,7 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SecurePass.Presentation"
         mc:Ignorable="d"
-        Title="Log In" Height="550" Width="400" Background="#FFE1ECF6" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Height="550" Width="400" 
+        Background="#FFE1ECF6" 
+        ResizeMode="CanMinimize" 
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow">
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0" UseAeroCaptionButtons="False" ResizeBorderThickness="0"/>
+    </WindowChrome.WindowChrome>
     <Window.Resources>
         <Style TargetType="Label" x:Key="SecurePassLoginTitle" BasedOn="{StaticResource BasicLabel}">
             <Setter Property="FontSize" Value="32"/>
@@ -94,53 +101,69 @@
             <Setter Property="FontSize" Value="18"/>
         </Style>
 
-
-
     </Window.Resources>
-    <StackPanel Margin="55, 55, 55, 0">
-        <Canvas>
-            <Image x:Name="LangImage" Tag="en-US" MouseLeftButtonDown="Lang_MouseLeftButtonDown" Source="/Images/en-US.png" Style="{StaticResource LangImage}"/>
-        </Canvas>
-        <Label Content="SecurePass" Style="{StaticResource SecurePassLoginTitle}" />
-        <Label Content="{DynamicResource LoginTitle}" Style="{StaticResource SecurePassLoginTitle}"/>
+    <StackPanel>
+        <Border MouseDown="Border_MouseDown" Background="White" Height="30">
+            <Grid HorizontalAlignment="Stretch">
+                <StackPanel HorizontalAlignment="Right"
+                            Orientation="Horizontal">
 
-        <Label Content="{DynamicResource EmailTitle}" Margin="0,35,0,0" Style="{StaticResource TextBoxLabel}"/>
-        <TextBox x:Name="EmailTextBox" Tag="{DynamicResource EmailTitle}" Style="{StaticResource AutorithationTextBox}"/>
+                    <Button Style="{StaticResource WindowButton}"
+                            Content="―"
+                            Padding="0,-2,0,0"
+                            Click="ButtonMinimize_Click"/>
 
-        <Label x:Name="EmailErrorLabel" Style="{StaticResource ErrorLabel}"/>
+                    <Button Style="{StaticResource CloseWindowButton}"
+                            Content="⨉"
+                            Click="CloseButton_Click"/>
 
-        <Label Content="{DynamicResource PasswordTitle}" Margin="0,25,0,0" Style="{StaticResource TextBoxLabel}"/>
-        <TextBox x:Name="PasswordTextBox"  Tag="{DynamicResource PasswordTitle}" Style="{StaticResource AutorithationTextBox}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <StackPanel Margin="55, 55, 55, 0">
+            <Canvas>
+                <Image x:Name="LangImage" Tag="en-US" MouseLeftButtonDown="Lang_MouseLeftButtonDown" Source="/Images/en-US.png" Style="{StaticResource LangImage}"/>
+            </Canvas>
+            <Label Content="SecurePass" Style="{StaticResource SecurePassLoginTitle}" />
+            <Label Content="{DynamicResource LoginTitle}" Style="{StaticResource SecurePassLoginTitle}"/>
+
+            <Label Content="{DynamicResource EmailTitle}" Margin="0,35,0,0" Style="{StaticResource TextBoxLabel}"/>
+            <TextBox x:Name="EmailTextBox" Tag="{DynamicResource EmailTitle}" Style="{StaticResource AutorithationTextBox}"/>
+
+            <Label x:Name="EmailErrorLabel" Style="{StaticResource ErrorLabel}"/>
+
+            <Label Content="{DynamicResource PasswordTitle}" Margin="0,25,0,0" Style="{StaticResource TextBoxLabel}"/>
+            <TextBox x:Name="PasswordTextBox"  Tag="{DynamicResource PasswordTitle}" Style="{StaticResource AutorithationTextBox}"/>
 
 
-        <Label x:Name="PasswordErrorLabel" Style="{StaticResource ErrorLabel}"/>
+            <Label x:Name="PasswordErrorLabel" Style="{StaticResource ErrorLabel}"/>
 
-        <Button x:Name="LoginButton" Content="{DynamicResource LogInButton}" Style="{StaticResource LoginButton}" Click="LoginButton_Click">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="20" />
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Label Style="{StaticResource SignUp}" >
-            <TextBlock TextWrapping="Wrap" TextAlignment="Center">
-                <TextBlock Text="{DynamicResource LoginUnderPageStr}"/>       
-                
-                <Hyperlink TextDecorations="None"  Click="SignUpLabel_Click">
-                    <Hyperlink.Style>
-                        <Style TargetType="Hyperlink">
-                            <Setter Property="Foreground" Value="#41C6FF" />
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Foreground" Value="#54CCFF" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Hyperlink.Style>
-                    <Run Text="{DynamicResource SignupRedirectLabel}"/>
-                </Hyperlink>
-            </TextBlock>
-        </Label>
-
+            <Button x:Name="LoginButton" Content="{DynamicResource LogInButton}" Style="{StaticResource LoginButton}" Click="LoginButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20" />
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Label Style="{StaticResource SignUp}" >
+                <TextBlock TextWrapping="Wrap" TextAlignment="Center">
+            <TextBlock Text="{DynamicResource LoginUnderPageStr}"/>       
+            
+            <Hyperlink TextDecorations="None"  Click="SignUpLabel_Click">
+                <Hyperlink.Style>
+                    <Style TargetType="Hyperlink">
+                        <Setter Property="Foreground" Value="#41C6FF" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#54CCFF" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Hyperlink.Style>
+                <Run Text="{DynamicResource SignupRedirectLabel}"/>
+            </Hyperlink>
+        </TextBlock>
+            </Label>
+        </StackPanel>
     </StackPanel>
 </Window>

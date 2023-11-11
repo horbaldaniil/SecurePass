@@ -26,7 +26,7 @@ namespace SecurePass.Presentation
             using (var db = new SecurePassDbContext())
             {
                 var User = db.Users.FirstOrDefault(u => u.Id == currentUser.Id);
-                UserEmail.Content = User.Email;
+                UserEmail.Content = User.Email; 
             }
         }
 
