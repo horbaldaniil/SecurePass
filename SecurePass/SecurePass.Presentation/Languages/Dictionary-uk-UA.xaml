@@ -49,6 +49,7 @@
     <System:String x:Key="DigitsStr">Цифри (0-9)</System:String>
     <System:String x:Key="SymbolsStr">Символи (!@#$%^*)</System:String>
     <System:String x:Key="FillPasswordStr">Використати</System:String>
+    <System:String x:Key="ChangePassword">Змінити пароль</System:String>
 
     <!-- Login Page -->
     <System:String x:Key="LoginTitle">Логін</System:String>

@@ -8,11 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\copy.png" />
+    <None Remove="Images\delete.png" />
+    <None Remove="Images\edit.png" />
     <None Remove="Images\en-US.png" />
     <None Remove="Images\folder.png" />
     <None Remove="Images\plus.png" />
     <None Remove="Images\reload.png" />
     <None Remove="Images\settings.png" />
+    <None Remove="Images\show.png" />
     <None Remove="Images\trash.png" />
     <None Remove="Images\uk-UA.png" />
     <None Remove="Images\user.png" />
@@ -21,6 +25,7 @@
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +34,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\delete.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\edit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\en-US.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -42,6 +56,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\settings.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\show.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\trash.png">

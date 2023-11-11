@@ -1,5 +1,6 @@
 ﻿using SecurePass.BLL;
 using SecurePass.DAL.Model;
+using SecurePass.Presentation.ViewModel;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -22,42 +23,115 @@ public partial class CreatePasswordPage : Page
         InitializeComponent();
         this.Loaded += CreatePasswordPage_Loaded;
     }
+
+    private bool isEditMode;
+
+    public bool IsEditMode
+    {
+        get { return isEditMode; }
+        set
+        {
+            isEditMode = value;
+        }
+    }
     private void CreatePasswordPage_Loaded(object sender, RoutedEventArgs e)
     {
         LoadFolders();
+
+        IsEditMode = DataContext != null;
+
+        if (IsEditMode)
+        {
+            var passwordViewModel = (PasswordViewModel)DataContext;
+
+            PasswordTitleTextBox.Text = passwordViewModel.Password.Title;
+            EmailOrUsernameTextBox.Text = passwordViewModel.Password.Email_Username;
+            PasswordTextBox.Text = passwordViewModel.Password.Password;
+
+            foreach (ComboBoxItem item in FoldersComboBox.Items)
+            {
+                if (item.Tag is int folderId && folderId == passwordViewModel.Password.FolderId)
+                {
+                    FoldersComboBox.SelectedItem = item;
+                    break;
+                }
+            }
+
+            UpdateUIBasedOnMode();
+        }
     }
+
+    private void UpdateUIBasedOnMode()
+    {
+        CreatePasswordPageTitle.SetResourceReference(ContentProperty, "ChangePassword");
+    }
+
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
         string passwordTitle = PasswordTitleTextBox.Text;
         string emailOrUsername = EmailOrUsernameTextBox.Text;
         string password = PasswordTextBox.Text;
+        
 
-        if (!string.IsNullOrEmpty(passwordTitle) && !string.IsNullOrEmpty(password))
+        using (var db = new SecurePassDbContext())
         {
-            using (var db = new SecurePassDbContext())
+            if (IsEditMode)
             {
-                var newPassword = new PasswordModel
-                {
-                    Title = passwordTitle,
-                    Password = password,
-                    UserId = currentUser.Id,
-                    Email_Username = string.IsNullOrEmpty(emailOrUsername) ? null : emailOrUsername,
-                    LastUpdated = DateTime.UtcNow,
-                };
+                var passwordViewModel = (PasswordViewModel)PasswordTitleTextBox.DataContext;
 
-                if (FoldersComboBox.SelectedItem is ComboBoxItem selectedFolderItem)
+                if (passwordViewModel != null)
                 {
-                    if (selectedFolderItem.Tag != null)
+                    var existingPassword = db.Passwords.Find(passwordViewModel.Password.Id);
+
+                    if (existingPassword != null)
                     {
-                        int folderId = (int)selectedFolderItem.Tag;
-                        newPassword.FolderId = folderId;
+                        if (!string.IsNullOrEmpty(passwordTitle) && !string.IsNullOrEmpty(password))
+                        {
+                            existingPassword.Title = passwordTitle;
+                            existingPassword.Email_Username = emailOrUsername;
+                            existingPassword.Password = password;
+                            existingPassword.LastUpdated = DateTime.UtcNow;
+
+                            if (FoldersComboBox.SelectedItem is ComboBoxItem selectedFolderItem)
+                            {
+                                if (selectedFolderItem.Tag != null)
+                                {
+                                    int folderId = (int)selectedFolderItem.Tag;
+                                    existingPassword.FolderId = folderId;
+                                }
+                            }
+                        }
                     }
                 }
-
-                db.Passwords.Add(newPassword);
-                db.SaveChanges();
             }
+            else
+            {
+                if (!string.IsNullOrEmpty(passwordTitle) && !string.IsNullOrEmpty(password))
+                {
+                    var newPassword = new PasswordModel
+                    {
+                        Title = passwordTitle,
+                        Password = password,
+                        UserId = currentUser.Id,
+                        Email_Username = string.IsNullOrEmpty(emailOrUsername) ? null : emailOrUsername,
+                        LastUpdated = DateTime.UtcNow,
+                    };
+
+                    if (FoldersComboBox.SelectedItem is ComboBoxItem selectedFolderItem)
+                    {
+                        if (selectedFolderItem.Tag != null)
+                        {
+                            int folderId = (int)selectedFolderItem.Tag;
+                            newPassword.FolderId = folderId;
+                        }
+                    }
+
+                    db.Passwords.Add(newPassword);
+                }
+            }
+            db.SaveChanges();
         }
+
         OnPasswordCreated?.Invoke(this, EventArgs.Empty);
         this.NavigationService.GoBack();
     }
@@ -83,7 +157,6 @@ public partial class CreatePasswordPage : Page
             FoldersComboBox.SelectedIndex = 0;
         }
     }
-
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {

@@ -49,6 +49,7 @@
     <System:String x:Key="DigitsStr">Use digits (0-9)</System:String>
     <System:String x:Key="SymbolsStr">Use symbols (!@#$%^*)</System:String>
     <System:String x:Key="FillPasswordStr">Fill password</System:String>
+    <System:String x:Key="ChangePassword">Change Password</System:String>
 
     <!-- Login/SignUp Page -->
     <System:String x:Key="LoginTitle">Login</System:String>
