@@ -26,7 +26,8 @@
     <System:String x:Key="AddNewFolderPanelTitle">Додати нову папку</System:String>
     <System:String x:Key="AddNewFolderPanelSaveButton">Зберегти</System:String>
     <System:String x:Key="FolderName">Назва папки</System:String>
-    <System:String x:Key="FolderNameExist">Папка з таким ім'ям вже існує!</System:String>
+    <System:String x:Key="FolderNameExist">Папка з такою назвою вже існує!</System:String>
+    <System:String x:Key="FolderNameEmpty">Введіть назву папки!</System:String>
 
     <!-- Trash Page -->
     <System:String x:Key="TrashPageTitle">Смітник</System:String>

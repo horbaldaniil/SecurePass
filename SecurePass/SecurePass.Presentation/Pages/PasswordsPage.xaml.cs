@@ -3,6 +3,7 @@ using SecurePass.BLL;
 using SecurePass.DAL.Model;
 using SecurePass.Presentation.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -29,14 +30,36 @@ public partial class PasswordsPage : Page
         GetData();
     }
 
-    public void GetData()
+    public PasswordsPage(int folderId, string folderTitle)
+    {
+        InitializeComponent();
+        PasswordsPageLabel.Content = $"📁 {folderTitle}";
+        Snackbar.MessageQueue = snackbarMessageQueue;
+        GetData(folderId);
+    }
+
+
+    public void GetData(int folderId = 0)
     {
         using (var db = new SecurePassDbContext())
         {
-            var passwordItems = db.Passwords.Where(f => f.UserId == currentUser.Id && f.Deleted == false).ToList();
-            passwordViewModels = new ObservableCollection<PasswordViewModel>(
+            if (folderId == 0)
+            {
+                var passwordItems = db.Passwords.Where(f => f.UserId == currentUser.Id && f.Deleted == false).ToList();
+
+                passwordViewModels = new ObservableCollection<PasswordViewModel>(
                 passwordItems.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
-            );
+                );
+            }
+            else
+            {
+                var passwordItems = db.Passwords.Where(f => f.UserId == currentUser.Id && f.Deleted == false && f.FolderId == folderId).ToList();
+
+                passwordViewModels = new ObservableCollection<PasswordViewModel>(
+                passwordItems.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
+                );
+            }
+            
             DataBinding.ItemsSource = passwordViewModels;
         }
     }

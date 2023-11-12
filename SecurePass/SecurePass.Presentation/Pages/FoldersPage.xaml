@@ -153,7 +153,20 @@
                                     <ColumnDefinition Width="200"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
+
                                 <TextBox Margin="15,0,0,0" Foreground="#444444" IsReadOnly="True" Background="Transparent" HorizontalAlignment="Left" BorderThickness="0" FontSize="28" VerticalAlignment="Center" Text="{Binding Title}"/>
+
+                                <StackPanel Grid.Column="1" Panel.ZIndex="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button x:Name="OpenButton" Style="{StaticResource CommandButton}" Click="OpenButton_Click">
+                                        <Image Source="../Images/folder_open.png"/>
+                                    </Button>
+                                    <Button x:Name="ChangeButton" Style="{StaticResource CommandButton}" Click="ChangeButton_Click" >
+                                        <Image Source="../Images/edit.png"/>
+                                    </Button>
+                                    <Button x:Name="DeleteButton" Style="{StaticResource CommandButton}" Click="DeleteButton_Click">
+                                        <Image Source="../Images/delete.png"/>
+                                    </Button>
+                                </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

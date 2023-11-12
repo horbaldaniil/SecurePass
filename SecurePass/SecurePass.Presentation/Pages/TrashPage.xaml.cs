@@ -15,7 +15,7 @@ namespace SecurePass.Presentation.Pages;
 public partial class TrashPage : Page
 {
 
-    private UserModel currentUser = CurrentUserManager.CurrentUser;
+    private readonly UserModel? currentUser = CurrentUserManager.CurrentUser;
     private ObservableCollection<PasswordViewModel> passwordViewModels;
     public TrashPage()
     {
@@ -29,19 +29,11 @@ public partial class TrashPage : Page
         {
             var passwordItems = db.Passwords.Where(f => f.UserId == currentUser.Id && f.Deleted == true).ToList();
             passwordViewModels = new ObservableCollection<PasswordViewModel>(
-                passwordItems.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
-            );
-            if( passwordItems.Any() )
-            {
-                TrashEmpty.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                TrashEmpty.Visibility = Visibility.Visible;
-            }
+                                 passwordItems.Select(PasswordViewModel.CreateFromPassword));
+
+            TrashEmpty.Visibility = passwordItems.Any() ? Visibility.Collapsed : Visibility.Visible;
             DataBinding.ItemsSource = passwordViewModels;
         }
-
     }
 
     private void ShowButton_Click(object sender, RoutedEventArgs e)
@@ -57,37 +49,39 @@ public partial class TrashPage : Page
         }
     }
 
-    private void DeleteButton_Click(object sender, RoutedEventArgs e)
+    private void HandleDeleteOrRestoreButtonClick(Button button, bool isDelete)
     {
-        Button deleteButton = (Button)sender;
-        PasswordViewModel passwordViewModel = (PasswordViewModel)deleteButton.DataContext;
-
-        if (passwordViewModel != null)
-        {
-            using (var db = new SecurePassDbContext())
-            {
-                db.Passwords.Remove(passwordViewModel.Password);
-                db.SaveChanges();
-            }
-
-            GetData();
-        }
-    }
-    private void RestoreButton_Click(object sender, RoutedEventArgs e)
-    {
-        Button deleteButton = (Button)sender;
-        PasswordViewModel passwordViewModel = (PasswordViewModel)deleteButton.DataContext;
+        PasswordViewModel passwordViewModel = (PasswordViewModel)button.DataContext;
 
         if (passwordViewModel != null)
         {
             using (var db = new SecurePassDbContext())
             {
                 var existingPassword = db.Passwords.Find(passwordViewModel.Password.Id);
-                existingPassword.Deleted = false;
+
+                if (isDelete)
+                {
+                    db.Passwords.Remove(existingPassword);
+                }
+                else
+                {
+                    existingPassword.Deleted = false;
+                }
+
                 db.SaveChanges();
             }
 
             GetData();
         }
+    }
+
+    private void DeleteButton_Click(object sender, RoutedEventArgs e)
+    {
+        HandleDeleteOrRestoreButtonClick((Button)sender, isDelete: true);
+    }
+
+    private void RestoreButton_Click(object sender, RoutedEventArgs e)
+    {
+        HandleDeleteOrRestoreButtonClick((Button)sender, isDelete: false);
     }
 }

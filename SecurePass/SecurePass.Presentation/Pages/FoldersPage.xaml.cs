@@ -1,11 +1,14 @@
 ﻿using SecurePass.BLL;
 using SecurePass.DAL.Model;
-using System;
+using SecurePass.Presentation.ViewModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
+using System.Windows.Navigation;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SecurePass.Presentation.Pages;
 
@@ -14,70 +17,155 @@ namespace SecurePass.Presentation.Pages;
 /// </summary>
 public partial class FoldersPage : Page
 {
-    private UserModel currentUser = CurrentUserManager.CurrentUser;
+    private readonly UserModel? currentUser = CurrentUserManager.CurrentUser;
+    private int? currentEditingFolderId;
     public FoldersPage()
     {
+        InitializeAsync();
+    }
+
+    private async void InitializeAsync()
+    {
         InitializeComponent();
+        await LoadFoldersAsync();
+    }
 
-        using (var db = new SecurePassDbContext())
+    private async Task LoadFoldersAsync()
+    {
+        var folders = await FolderService.GetFoldersByUserIdAsync(currentUser?.Id ?? 0);
+        DataBinding.ItemsSource = folders;
+    }
+
+    private async void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        string newFolderName = NewFolderTextBox.Text;
+
+        if (!string.IsNullOrWhiteSpace(newFolderName))
         {
-            var folders = db.Folders.Where(f => f.UserId == currentUser.Id).ToList();
-            DataBinding.ItemsSource = folders;
-        }
+            if (currentEditingFolderId.HasValue)
+            {
+                // Зміна існуючої папки
+                bool folderUpdated = await FolderService.UpdateFolderAsync(currentEditingFolderId.Value, newFolderName);
 
+                if (folderUpdated)
+                {
+                    await LoadFoldersAsync();
+                    SetVisibility(false);
+                    ClearNewFolderTextBox();
+                    currentEditingFolderId = null; // Скидаємо значення ідентифікатора редагованої папки
+                }
+                else
+                {
+                    FolderError("FolderUpdateError");
+                }
+            }
+            else
+            {
+                // Додавання нової папки
+                bool folderAdded = await FolderService.AddNewFolderAsync(newFolderName, currentUser?.Id ?? 0);
+
+                if (folderAdded)
+                {
+                    await LoadFoldersAsync();
+                    SetVisibility(false);
+                    ClearNewFolderTextBox();
+                }
+                else
+                {
+                    FolderError("FolderNameExist");
+                }
+            }
+        }
+        else
+        {
+            FolderError("FolderNameEmpty");
+        }
     }
 
     private void AddNewFolder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        NewFolderPanel.Visibility = Visibility.Visible;
-        GenaratePasswordBackground.Visibility = Visibility.Visible;
-    }
-
-
-    private void SaveButton_Click(object sender, RoutedEventArgs e)
-    {
-        string newFolderName = NewFolderTextBox.Text;
-        FolderNameError.Visibility = Visibility.Collapsed;
-
-        if (!string.IsNullOrEmpty(newFolderName))
-        {
-            using (var db = new SecurePassDbContext())
-            {
-                var existingFolder = db.Folders.FirstOrDefault(f => f.UserId == currentUser.Id && f.Title == newFolderName);
-
-                if (existingFolder == null)
-                {
-                    var newFolder = new FolderModel
-                    {
-                        Title = newFolderName,
-                        UserId = currentUser.Id
-                    };
-
-                    db.Folders.Add(newFolder);
-                    db.SaveChanges();
-
-                    var folders = db.Folders.Where(f => f.UserId == currentUser.Id).ToList();
-                    DataBinding.ItemsSource = folders;
-
-                    NewFolderPanel.Visibility = Visibility.Collapsed;
-                    GenaratePasswordBackground.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    FolderNameError.Visibility = Visibility.Visible;
-                }
-            }
-        }
+        SetVisibility(true);
     }
 
     private void Window_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (!NewFolderPanel.IsMouseOver)
         {
-            NewFolderPanel.Visibility = Visibility.Collapsed;
-            GenaratePasswordBackground.Visibility = Visibility.Collapsed;
-            NewFolderTextBox.Text = "";
+            SetVisibility(false);
+            NewFolderTextBox.Clear();
         }
     }
 
+    private void SetVisibility(bool isVisible)
+    {
+        NewFolderPanel.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+        GenaratePasswordBackground.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+        FolderNameError.Visibility = IsVisible ? Visibility.Collapsed : Visibility.Collapsed;
+    }
+
+    private void FolderError(string error)
+    {
+        FolderNameError.SetResourceReference(ContentProperty, error);
+        FolderNameError.Visibility = Visibility.Visible;
+    }
+
+    private void DeleteButton_Click(object sender, RoutedEventArgs e)
+    {
+        Button deleteButton = sender as Button;
+        FolderModel folder = (FolderModel)deleteButton.DataContext;
+
+        if (folder != null)
+        {
+            using (var db = new SecurePassDbContext())
+            {
+                var passwordsInFolder = db.Passwords.Where(p => p.FolderId == folder.Id).ToList();
+
+                foreach (var password in passwordsInFolder)
+                {
+                    password.FolderId = null;
+                }
+
+                db.SaveChanges();
+
+                db.Folders.Remove(folder);
+
+                db.SaveChanges();
+            }
+
+            LoadFoldersAsync();
+        }
+    }
+
+    private void ChangeButton_Click(object sender, RoutedEventArgs e)
+    {
+        Button changeButton = sender as Button;
+        FolderModel folder = (FolderModel)changeButton.DataContext;
+
+        if (folder != null)
+        {
+            NewFolderTextBox.Text = folder.Title;
+
+            currentEditingFolderId = folder.Id;
+
+            SetVisibility(true);
+        }
+    }
+
+    private void ClearNewFolderTextBox()
+    {
+        NewFolderTextBox.Text = "";
+    }
+
+    private void OpenButton_Click(object sender, RoutedEventArgs e)
+    {
+        Button showPasswords = sender as Button;
+        FolderModel folder = (FolderModel)showPasswords.DataContext;
+
+        NavigationService navigationService = NavigationService.GetNavigationService(this);
+
+        if (navigationService != null)
+        {
+            navigationService.Navigate(new PasswordsPage(folder.Id, folder.Title));
+        }
+    }
 }

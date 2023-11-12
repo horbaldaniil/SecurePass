@@ -13,6 +13,7 @@
     <None Remove="Images\edit.png" />
     <None Remove="Images\en-US.png" />
     <None Remove="Images\folder.png" />
+    <None Remove="Images\folder_open.png" />
     <None Remove="Images\plus.png" />
     <None Remove="Images\reload.png" />
     <None Remove="Images\restore.png" />
@@ -48,6 +49,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\folder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\folder_open.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\plus.png">
