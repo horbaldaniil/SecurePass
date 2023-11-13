@@ -29,29 +29,35 @@ namespace SecurePass.Presentation
                 UserEmail.Content = User.Email; 
             }
         }
+        private void SwitchMenuStyle()
+        {
+            FoldersMenuLabel.Style = (Style)FindResource("MenuLabel");
+            PasswordsMenuLabel.Style = (Style)FindResource("MenuLabel");
+            TrashMenuLabel.Style = (Style)FindResource("MenuLabel");
+        }
+
 
         private void Folders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            SwitchMenuStyle();
             FoldersMenuLabel.Style = (Style)FindResource("ActiveMenu");
-            PasswordsMenuLabel.Style = (Style)FindResource("MenuLabel");
-            TrashMenuLabel.Style = (Style)FindResource("MenuLabel");
 
             Main.Navigate(new FoldersPage());
         }
 
         private void Trash_MouseLeftButtonDown(Object sender, MouseButtonEventArgs e)
         {
-            FoldersMenuLabel.Style = (Style)FindResource("MenuLabel");
-            PasswordsMenuLabel.Style = (Style)FindResource("MenuLabel");
+            SwitchMenuStyle();
             TrashMenuLabel.Style = (Style)FindResource("ActiveMenu");
+
             Main.Navigate(new TrashPage());
         }
 
         private void Passwords_MouseLeftButtonDown(Object sender, MouseButtonEventArgs e)
         {
-            FoldersMenuLabel.Style = (Style)FindResource("MenuLabel");
+            SwitchMenuStyle();
             PasswordsMenuLabel.Style = (Style)FindResource("ActiveMenu");
-            TrashMenuLabel.Style = (Style)FindResource("MenuLabel");
+
             Main.Navigate(new PasswordsPage());
         }
 

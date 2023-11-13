@@ -17,9 +17,12 @@ public partial class TrashPage : Page
 
     private readonly UserModel? currentUser = CurrentUserManager.CurrentUser;
     private ObservableCollection<PasswordViewModel> passwordViewModels;
+    private readonly PasswordManager passwordManager;
+
     public TrashPage()
     {
         InitializeComponent();
+        passwordManager = new PasswordManager(currentUser);
         GetData();
     }
 
@@ -55,20 +58,13 @@ public partial class TrashPage : Page
 
         if (passwordViewModel != null)
         {
-            using (var db = new SecurePassDbContext())
+            if (isDelete)
             {
-                var existingPassword = db.Passwords.Find(passwordViewModel.Password.Id);
-
-                if (isDelete)
-                {
-                    db.Passwords.Remove(existingPassword);
-                }
-                else
-                {
-                    existingPassword.Deleted = false;
-                }
-
-                db.SaveChanges();
+                passwordManager.DeletePassword(passwordViewModel.Password);
+            }
+            else
+            {
+                passwordManager.RestorePassword(passwordViewModel.Password);
             }
 
             GetData();

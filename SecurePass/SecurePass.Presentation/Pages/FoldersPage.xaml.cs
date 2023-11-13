@@ -18,25 +18,22 @@ namespace SecurePass.Presentation.Pages;
 public partial class FoldersPage : Page
 {
     private readonly UserModel? currentUser = CurrentUserManager.CurrentUser;
+    private readonly FolderManager folderManager;
     private int? currentEditingFolderId;
     public FoldersPage()
     {
-        InitializeAsync();
-    }
-
-    private async void InitializeAsync()
-    {
         InitializeComponent();
-        await LoadFoldersAsync();
+        folderManager = new FolderManager(currentUser);
+        LoadFolders();
     }
 
-    private async Task LoadFoldersAsync()
+    private void LoadFolders()
     {
-        var folders = await FolderService.GetFoldersByUserIdAsync(currentUser?.Id ?? 0);
+        var folders = folderManager.GetUserFolders();
         DataBinding.ItemsSource = folders;
     }
 
-    private async void SaveButton_Click(object sender, RoutedEventArgs e)
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
         string newFolderName = NewFolderTextBox.Text;
 
@@ -44,15 +41,14 @@ public partial class FoldersPage : Page
         {
             if (currentEditingFolderId.HasValue)
             {
-                // Зміна існуючої папки
-                bool folderUpdated = await FolderService.UpdateFolderAsync(currentEditingFolderId.Value, newFolderName);
+                bool folderUpdated = folderManager.UpdateFolder(currentEditingFolderId.Value, newFolderName);
 
                 if (folderUpdated)
                 {
-                    await LoadFoldersAsync();
+                    LoadFolders();
                     SetVisibility(false);
                     ClearNewFolderTextBox();
-                    currentEditingFolderId = null; // Скидаємо значення ідентифікатора редагованої папки
+                    currentEditingFolderId = null;
                 }
                 else
                 {
@@ -61,12 +57,11 @@ public partial class FoldersPage : Page
             }
             else
             {
-                // Додавання нової папки
-                bool folderAdded = await FolderService.AddNewFolderAsync(newFolderName, currentUser?.Id ?? 0);
+                bool folderAdded = folderManager.AddNewFolder(newFolderName);
 
                 if (folderAdded)
                 {
-                    await LoadFoldersAsync();
+                    LoadFolders();
                     SetVisibility(false);
                     ClearNewFolderTextBox();
                 }
@@ -132,7 +127,7 @@ public partial class FoldersPage : Page
                 db.SaveChanges();
             }
 
-            LoadFoldersAsync();
+            LoadFolders();
         }
     }
 

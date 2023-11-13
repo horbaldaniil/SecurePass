@@ -22,11 +22,13 @@ public partial class PasswordsPage : Page
     private UserModel currentUser = CurrentUserManager.CurrentUser;
     private ObservableCollection<PasswordViewModel> passwordViewModels;
     private SnackbarMessageQueue snackbarMessageQueue = new SnackbarMessageQueue();
+    private readonly PasswordManager passwordManager;
 
     public PasswordsPage()
     {
         InitializeComponent();
         Snackbar.MessageQueue = snackbarMessageQueue;
+        passwordManager = new PasswordManager(currentUser);
         GetData();
     }
 
@@ -80,21 +82,15 @@ public partial class PasswordsPage : Page
         GetData();
     }
 
-    private void DeleteButton_Click(object sender, RoutedEventArgs e)
+    private void TrashButton_Click(object sender, RoutedEventArgs e)
     {
         Button deleteButton = (Button)sender;
         PasswordViewModel passwordViewModel = (PasswordViewModel)deleteButton.DataContext;
 
         if (passwordViewModel != null)
         {
-            using (var db = new SecurePassDbContext())
-            {
-                var existingPassword = db.Passwords.Find(passwordViewModel.Password.Id);
-                existingPassword.Deleted = true;
-                ShowSnackbar("Password moved to trash!");
-                db.SaveChanges();
-            }
-
+            passwordManager.SendPasswordToTrash(passwordViewModel.Password);
+            ShowSnackbar("Password moved to trash!");
             GetData();
         }
     }

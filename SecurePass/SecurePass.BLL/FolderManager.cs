@@ -6,32 +6,36 @@ using System.Threading.Tasks;
 
 namespace SecurePass.BLL
 {
-    public class FolderService
+    public class FolderManager
     {
-        public static async Task<List<FolderModel>> GetFoldersByUserIdAsync(int userId)
+        private readonly UserModel currentUser;
+        public FolderManager(UserModel currentUser)
+        {
+            this.currentUser = currentUser ?? throw new System.ArgumentNullException(nameof(currentUser));
+        }
+        public List<FolderModel> GetUserFolders()
         {
             using (var db = new SecurePassDbContext())
             {
-                return await db.Folders.Where(f => f.UserId == userId).ToListAsync();
+                return db.Folders.Where(f => f.UserId == currentUser.Id).ToList();
             }
         }
-
-        public static async Task<bool> AddNewFolderAsync(string folderName, int userId)
+        public bool AddNewFolder(string folderName)
         {
             using (var db = new SecurePassDbContext())
             {
-                var existingFolder = await db.Folders.FirstOrDefaultAsync(f => f.UserId == userId && f.Title == folderName);
+                var existingFolder = db.Folders.FirstOrDefault(f => f.UserId == currentUser.Id && f.Title == folderName);
 
                 if (existingFolder == null)
                 {
                     var newFolder = new FolderModel
                     {
                         Title = folderName,
-                        UserId = userId
+                        UserId = currentUser.Id
                     };
 
                     db.Folders.Add(newFolder);
-                    await db.SaveChangesAsync();
+                    db.SaveChanges();
                     return true;
                 }
 
@@ -39,17 +43,17 @@ namespace SecurePass.BLL
             }
         }
 
-        public static async Task<bool> UpdateFolderAsync(int folderId, string newFolderName)
+        public bool UpdateFolder(int folderId, string newFolderName)
         {
             using (var db = new SecurePassDbContext())
             {
-                var folderToUpdate = await db.Folders.FirstOrDefaultAsync(f => f.Id == folderId);
+                var folderToUpdate = db.Folders.FirstOrDefault(f => f.Id == folderId);
 
                 if (folderToUpdate != null)
                 {
                     folderToUpdate.Title = newFolderName;
 
-                    await db.SaveChangesAsync();
+                    db.SaveChanges();
                     return true;
                 }
 
