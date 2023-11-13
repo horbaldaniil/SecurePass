@@ -46,7 +46,7 @@
                 </GroupBox>
 
 
-                <ListView Name="DataBinding" BorderThickness="0">
+                <ListView Name="DataBinding" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}">
                             <Setter Property="Template">
@@ -68,19 +68,23 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Margin="15,0,0,0" Foreground="#444444" IsReadOnly="True" Background="Transparent" HorizontalAlignment="Left" BorderThickness="0" FontSize="28" VerticalAlignment="Center" Text="{Binding Password.Title}"/>
-                                <TextBox IsReadOnly="True" Foreground="#444444" Background="Transparent"  HorizontalAlignment="Left" BorderThickness="0" FontSize="28" VerticalAlignment="Center" Grid.Column="1">
-                                    <TextBox.Style>
-                                        <Style TargetType="TextBox">
-                                            <Setter Property="Text" Value="************"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsPasswordVisible}" Value="True">
-                                                    <Setter Property="Text" Value="{Binding Password.Password}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBox.Style>
-                                </TextBox>
+                                <Label Margin="15,0,0,0" MaxWidth="250" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                                    <TextBlock Foreground="#444444" TextTrimming="CharacterEllipsis" Background="Transparent" FontSize="28" Text="{Binding Password.Title}"/>
+                                </Label>
+                                <Label Grid.Column="1" Margin="15,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                                    <TextBlock Foreground="#444444" TextTrimming="CharacterEllipsis" Background="Transparent"  HorizontalAlignment="Left" FontSize="28" VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="************"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsPasswordVisible}" Value="True">
+                                                        <Setter Property="Text" Value="{Binding Password.Password}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Label>
                                 <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
                                     <Button x:Name="ShowButton" Style="{StaticResource CommandButton}" Click="ShowButton_Click">
                                         <Image Source="../Images/show.png"/>
