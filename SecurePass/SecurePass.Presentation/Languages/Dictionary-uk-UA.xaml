@@ -20,6 +20,7 @@
 
     <!-- Passwords Page -->
     <System:String x:Key="PasswordsPageTitle">Всі паролі</System:String>
+    <System:String x:Key="AddPasswordButton">Додати пароль</System:String>
 
     <!-- Folders Page -->
     <System:String x:Key="FoldersPageTitle">Папки</System:String>
@@ -28,6 +29,7 @@
     <System:String x:Key="FolderName">Назва папки</System:String>
     <System:String x:Key="FolderNameExist">Папка з такою назвою вже існує!</System:String>
     <System:String x:Key="FolderNameEmpty">Введіть назву папки!</System:String>
+    <System:String x:Key="AddFolderButton">Додати папку</System:String>
 
     <!-- Trash Page -->
     <System:String x:Key="TrashPageTitle">Смітник</System:String>
@@ -66,5 +68,6 @@
     <System:String x:Key="InvalidFormatPassword">Недійсний формат пароля</System:String>
     <System:String x:Key="NotFoundEmail">Електронна пошта не знайдена</System:String>
     <System:String x:Key="InUseEmail">Електронна пошта вже використовується</System:String>
+    
 
 </ResourceDictionary>

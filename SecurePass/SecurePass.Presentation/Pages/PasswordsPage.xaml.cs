@@ -37,36 +37,42 @@ public partial class PasswordsPage : Page
         InitializeComponent();
         PasswordsPageLabel.Content = $"📁 {folderTitle}";
         Snackbar.MessageQueue = snackbarMessageQueue;
+        passwordManager = new PasswordManager(currentUser);
         GetData(folderId);
     }
 
 
-    public void GetData(int folderId = 0)
+    public void GetData(int? folderId = null)
     {
-        using (var db = new SecurePassDbContext())
+        
+        if (folderId == null)
         {
-            if (folderId == 0)
-            {
-                var passwordItems = db.Passwords.Where(f => f.UserId == currentUser.Id && f.Deleted == false).ToList();
-
-                passwordViewModels = new ObservableCollection<PasswordViewModel>(
-                passwordItems.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
-                );
-            }
-            else
-            {
-                var passwordItems = db.Passwords.Where(f => f.UserId == currentUser.Id && f.Deleted == false && f.FolderId == folderId).ToList();
-
-                passwordViewModels = new ObservableCollection<PasswordViewModel>(
-                passwordItems.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
-                );
-            }
-            
-            DataBinding.ItemsSource = passwordViewModels;
+            var passwords = passwordManager.GetPasswords()
+                .Where(p => p.Deleted == false)
+                .OrderByDescending(p => p.LastUpdated)
+                .ToList();
+      
+            passwordViewModels = new ObservableCollection<PasswordViewModel>(
+            passwords.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
+            );
         }
+        else
+        {
+            var passwords = passwordManager.GetPasswords()
+                .Where(p => p.Deleted == false && p.FolderId == folderId)
+                .OrderByDescending(p => p.LastUpdated)
+                .ToList();
+                
+            passwordViewModels = new ObservableCollection<PasswordViewModel>(
+            passwords.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
+            );
+        }
+            
+        DataBinding.ItemsSource = passwordViewModels;
+        
     }
 
-    private void AddNewButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void AddNewPassword_Click(object sender, RoutedEventArgs e)
     {
         NavigationService navigationService = NavigationService.GetNavigationService(this);
 

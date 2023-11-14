@@ -27,16 +27,29 @@ public partial class TrashPage : Page
     }
 
     public void GetData()
-    {
-        using (var db = new SecurePassDbContext())
-        {
-            var passwordItems = db.Passwords.Where(f => f.UserId == currentUser.Id && f.Deleted == true).ToList();
-            passwordViewModels = new ObservableCollection<PasswordViewModel>(
-                                 passwordItems.Select(PasswordViewModel.CreateFromPassword));
+    {     
+        var passwordItems = passwordManager.GetPasswords().FindAll(f => f.Deleted == true);
 
-            TrashEmpty.Visibility = passwordItems.Any() ? Visibility.Collapsed : Visibility.Visible;
-            DataBinding.ItemsSource = passwordViewModels;
+        passwordViewModels = new ObservableCollection<PasswordViewModel>(
+                                passwordItems.Select(PasswordViewModel.CreateFromPassword));
+
+        TrashEmpty.Visibility = passwordItems.Any() ? Visibility.Collapsed : Visibility.Visible;
+        TrashLabel.Visibility = passwordItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+        DataBinding.ItemsSource = passwordViewModels;
+        
+    }
+
+    private void EmptyTrash_Click(object sender, RoutedEventArgs e)
+    {
+        
+        var passwordItems = passwordManager.GetPasswords().FindAll(f => f.Deleted == true);
+        foreach (var password in passwordItems)
+        {
+            passwordManager.DeletePassword(password);
         }
+        
+        GetData();
+
     }
 
     private void ShowButton_Click(object sender, RoutedEventArgs e)

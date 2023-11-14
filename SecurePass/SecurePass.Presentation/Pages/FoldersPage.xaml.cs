@@ -41,7 +41,7 @@ public partial class FoldersPage : Page
         {
             if (currentEditingFolderId.HasValue)
             {
-                bool folderUpdated = folderManager.UpdateFolder(currentEditingFolderId.Value, newFolderName);
+                bool folderUpdated = folderManager.ChangeFolder(currentEditingFolderId.Value, newFolderName);
 
                 if (folderUpdated)
                 {
@@ -52,7 +52,7 @@ public partial class FoldersPage : Page
                 }
                 else
                 {
-                    FolderError("FolderUpdateError");
+                    FolderError("FolderNameExist");
                 }
             }
             else
@@ -77,7 +77,7 @@ public partial class FoldersPage : Page
         }
     }
 
-    private void AddNewFolder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void AddNewFolder_Click(object sender, RoutedEventArgs e)
     {
         SetVisibility(true);
     }
@@ -109,26 +109,9 @@ public partial class FoldersPage : Page
         Button deleteButton = sender as Button;
         FolderModel folder = (FolderModel)deleteButton.DataContext;
 
-        if (folder != null)
-        {
-            using (var db = new SecurePassDbContext())
-            {
-                var passwordsInFolder = db.Passwords.Where(p => p.FolderId == folder.Id).ToList();
-
-                foreach (var password in passwordsInFolder)
-                {
-                    password.FolderId = null;
-                }
-
-                db.SaveChanges();
-
-                db.Folders.Remove(folder);
-
-                db.SaveChanges();
-            }
-
-            LoadFolders();
-        }
+        folderManager.DeleteFolder(folder);
+        LoadFolders();
+ 
     }
 
     private void ChangeButton_Click(object sender, RoutedEventArgs e)
@@ -136,14 +119,11 @@ public partial class FoldersPage : Page
         Button changeButton = sender as Button;
         FolderModel folder = (FolderModel)changeButton.DataContext;
 
-        if (folder != null)
-        {
-            NewFolderTextBox.Text = folder.Title;
+        NewFolderTextBox.Text = folder.Title;
+        currentEditingFolderId = folder.Id;
 
-            currentEditingFolderId = folder.Id;
-
-            SetVisibility(true);
-        }
+        SetVisibility(true);
+        
     }
 
     private void ClearNewFolderTextBox()

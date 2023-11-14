@@ -20,6 +20,7 @@
     
     <!-- Passwords Page -->
     <System:String x:Key="PasswordsPageTitle">All Passwords</System:String>
+    <System:String x:Key="AddPasswordButton">Add password</System:String>
     
     <!-- Folders Page -->
     <System:String x:Key="FoldersPageTitle">Folders</System:String>
@@ -28,6 +29,7 @@
     <System:String x:Key="FolderName">Folder name</System:String>
     <System:String x:Key="FolderNameExist">Folder with that name already exists!</System:String>
     <System:String x:Key="FolderNameEmpty">Enter the folder name!</System:String>
+    <System:String x:Key="AddFolderButton">Add folder</System:String>
 
     <!-- Trash Page -->
     <System:String x:Key="TrashPageTitle">Trash</System:String>

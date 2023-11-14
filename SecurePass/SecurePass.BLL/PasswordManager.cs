@@ -1,6 +1,7 @@
 ﻿using SecurePass.DAL.Model;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SecurePass.BLL
 {
@@ -11,6 +12,14 @@ namespace SecurePass.BLL
         public PasswordManager(UserModel currentUser)
         {
             this.currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
+        }
+
+        public List<PasswordModel> GetPasswords()
+        {
+            using (var db = new SecurePassDbContext())
+            {
+                return db.Passwords.Where(f => f.UserId == currentUser.Id).ToList();
+            }
         }
 
         public void SendPasswordToTrash(PasswordModel password)

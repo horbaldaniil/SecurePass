@@ -3,6 +3,7 @@ using SecurePass.DAL.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace SecurePass.BLL
 {
@@ -43,21 +44,42 @@ namespace SecurePass.BLL
             }
         }
 
-        public bool UpdateFolder(int folderId, string newFolderName)
+        public bool ChangeFolder(int folderId, string newFolderName)
         {
             using (var db = new SecurePassDbContext())
             {
-                var folderToUpdate = db.Folders.FirstOrDefault(f => f.Id == folderId);
-
-                if (folderToUpdate != null)
+                var existingFolder = db.Folders.FirstOrDefault(f => f.UserId == currentUser.Id && f.Title == newFolderName);
+                if (existingFolder == null)
                 {
-                    folderToUpdate.Title = newFolderName;
+                    var folderToUpdate = db.Folders.FirstOrDefault(f => f.Id == folderId);
 
-                    db.SaveChanges();
-                    return true;
+                    if (folderToUpdate != null)
+                    {
+                        folderToUpdate.Title = newFolderName;
+
+                        db.SaveChanges();
+                        return true;
+                    }
                 }
-
                 return false;
+                
+            }
+        }
+
+        public bool DeleteFolder(FolderModel folder)
+        {
+            using (var db = new SecurePassDbContext())
+            {
+                var passwordsInFolder = db.Passwords.Where(p => p.FolderId == folder.Id).ToList();
+                foreach (var password in passwordsInFolder)
+                {
+                    password.FolderId = null;
+                }
+                db.SaveChanges();
+                db.Folders.Remove(folder);
+
+                db.SaveChanges();
+                return true;  
             }
         }
     }
