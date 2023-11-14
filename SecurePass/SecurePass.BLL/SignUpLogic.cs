@@ -2,8 +2,6 @@
 using SecurePass.DAL.Model;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace SecurePass.BLL;
 
