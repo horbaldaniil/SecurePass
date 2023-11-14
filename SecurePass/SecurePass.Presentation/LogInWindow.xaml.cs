@@ -69,7 +69,7 @@ namespace SecurePass.Presentation
 
             try
             {
-                PasswordErrorLabel.Content = "";
+                ValidErrorLabel.Content = "";
                 EmailErrorLabel.Content = "";
 
                 string email = EmailTextBox.Text;
@@ -81,28 +81,17 @@ namespace SecurePass.Presentation
                     return;
                 }
 
-                using (SecurePassDbContext db = new SecurePassDbContext())
-                {
-                    var user = await db.Users.SingleOrDefaultAsync(u => u.Email == email);
+                var loginResult = await loginLogic.VerifyUser(email, password);
 
-                    if (user != null)
-                    {
-                        if (await loginLogic.VerifyPasswordAsync(password, user.Password))
-                        {
-                            CurrentUserManager.SetCurrentUser(user);
-                            MainWindow window = new MainWindow();
-                            window.Show();
-                            Close();
-                        }
-                        else
-                        {
-                            PasswordErrorLabel.SetResourceReference(ContentProperty, "InvalidPassword");
-                        }
-                    }
-                    else
-                    {
-                        EmailErrorLabel.SetResourceReference(ContentProperty, "NotFoundEmail");
-                    }
+                if (loginResult != null)
+                {
+                    ValidErrorLabel.SetResourceReference(ContentProperty, loginResult);
+                }
+                else
+                {
+                    MainWindow window = new MainWindow();
+                    window.Show();
+                    Close();
                 }
             }
             finally { LoginButton.IsEnabled = true; }

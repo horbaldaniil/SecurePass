@@ -64,10 +64,9 @@
     <System:String x:Key="LoginUnderPageStr" xml:space="preserve">Немає облікового запису? </System:String>
     <System:String x:Key="SignUpUnderPageStr" xml:space="preserve">Вже є аккаунт? </System:String>
     <System:String x:Key="InvalidFormatEmail">Недійсний формат електронної пошти</System:String>
-    <System:String x:Key="InvalidPassword">Недійсний пароль</System:String>
+    <System:String x:Key="NotValidData">Введені дані для входу неправильні</System:String>
     <System:String x:Key="InvalidFormatPassword">Недійсний формат пароля</System:String>
     <System:String x:Key="NotFoundEmail">Електронна пошта не знайдена</System:String>
     <System:String x:Key="InUseEmail">Електронна пошта вже використовується</System:String>
-    
 
 </ResourceDictionary>

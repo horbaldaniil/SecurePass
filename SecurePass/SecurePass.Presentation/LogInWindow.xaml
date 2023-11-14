@@ -136,7 +136,7 @@
             <TextBox x:Name="PasswordTextBox"  Tag="{DynamicResource PasswordTitle}" Style="{StaticResource AutorithationTextBox}"/>
 
 
-            <Label x:Name="PasswordErrorLabel" Style="{StaticResource ErrorLabel}"/>
+            <Label x:Name="ValidErrorLabel" Style="{StaticResource ErrorLabel}"/>
 
             <Button x:Name="LoginButton" Content="{DynamicResource LogInButton}" Style="{StaticResource LoginButton}" Click="LoginButton_Click">
                 <Button.Resources>

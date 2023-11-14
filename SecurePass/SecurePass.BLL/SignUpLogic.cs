@@ -1,4 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿using Microsoft.EntityFrameworkCore;
+using SecurePass.DAL.Model;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace SecurePass.BLL;
 
@@ -25,5 +30,28 @@ public class SignUpLogic
     {
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, BCrypt.Net.BCrypt.GenerateSalt());
         return hashedPassword;
+    }
+
+    public async Task<string> UserRegistration(string email, string password)
+    {
+        using (var db = new SecurePassDbContext())
+        {
+            if (await db.Users.AnyAsync(u => u.Email == email))
+            {
+                return "InUseEmail";
+            }
+
+            string hashedPassword = HashPassword(password);
+
+            var newUser = new UserModel
+            {
+                Email = email,
+                Password = hashedPassword
+            };
+
+            await db.Users.AddAsync(newUser);
+            await db.SaveChangesAsync();
+        }
+        return null;
     }
 }

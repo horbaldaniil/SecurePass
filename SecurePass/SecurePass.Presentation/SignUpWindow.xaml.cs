@@ -79,25 +79,14 @@ namespace SecurePass.Presentation
                 return;
             }
 
-            using (var db = new SecurePassDbContext())
+            var signUpResult = await signUpLogic.UserRegistration(email, password);
+
+            if (signUpResult != null)
             {
-                if (await db.Users.AnyAsync(u => u.Email == email))
-                {
-                    EmailErrorLabel.SetResourceReference(ContentProperty, "InUseEmail");
-                    return;
-                }
-
-                string hashedPassword = signUpLogic.HashPassword(password);
-
-                var newUser = new UserModel
-                {
-                    Email = email,
-                    Password = hashedPassword
-                };
-
-                db.Users.Add(newUser);
-                await db.SaveChangesAsync();
-
+                EmailErrorLabel.SetResourceReference(ContentProperty, signUpResult);
+            }
+            else
+            {
                 MessageBox.Show("Registration successful. You can now log in.");
 
                 LogInWindow loginWindow = new LogInWindow();
