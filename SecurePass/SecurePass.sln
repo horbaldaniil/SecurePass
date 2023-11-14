@@ -5,9 +5,11 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurePass.Presentation", "SecurePass.Presentation\SecurePass.Presentation.csproj", "{94616117-DF29-44C3-B86E-AED73D14FC6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurePass.BLL", "SecurePass.BLL\SecurePass.BLL.csproj", "{909F3D39-99FE-41BB-8202-209229A7BABD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurePass.BLL", "SecurePass.BLL\SecurePass.BLL.csproj", "{909F3D39-99FE-41BB-8202-209229A7BABD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurePass.DAL", "SecurePass.DAL\SecurePass.DAL.csproj", "{A8F47276-CC69-4A3F-BC29-5AA4E93D3B99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurePass.DAL", "SecurePass.DAL\SecurePass.DAL.csproj", "{A8F47276-CC69-4A3F-BC29-5AA4E93D3B99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurePass.Tests", "SecurePass.Tests\SecurePass.Tests.csproj", "{9F3EC4C1-0958-47E1-B0B7-89B15EEF933D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{A8F47276-CC69-4A3F-BC29-5AA4E93D3B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8F47276-CC69-4A3F-BC29-5AA4E93D3B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8F47276-CC69-4A3F-BC29-5AA4E93D3B99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F3EC4C1-0958-47E1-B0B7-89B15EEF933D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F3EC4C1-0958-47E1-B0B7-89B15EEF933D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F3EC4C1-0958-47E1-B0B7-89B15EEF933D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F3EC4C1-0958-47E1-B0B7-89B15EEF933D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

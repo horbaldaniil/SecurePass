@@ -8,9 +8,7 @@ namespace SecurePass.BLL;
 
 public class LoginLogic
 {
-    private readonly UserModel currentUser;
 
-    
     public bool IsValidEmail(string email)
     {
         string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
@@ -30,9 +28,9 @@ public class LoginLogic
         }
     }
 
-    public async Task<string> VerifyUser(string email, string password)
+    public async Task<string?> VerifyUser(string email, string password)
     {
-        using (SecurePassDbContext db = new SecurePassDbContext())
+        using (var db = new SecurePassDbContext())
         {
             var user = await db.Users.SingleOrDefaultAsync(u => u.Email == email);
 
@@ -51,7 +49,8 @@ public class LoginLogic
             {
                 return "NotValidData";
             }
+
+            return null;
         }
-        return null;
     }
 }
