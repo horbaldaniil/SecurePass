@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SecurePass.BLL
 {
@@ -18,8 +20,37 @@ namespace SecurePass.BLL
         {
             using (var db = new SecurePassDbContext())
             {
-                return db.Passwords.Where(f => f.UserId == currentUser.Id).ToList();
+                var encryptedPasswords = db.Passwords.Where(f => f.UserId == currentUser.Id).ToList();
+
+                // Розшифрування кожного пароля
+                var decryptedPasswords = new List<PasswordModel>();
+                foreach (var encryptedPassword in encryptedPasswords)
+                {
+                    // Перетворення рядка у масив байтів
+                    byte[] encryptedPasswordBytes = Convert.FromBase64String(encryptedPassword.Password);
+
+                    // Розшифрування
+                    byte[] decryptedPasswordBytes = ProtectedData.Unprotect(encryptedPasswordBytes, null, DataProtectionScope.CurrentUser);
+                    string decryptedPassword = Encoding.UTF8.GetString(decryptedPasswordBytes);
+
+                    var decryptedPasswordModel = new PasswordModel
+                    {
+                        Id = encryptedPassword.Id,
+                        Title = encryptedPassword.Title,
+                        Password = decryptedPassword,
+                        UserId = encryptedPassword.UserId,
+                        Email_Username = encryptedPassword.Email_Username,
+                        FolderId = encryptedPassword.FolderId,
+                        LastUpdated = encryptedPassword.LastUpdated,
+                        Deleted = encryptedPassword.Deleted,
+                    };
+
+                    decryptedPasswords.Add(decryptedPasswordModel);
+                }
+
+                return decryptedPasswords;
             }
+        
         }
 
         public void SendPasswordToTrash(PasswordModel password)
@@ -49,8 +80,6 @@ namespace SecurePass.BLL
             using (var db = new SecurePassDbContext())
             {
                 db.Passwords.Remove(password);
-                
-
                 db.SaveChanges();
             }
         }
@@ -61,9 +90,13 @@ namespace SecurePass.BLL
             {
                 var existingPassword = db.Passwords.Find(password.Id);
 
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password.Password);
+
+                byte[] encryptedPassword = ProtectedData.Protect(passwordBytes, null, DataProtectionScope.CurrentUser);
+
                 existingPassword.Title = password.Title;
                 existingPassword.Email_Username = password.Email_Username;
-                existingPassword.Password = password.Password;
+                existingPassword.Password = Convert.ToBase64String(encryptedPassword);
                 existingPassword.LastUpdated = DateTime.UtcNow;
 
                 if (password.FolderId.HasValue)
@@ -80,10 +113,15 @@ namespace SecurePass.BLL
         {
             using (var db = new SecurePassDbContext())
             {
+
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+
+                byte[] encryptedPassword = ProtectedData.Protect(passwordBytes, null, DataProtectionScope.CurrentUser);
+
                 var newPassword = new PasswordModel
                 {
                     Title = passwordTitle,
-                    Password = password,
+                    Password = Convert.ToBase64String(encryptedPassword),
                     UserId = currentUser.Id,
                     Email_Username = emailOrUsername,
                     FolderId = folderId,
@@ -93,6 +131,7 @@ namespace SecurePass.BLL
                 db.Passwords.Add(newPassword);
 
                 db.SaveChanges();
+                
             }
         }
     }

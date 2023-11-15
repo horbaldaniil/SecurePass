@@ -21,6 +21,8 @@
     <!-- Passwords Page -->
     <System:String x:Key="PasswordsPageTitle">Всі паролі</System:String>
     <System:String x:Key="AddPasswordButton">Додати пароль</System:String>
+    <System:String x:Key="PasswordToTrash">Пароль переміщено в смітник</System:String>
+    <System:String x:Key="PasswordCopied">Пароль скопійовано</System:String>
 
     <!-- Folders Page -->
     <System:String x:Key="FoldersPageTitle">Папки</System:String>
@@ -34,6 +36,7 @@
     <!-- Trash Page -->
     <System:String x:Key="TrashPageTitle">Смітник</System:String>
     <System:String x:Key="TrashPageEmptyTitle">Смітник пустий</System:String>
+    <System:String x:Key="EmptyTrash">Очистити смітник</System:String>
 
     <!-- CreatePassword Page -->
     <System:String x:Key="CreatePasswordPageTitle">Новий пароль</System:String>
@@ -53,6 +56,9 @@
     <System:String x:Key="SymbolsStr">Символи (!@#$%^*)</System:String>
     <System:String x:Key="FillPasswordStr">Використати</System:String>
     <System:String x:Key="ChangePassword">Змінити пароль</System:String>
+    <System:String x:Key="PasswordTitleEmpty">Введіть назву!</System:String>
+    <System:String x:Key="PasswordEmpty">Введіть пароль!</System:String>
+    <System:String x:Key="NoFolder">Без папки</System:String>
 
     <!-- Login Page -->
     <System:String x:Key="LoginTitle">Логін</System:String>

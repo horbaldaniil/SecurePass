@@ -35,6 +35,7 @@ public partial class PasswordsPage : Page
     public PasswordsPage(int folderId, string folderTitle)
     {
         InitializeComponent();
+        AddPasswordButton.Visibility = Visibility.Collapsed;
         PasswordsPageLabel.Content = $"📁 {folderTitle}";
         Snackbar.MessageQueue = snackbarMessageQueue;
         passwordManager = new PasswordManager(currentUser);
@@ -96,7 +97,8 @@ public partial class PasswordsPage : Page
         if (passwordViewModel != null)
         {
             passwordManager.SendPasswordToTrash(passwordViewModel.Password);
-            ShowSnackbar("Password moved to trash!");
+            string passwordToTrash = (string)Application.Current.FindResource("PasswordToTrash");
+            ShowSnackbar(passwordToTrash);
             GetData();
         }
     }
@@ -121,7 +123,8 @@ public partial class PasswordsPage : Page
         if (passwordViewModel != null)
         {
             Clipboard.SetText(passwordViewModel.Password.Password);
-            ShowSnackbar("Password copied!");
+            string passwordCopied = (string)Application.Current.FindResource("PasswordCopied");
+            ShowSnackbar(passwordCopied);
         }
     }
 

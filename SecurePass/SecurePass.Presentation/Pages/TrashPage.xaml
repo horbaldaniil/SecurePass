@@ -33,7 +33,7 @@
 
             <Grid x:Name="TrashLabel">  
                 <Label Content="{DynamicResource TrashPageTitle}" Style="{StaticResource pageLabel}"/>
-                <Button Style="{StaticResource AddNewButton}" Click="EmptyTrash_Click" Content="Empty trash">
+                <Button Style="{StaticResource AddNewButton}" Click="EmptyTrash_Click" Content="{DynamicResource EmptyTrash}">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="20" />

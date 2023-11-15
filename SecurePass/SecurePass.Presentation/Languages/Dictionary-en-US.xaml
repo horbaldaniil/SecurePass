@@ -21,6 +21,8 @@
     <!-- Passwords Page -->
     <System:String x:Key="PasswordsPageTitle">All Passwords</System:String>
     <System:String x:Key="AddPasswordButton">Add password</System:String>
+    <System:String x:Key="PasswordToTrash">Password moved to trash</System:String>
+    <System:String x:Key="PasswordCopied">Password copied</System:String>
     
     <!-- Folders Page -->
     <System:String x:Key="FoldersPageTitle">Folders</System:String>
@@ -34,6 +36,7 @@
     <!-- Trash Page -->
     <System:String x:Key="TrashPageTitle">Trash</System:String>
     <System:String x:Key="TrashPageEmptyTitle">Trash is empty</System:String>
+    <System:String x:Key="EmptyTrash">Empty trash</System:String>
 
     <!-- CreatePassword Page -->
     <System:String x:Key="CreatePasswordPageTitle">New Password</System:String>
@@ -53,6 +56,9 @@
     <System:String x:Key="SymbolsStr">Use symbols (!@#$%^*)</System:String>
     <System:String x:Key="FillPasswordStr">Fill password</System:String>
     <System:String x:Key="ChangePassword">Change Password</System:String>
+    <System:String x:Key="PasswordTitleEmpty">Please enter title!</System:String>
+    <System:String x:Key="PasswordEmpty">Please enter password!</System:String>
+    <System:String x:Key="NoFolder">No folder</System:String>
 
     <!-- Login/SignUp Page -->
     <System:String x:Key="LoginTitle">Login</System:String>

@@ -93,12 +93,13 @@ public partial class CreatePasswordPage : Page
                 PasswordViewModel passwordViewModel = (PasswordViewModel)DataContext;
                 passwordViewModel.UpdatePasswordModel(passwordTitle, emailUsername, password, folderId);
 
-                passwordManager?.ChangePassword(passwordViewModel.Password);
+                passwordManager.ChangePassword(passwordViewModel.Password);
             }
             else
             {
-                passwordManager?.SavePassword(passwordTitle, password,
+                passwordManager.SavePassword(passwordTitle, password,
                                                     emailUsername, folderId);
+              
             }
 
             OnPasswordCreated?.Invoke(this, EventArgs.Empty);
@@ -127,7 +128,7 @@ public partial class CreatePasswordPage : Page
         List<FolderModel> userFolders = folderManager.GetUserFolders();
 
         ComboBoxItem defaultItem = new ComboBoxItem();
-        defaultItem.Content = "Без папки";
+        defaultItem.SetResourceReference(ContentProperty, "NoFolder");
         FoldersComboBox.Items.Add(defaultItem);
 
         foreach (var folder in userFolders)
