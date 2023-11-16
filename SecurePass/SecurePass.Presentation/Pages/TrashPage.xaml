@@ -33,7 +33,7 @@
 
             <Grid x:Name="TrashLabel">  
                 <Label Content="{DynamicResource TrashPageTitle}" Style="{StaticResource pageLabel}"/>
-                <Button Style="{StaticResource AddNewButton}" Click="EmptyTrash_Click" Content="{DynamicResource EmptyTrash}">
+                <Button Style="{StaticResource EmptyButton}" Click="EmptyTrash_Click" Content="{DynamicResource EmptyTrash}">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="20" />
@@ -64,7 +64,7 @@
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="100">
+                        <Grid Height="90">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="300"/>
                                 <ColumnDefinition Width="*"/>

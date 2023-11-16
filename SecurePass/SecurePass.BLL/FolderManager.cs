@@ -49,7 +49,7 @@ namespace SecurePass.BLL
             using (var db = new SecurePassDbContext())
             {
                 var existingFolder = db.Folders.FirstOrDefault(f => f.UserId == currentUser.Id && f.Title == newFolderName);
-                if (existingFolder == null)
+                if (existingFolder == null || (existingFolder != null && existingFolder.Id == folderId))
                 {
                     var folderToUpdate = db.Folders.FirstOrDefault(f => f.Id == folderId);
 

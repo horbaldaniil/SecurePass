@@ -45,10 +45,6 @@ public partial class PasswordsPage : Page
         GetData(folderId);
     }
 
-    
-
-    
-
     public void GetData(int? folderId = null)
     {
         
@@ -134,7 +130,7 @@ public partial class PasswordsPage : Page
     }
 
     private void ShowSnackbar(string message)
-    {
+    {     
         Snackbar.MessageQueue.Enqueue(message);
     }
 

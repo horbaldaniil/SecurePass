@@ -95,7 +95,7 @@ namespace SecurePass.BLL
                 byte[] encryptedPassword = ProtectedData.Protect(passwordBytes, null, DataProtectionScope.CurrentUser);
 
                 existingPassword.Title = password.Title;
-                existingPassword.Email_Username = password.Email_Username;
+                existingPassword.Email_Username = string.IsNullOrWhiteSpace(password.Email_Username) ? null : password.Email_Username;
                 existingPassword.Password = Convert.ToBase64String(encryptedPassword);
                 existingPassword.LastUpdated = DateTime.UtcNow;
 
@@ -123,7 +123,7 @@ namespace SecurePass.BLL
                     Title = passwordTitle,
                     Password = Convert.ToBase64String(encryptedPassword),
                     UserId = currentUser.Id,
-                    Email_Username = emailOrUsername,
+                    Email_Username = string.IsNullOrWhiteSpace(emailOrUsername) ? null : emailOrUsername,
                     FolderId = folderId,
                     LastUpdated = DateTime.UtcNow,
                 };
