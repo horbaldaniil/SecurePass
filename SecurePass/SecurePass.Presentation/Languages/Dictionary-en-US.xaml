@@ -74,5 +74,11 @@
     <System:String x:Key="InvalidFormatPassword">Invalid password format</System:String>
     <System:String x:Key="NotFoundEmail">Email not found</System:String>
     <System:String x:Key="InUseEmail">Email already in use</System:String>
-    
+    <System:String x:Key="OpenItem">Open</System:String>
+    <System:String x:Key="CopyItem">Copy</System:String>
+    <System:String x:Key="ChangeItem">Change</System:String>
+    <System:String x:Key="ShowItem">Show</System:String>
+    <System:String x:Key="DeleteItem">Delete</System:String>
+    <System:String x:Key="RestoreItem">Restore</System:String>
+
 </ResourceDictionary>

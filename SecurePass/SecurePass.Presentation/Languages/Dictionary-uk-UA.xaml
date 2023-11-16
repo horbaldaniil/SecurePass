@@ -60,7 +60,7 @@
     <System:String x:Key="PasswordEmpty">Введіть пароль!</System:String>
     <System:String x:Key="NoFolder">Без папки</System:String>
 
-    <!-- Login Page -->
+    <!-- Login/SignUp Page -->
     <System:String x:Key="LoginTitle">Логін</System:String>
     <System:String x:Key="SignUpTitle">Реєстрація</System:String>
     <System:String x:Key="EmailTitle">Пошта</System:String>
@@ -74,5 +74,11 @@
     <System:String x:Key="InvalidFormatPassword">Недійсний формат пароля</System:String>
     <System:String x:Key="NotFoundEmail">Електронна пошта не знайдена</System:String>
     <System:String x:Key="InUseEmail">Електронна пошта вже використовується</System:String>
+    <System:String x:Key="OpenItem">Відкрити</System:String>
+    <System:String x:Key="CopyItem">Скопіювати</System:String>
+    <System:String x:Key="ChangeItem">Змінити</System:String>
+    <System:String x:Key="ShowItem">Показати</System:String>
+    <System:String x:Key="DeleteItem">Видалити</System:String>
+    <System:String x:Key="RestoreItem">Відновити</System:String>
 
 </ResourceDictionary>

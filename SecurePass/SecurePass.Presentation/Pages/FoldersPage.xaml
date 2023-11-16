@@ -164,13 +164,34 @@
 
                             <StackPanel Grid.Column="1" Style="{StaticResource CommandButtonPanel}">
                                 <Button x:Name="OpenButton" Style="{StaticResource CommandButton}" Click="OpenButton_Click">
-                                    <Image Source="../Images/folder_open.png"/>
+                                    <Image Style="{StaticResource CommandButtonImage}" Source="../Images/folder_open.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip Style="{StaticResource ToolTipStyle}" Content="{DynamicResource OpenItem}">
+                                            <ToolTip.Resources>
+                                                <Style TargetType="Border" BasedOn="{StaticResource ToolTipBorderStyle}"/>
+                                            </ToolTip.Resources>
+                                        </ToolTip>
+                                    </Button.ToolTip>
                                 </Button>
                                 <Button x:Name="ChangeButton" Style="{StaticResource CommandButton}" Click="ChangeButton_Click" >
-                                    <Image Source="../Images/edit.png"/>
+                                    <Image Style="{StaticResource CommandButtonImage}" Source="../Images/edit.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip Style="{StaticResource ToolTipStyle}" Content="{DynamicResource ChangeItem}">
+                                            <ToolTip.Resources>
+                                                <Style TargetType="Border" BasedOn="{StaticResource ToolTipBorderStyle}"/>
+                                            </ToolTip.Resources>
+                                        </ToolTip>
+                                    </Button.ToolTip>
                                 </Button>
                                 <Button x:Name="DeleteButton" Style="{StaticResource CommandButton}" Click="DeleteButton_Click">
-                                    <Image Source="../Images/delete.png"/>
+                                    <Image Style="{StaticResource CommandButtonImage}" Source="../Images/delete.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip Style="{StaticResource ToolTipStyle}" Content="{DynamicResource DeleteItem}">
+                                            <ToolTip.Resources>
+                                                <Style TargetType="Border" BasedOn="{StaticResource ToolTipBorderStyle}"/>
+                                            </ToolTip.Resources>
+                                        </ToolTip>
+                                    </Button.ToolTip>
                                 </Button>
                             </StackPanel>
                         </Grid>

@@ -6,10 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Navigation;
 
 namespace SecurePass.Presentation.Pages;
@@ -42,6 +45,9 @@ public partial class PasswordsPage : Page
         GetData(folderId);
     }
 
+    
+
+    
 
     public void GetData(int? folderId = null)
     {
@@ -52,7 +58,6 @@ public partial class PasswordsPage : Page
                 .Where(p => p.Deleted == false)
                 .OrderByDescending(p => p.LastUpdated)
                 .ToList();
-      
             passwordViewModels = new ObservableCollection<PasswordViewModel>(
             passwords.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
             );

@@ -18,7 +18,11 @@
             <!-- Basic styles -->
             <Style TargetType="Label" x:Key="BasicLabel">
                 <Setter Property="FontFamily" Value="OpenSans"/>
-                <Setter Property="IsEnabled" Value="True"/>
+            </Style>
+
+            <Style TargetType="Image" x:Key="BasicImage">
+                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
             </Style>
 
             <Style TargetType="Label" x:Key="ErrorLabel" BasedOn="{StaticResource BasicLabel}">
@@ -27,7 +31,7 @@
                 <Setter Property="Margin" Value="0,0,0,-15"/>
             </Style>
 
-            <Style TargetType="Image" x:Key="LangImage">
+            <Style TargetType="Image" x:Key="LangImage" BasedOn="{StaticResource BasicImage}">
                 <Setter Property="Width" Value="25"/>
                 <Setter Property="Canvas.Right" Value="-40"/>
                 <Setter Property="Canvas.Bottom" Value="20"/>
@@ -226,7 +230,7 @@
             <Style TargetType="Button" x:Key="AddNewButton">
                 <Setter Property="HorizontalAlignment" Value="Right"/>
                 <Setter Property="Width" Value="Auto"/>
-                <Setter Property="Padding" Value="10,0,10,0"/>
+                <Setter Property="Padding" Value="15,0,15,0"/>
                 <Setter Property="Cursor" Value="Hand"/>
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="#D9D9D9"/>
@@ -264,6 +268,16 @@
                 <Setter Property="MaxWidth" Value="250"/>
             </Style>
 
+            <Style TargetType="TextBlock" x:Key="ItemEmailUsername" BasedOn="{StaticResource ItemTitle}">
+                <Style.Triggers>
+                    <Trigger Property="Text" Value="">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                </Style.Triggers>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="Foreground" Value="Gray"/>
+            </Style>
+
             <Style TargetType="TextBlock" x:Key="ItemPassword" BasedOn="{StaticResource ItemElement}">
                 <Setter Property="Text" Value="************"/>
                 <Style.Triggers>
@@ -277,19 +291,20 @@
                 <Setter Property="Orientation" Value="Horizontal"/>
                 <Setter Property="HorizontalAlignment" Value="Right"/>
             </Style>
-
             <Style TargetType="Button" x:Key="CommandButton">
-                <Setter Property="Width" Value="30"/>
-                <Setter Property="Height" Value="30"/>
-                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Width" Value="35"/>
+                <Setter Property="Height" Value="35"/>
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Margin" Value="0,0,35,0"/>
+                <Setter Property="Margin" Value="0,0,20,0"/>
                 <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="ToolTipService.Placement" Value="Top"/>
+                <Setter Property="ToolTipService.VerticalOffset" Value="-3"/>
+                <Setter Property="ToolTipService.InitialShowDelay" Value="2"/>
 
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="20" BorderThickness="1" BorderBrush="Gray">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
@@ -303,12 +318,30 @@
                 </Setter>
             </Style>
 
+            <Style TargetType="Image" x:Key="CommandButtonImage" BasedOn="{StaticResource BasicImage}">
+                <Setter Property="Margin" Value="7"/>
+            </Style>
+
             <Style TargetType="materialDesign:Snackbar" x:Key="NotificationPanel">
                 <Setter Property="Panel.ZIndex" Value="1"/>
                 <Setter Property="Background" Value="#383c43"/>
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="Margin" Value="0,0,0,30"/>
                 <Setter Property="MinWidth" Value="150"/>
+            </Style>
+
+            <Style x:Key="ToolTipStyle" TargetType="ToolTip">
+                <Setter Property="Placement" Value="Top"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="Padding" Value="10,0,10,0"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="#444851"/>
+            </Style>
+
+            <Style x:Key="ToolTipBorderStyle" TargetType="Border">
+                <Setter Property="CornerRadius" Value="5"/>
             </Style>
 
         </ResourceDictionary>

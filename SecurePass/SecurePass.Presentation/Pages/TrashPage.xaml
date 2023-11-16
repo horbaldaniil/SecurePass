@@ -17,7 +17,7 @@
             <Setter Property="Foreground" Value="#444444"/>
         </Style>
 
-        <Style TargetType="Image" x:Key="TrashImage">
+        <Style TargetType="Image" x:Key="TrashImage" BasedOn="{StaticResource BasicImage}">
             <Setter Property="Height" Value="90"/>
         </Style>
 
@@ -70,19 +70,48 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Style="{StaticResource ItemTitle}" Text="{Binding Password.Title}"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="2*"/>
+                            </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Column="1" Style="{StaticResource ItemPassword}"/>
+                            <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" x:Name="ItemEmailUsername">
+                                <TextBlock Style="{StaticResource ItemTitle}" Text="{Binding Password.Title}"/>
+                                <TextBlock Style="{StaticResource ItemEmailUsername}" Text="{Binding Password.Email_Username}"/>
+                            </StackPanel>
 
-                            <StackPanel Grid.Column="2" Style="{StaticResource CommandButtonPanel}">
+                            <TextBlock Grid.RowSpan="2" Grid.Column="1" Style="{StaticResource ItemPassword}"/>
+
+                            <StackPanel Grid.RowSpan="2" Grid.Column="2" Style="{StaticResource CommandButtonPanel}">
                                 <Button x:Name="ShowButton" Style="{StaticResource CommandButton}" Click="ShowButton_Click">
-                                    <Image Source="../Images/show.png"/>
+                                    <Image Style="{StaticResource CommandButtonImage}" Source="../Images/show.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip Style="{StaticResource ToolTipStyle}" Content="{DynamicResource ShowItem}">
+                                            <ToolTip.Resources>
+                                                <Style TargetType="Border" BasedOn="{StaticResource ToolTipBorderStyle}"/>
+                                            </ToolTip.Resources>
+                                        </ToolTip>
+                                    </Button.ToolTip>
                                 </Button>
                                 <Button x:Name="RestoreButton" Style="{StaticResource CommandButton}" Click="RestoreButton_Click">
-                                    <Image Source="../Images/restore.png"/>
+                                    <Image Style="{StaticResource CommandButtonImage}" Source="../Images/restore.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip Style="{StaticResource ToolTipStyle}" Content="{DynamicResource RestoreItem}">
+                                            <ToolTip.Resources>
+                                                <Style TargetType="Border" BasedOn="{StaticResource ToolTipBorderStyle}"/>
+                                            </ToolTip.Resources>
+                                        </ToolTip>
+                                    </Button.ToolTip>
                                 </Button>
                                 <Button x:Name="DeleteButton" Style="{StaticResource CommandButton}" Click="DeleteButton_Click">
-                                    <Image Source="../Images/delete.png"/>
+                                    <Image Style="{StaticResource CommandButtonImage}" Source="../Images/delete.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip Style="{StaticResource ToolTipStyle}" Content="{DynamicResource DeleteItem}">
+                                            <ToolTip.Resources>
+                                                <Style TargetType="Border" BasedOn="{StaticResource ToolTipBorderStyle}"/>
+                                            </ToolTip.Resources>
+                                        </ToolTip>
+                                    </Button.ToolTip>
                                 </Button>
                             </StackPanel>
                         </Grid>
