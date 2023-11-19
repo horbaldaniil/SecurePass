@@ -17,6 +17,7 @@
     <System:String x:Key="MenuOptionPasswords">Passwords</System:String>
     <System:String x:Key="MenuOptionFolders">Folders</System:String>
     <System:String x:Key="MenuOptionTrash">Trash</System:String>
+    <System:String x:Key="PasswordScannerStr">Password Scanner</System:String>
     
     <!-- Passwords Page -->
     <System:String x:Key="PasswordsPageTitle">All Passwords</System:String>
@@ -80,5 +81,14 @@
     <System:String x:Key="ShowItem">Show</System:String>
     <System:String x:Key="DeleteItem">Delete</System:String>
     <System:String x:Key="RestoreItem">Restore</System:String>
+
+    <!-- PasswordScanner Page -->
+    <System:String x:Key="WeakPasswordsStr">Weak Passwords</System:String>
+    <System:String x:Key="WeakPasswordsSubTitleStr">Makes your acccounts easy-to-hack</System:String>
+    <System:String x:Key="ReusedPasswordsStr">Reused Passwords</System:String>
+    <System:String x:Key="ReusedPasswordsSubTitleStr">Used for multiple accounts</System:String>
+    <System:String x:Key="OldPasswordsStr">Old Passwords</System:String>
+    <System:String x:Key="OldPasswordsSubTitleStr">Over 90 days old</System:String>
+    <System:String x:Key="AccountsStr">accounts</System:String>
 
 </ResourceDictionary>

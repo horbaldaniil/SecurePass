@@ -34,6 +34,7 @@ namespace SecurePass.Presentation
             FoldersMenuLabel.Style = (Style)FindResource("MenuLabel");
             PasswordsMenuLabel.Style = (Style)FindResource("MenuLabel");
             TrashMenuLabel.Style = (Style)FindResource("MenuLabel");
+            PasswordScannerPanel.Style = (Style)FindResource("PasswordScannerPanelStyle");
         }
 
 
@@ -123,6 +124,14 @@ namespace SecurePass.Presentation
                 default:
                     break;
             }
+        }
+
+        private void PasswordScanner_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            SwitchMenuStyle();
+            PasswordScannerPanel.Style = (Style)FindResource("PasswordScannerPanelActiveStyle");
+
+            Main.Navigate(new PasswordScannerPage());
         }
     }
 }

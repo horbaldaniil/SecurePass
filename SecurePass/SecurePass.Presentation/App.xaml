@@ -101,6 +101,39 @@
                 </Style.Triggers>
             </Style>
 
+            <Style TargetType="Label" x:Key="PasswordScannerStyle">
+                <Setter Property="Foreground" Value="#444444"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="Padding" Value="15,15,0,15"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+            </Style>
+
+            <Style TargetType="StackPanel" x:Key="PasswordScannerPanelStyle">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#D9E5EF"/>
+                    </Trigger>
+                </Style.Triggers>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Orientation" Value="Horizontal"/>
+            </Style>
+
+            <Style TargetType="StackPanel" x:Key="PasswordScannerPanelActiveStyle" BasedOn="{StaticResource PasswordScannerPanelStyle}">
+                <Setter Property="Background" Value="White"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#F9F9F9"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="Image" x:Key="PasswordScannerImageStyle" BasedOn="{StaticResource BasicImage}">
+                <Setter Property="Margin" Value="20,15,0,15"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Height" Value="25"/>
+            </Style>
+
             <Style TargetType="Label" x:Key="ActiveMenu" BasedOn="{StaticResource MenuLabel}">
                 <Setter Property="Background" Value="White"/>
                 <Style.Triggers>
@@ -121,6 +154,8 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+
+           
 
             <Style TargetType="Border" x:Key="UserMenuIcon" BasedOn="{StaticResource MenuIcon}">
                 <Setter Property="Margin" Value="-45,0,0,0"/>
@@ -387,6 +422,20 @@
 
             <Style x:Key="ToolTipBorderStyle" TargetType="Border">
                 <Setter Property="CornerRadius" Value="5"/>
+            </Style>
+
+
+            <Style TargetType="Border" x:Key="PasswordScannerList">
+                <Setter Property="Background" Value="#f0f2f4"/>
+                <Setter Property="Padding" Value="30,60,30,0"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="PasswordScannerTitleStyle" BasedOn="{StaticResource BasicLabel}">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="#444444"/>
+                <Setter Property="Margin" Value="0,30,0,30"/>
             </Style>
 
         </ResourceDictionary>

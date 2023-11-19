@@ -12,7 +12,7 @@
         WindowStyle="SingleBorderWindow">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0" UseAeroCaptionButtons="False" ResizeBorderThickness="0"/>
-    </WindowChrome.WindowChrome>
+    </WindowChrome.WindowChrome> 
     <Window.Resources>
         <Style TargetType="Label" x:Key="SecurePassLoginTitle" BasedOn="{StaticResource BasicLabel}">
             <Setter Property="FontSize" Value="32"/>

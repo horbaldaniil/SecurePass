@@ -8,8 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\clock.png" />
     <None Remove="Images\copy.png" />
     <None Remove="Images\delete.png" />
+    <None Remove="Images\duplicate.png" />
     <None Remove="Images\edit.png" />
     <None Remove="Images\en-US.png" />
     <None Remove="Images\folder.png" />
@@ -17,11 +19,13 @@
     <None Remove="Images\plus.png" />
     <None Remove="Images\reload.png" />
     <None Remove="Images\restore.png" />
+    <None Remove="Images\scanning.png" />
     <None Remove="Images\settings.png" />
     <None Remove="Images\show.png" />
     <None Remove="Images\trash.png" />
     <None Remove="Images\uk-UA.png" />
     <None Remove="Images\user.png" />
+    <None Remove="Images\weak.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,10 +40,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\clock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\copy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\delete.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\duplicate.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\edit.png">
@@ -63,6 +73,9 @@
     <Resource Include="Images\restore.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\scanning.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\settings.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -76,6 +89,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\user.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\weak.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

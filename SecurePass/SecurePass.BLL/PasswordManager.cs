@@ -11,6 +11,13 @@ namespace SecurePass.BLL
     {
         private readonly UserModel currentUser;
 
+        public enum PasswordCategory
+        {
+            Weak,
+            Reused,
+            Old,
+        }
+
         public PasswordManager(UserModel currentUser)
         {
             this.currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
@@ -22,14 +29,11 @@ namespace SecurePass.BLL
             {
                 var encryptedPasswords = db.Passwords.Where(f => f.UserId == currentUser.Id).ToList();
 
-                // Розшифрування кожного пароля
                 var decryptedPasswords = new List<PasswordModel>();
                 foreach (var encryptedPassword in encryptedPasswords)
                 {
-                    // Перетворення рядка у масив байтів
                     byte[] encryptedPasswordBytes = Convert.FromBase64String(encryptedPassword.Password);
 
-                    // Розшифрування
                     byte[] decryptedPasswordBytes = ProtectedData.Unprotect(encryptedPasswordBytes, null, DataProtectionScope.CurrentUser);
                     string decryptedPassword = Encoding.UTF8.GetString(decryptedPasswordBytes);
 
@@ -50,8 +54,81 @@ namespace SecurePass.BLL
 
                 return decryptedPasswords;
             }
-        
         }
+
+        public List<PasswordModel> GetWeakPasswords()
+        {
+            List<PasswordModel> passwords = GetPasswords();
+            List<PasswordModel> weakPasswords = new List<PasswordModel>();
+
+            foreach (var password in passwords)
+            {
+                if (!IsStrongPassword(password) && !password.Deleted)
+                {
+                    weakPasswords.Add(password);
+                }
+            }
+
+            return weakPasswords;
+        }
+
+        public List<PasswordModel> GetDuplicatePasswords()
+        {
+            List<PasswordModel> passwords = GetPasswords();
+
+            var duplicatePasswords = passwords
+                .Where(p => !p.Deleted)
+                .GroupBy(p => p.Password)
+                .Where(g => g.Count() > 1)
+                .SelectMany(g => g)
+                .ToList();
+
+            return duplicatePasswords;
+        }
+
+        public List<PasswordModel> GetOldPasswords()
+        {
+            List<PasswordModel> passwords = GetPasswords();
+
+            var oldPasswords = passwords
+                .Where(p => (DateTime.UtcNow - p.LastUpdated).TotalDays > 90)
+                .ToList();
+
+            return oldPasswords;
+        }
+
+        public static bool IsStrongPassword(PasswordModel password)
+        {
+            if (password.Password.Length < 8)
+            {
+                return false;
+            }
+
+            if (!password.Password.Any(char.IsUpper))
+            {
+                return false;
+            }
+
+            if (!password.Password.Any(char.IsLower))
+            {
+                return false;
+            }
+
+            if (!password.Password.Any(char.IsDigit))
+            {
+                return false;
+            }
+
+            string specialCharacters = @"!@#$%^&*()-_=+[]{}|;:'<>,.?/";
+            if (!password.Password.Any(c => specialCharacters.Contains(c)))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
 
         public void SendPasswordToTrash(PasswordModel password)
         {

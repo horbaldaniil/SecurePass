@@ -17,6 +17,7 @@
     <System:String x:Key="MenuOptionPasswords">Паролі</System:String>
     <System:String x:Key="MenuOptionFolders">Папки</System:String>
     <System:String x:Key="MenuOptionTrash">Смітник</System:String>
+    <System:String x:Key="PasswordScannerStr">Сканер паролів</System:String>
 
     <!-- Passwords Page -->
     <System:String x:Key="PasswordsPageTitle">Всі паролі</System:String>
@@ -80,5 +81,14 @@
     <System:String x:Key="ShowItem">Показати</System:String>
     <System:String x:Key="DeleteItem">Видалити</System:String>
     <System:String x:Key="RestoreItem">Відновити</System:String>
+    
+    <!-- PasswordScanner Page -->
+    <System:String x:Key="WeakPasswordsStr">Слабкі паролі</System:String>
+    <System:String x:Key="WeakPasswordsSubTitleStr">Робить ваші акаунти легкодоступними для злому</System:String>
+    <System:String x:Key="ReusedPasswordsStr">Повторювані паролі</System:String>
+    <System:String x:Key="ReusedPasswordsSubTitleStr">Використовується для кількох акаунтів</System:String>
+    <System:String x:Key="OldPasswordsStr">Старі паролі</System:String>
+    <System:String x:Key="OldPasswordsSubTitleStr">Старше 90 днів</System:String>
+    <System:String x:Key="AccountsStr">аккаунти</System:String>
 
 </ResourceDictionary>
