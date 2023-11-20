@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SecurePass.BLL;
-using SecurePass.DAL.Model;
+﻿using SecurePass.BLL;
 using System;
 using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,6 +16,7 @@ namespace SecurePass.Presentation
     public partial class LogInWindow : Window
     {
         private LoginLogic loginLogic;
+        private bool loading;
 
         public LogInWindow()
         {
@@ -65,36 +65,40 @@ namespace SecurePass.Presentation
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            LoginButton.IsEnabled = false;
-
-            try
+            if (!loading)
             {
-                ValidErrorLabel.Content = "";
-                EmailErrorLabel.Content = "";
-
-                string email = EmailTextBox.Text;
-                string password = PasswordTextBox.Text;
-
-                if (!loginLogic.IsValidEmail(email))
+                loading = true;
+                LoginButton.Style = (Style)FindResource("LoginButtonLoaded");
+                try
                 {
-                    EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
-                    return;
-                }
+                    ValidErrorLabel.Content = "";
+                    EmailErrorLabel.Content = "";
 
-                var loginResult = await loginLogic.VerifyUser(email, password);
+                    string email = EmailTextBox.Text;
+                    string password = PasswordTextBox.Text;
 
-                if (loginResult != null)
-                {
-                    ValidErrorLabel.SetResourceReference(ContentProperty, loginResult);
+                    if (!loginLogic.IsValidEmail(email))
+                    {
+                        EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
+                        return;
+                    }
+
+                    var loginResult = await loginLogic.VerifyUser(email, password);
+
+                    if (loginResult != null)
+                    {
+                        ValidErrorLabel.SetResourceReference(ContentProperty, loginResult);
+                    }
+                    else
+                    {
+                        var window = new MainWindow();
+                        window.Show();
+                        Close();
+                    }
                 }
-                else
-                {
-                    MainWindow window = new MainWindow();
-                    window.Show();
-                    Close();
-                }
+                finally { LoginButton.Style = (Style)FindResource("LoginButton"); loading = false; }
             }
-            finally { LoginButton.IsEnabled = true; }
+            
         }
 
         private void SignUpLabel_Click(object sender, RoutedEventArgs e)

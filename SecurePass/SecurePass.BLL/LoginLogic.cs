@@ -30,27 +30,30 @@ public class LoginLogic
 
     public async Task<string?> VerifyUser(string email, string password)
     {
-        using (var db = new SecurePassDbContext())
+        return await Task.Run(async () =>
         {
-            var user = await db.Users.SingleOrDefaultAsync(u => u.Email == email);
-
-            if (user != null)
+            using (var db = new SecurePassDbContext())
             {
-                if (await VerifyPasswordAsync(password, user.Password))
+                var user = await db.Users.SingleOrDefaultAsync(u => u.Email == email).ConfigureAwait(false);
+
+                if (user != null)
                 {
-                    CurrentUserManager.SetCurrentUser(user);
+                    if (await VerifyPasswordAsync(password, user.Password).ConfigureAwait(false))
+                    {
+                        CurrentUserManager.SetCurrentUser(user);
+                    }
+                    else
+                    {
+                        return "NotValidData";
+                    }
                 }
                 else
                 {
                     return "NotValidData";
                 }
-            }
-            else
-            {
-                return "NotValidData";
-            }
 
-            return null;
-        }
+                return null;
+            }
+        }).ConfigureAwait(false);
     }
 }
