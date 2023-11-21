@@ -32,26 +32,29 @@ public class SignUpLogic
         return hashedPassword;
     }
 
-    public async Task<string> UserRegistration(string email, string password)
+    public async Task<string?> UserRegistration(string email, string password)
     {
-        using (var db = new SecurePassDbContext())
+        return await Task.Run(async () =>
         {
-            if (await db.Users.AnyAsync(u => u.Email == email))
+            using (var db = new SecurePassDbContext())
             {
-                return "InUseEmail";
+                if (await db.Users.AnyAsync(u => u.Email == email).ConfigureAwait(false))
+                {
+                    return "InUseEmail";
+                }
+
+                string hashedPassword = HashPassword(password);
+
+                var newUser = new UserModel
+                {
+                    Email = email,
+                    Password = hashedPassword
+                };
+
+                await db.Users.AddAsync(newUser).ConfigureAwait(false);
+                await db.SaveChangesAsync().ConfigureAwait(false);
             }
-
-            string hashedPassword = HashPassword(password);
-
-            var newUser = new UserModel
-            {
-                Email = email,
-                Password = hashedPassword
-            };
-
-            await db.Users.AddAsync(newUser);
-            await db.SaveChangesAsync();
-        }
-        return null;
+            return null;
+        }).ConfigureAwait(false);
     }
 }
