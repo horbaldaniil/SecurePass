@@ -342,6 +342,31 @@
                 <Setter Property="FontSize" Value="24"/>
             </Style>
 
+            <Style TargetType="Grid" x:Key="ListItemGrid">
+                <Setter Property="Height" Value="90"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="Grid.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation 
+                                    Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" 
+                                    To="#F9F9F9" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Grid.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation 
+                                    Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" 
+                                    To="Transparent" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+
             <Style TargetType="TextBlock" x:Key="ItemTitle" BasedOn="{StaticResource ItemElement}">
                 <Setter Property="MaxWidth" Value="250"/>
             </Style>
@@ -374,12 +399,15 @@
             <Style TargetType="Button" x:Key="CommandButton">
                 <Setter Property="Width" Value="35"/>
                 <Setter Property="Height" Value="35"/>
-                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Background" Value="White"/>
+                
                 <Setter Property="Margin" Value="0,0,20,0"/>
                 <Setter Property="Cursor" Value="Hand"/>
                 <Setter Property="ToolTipService.Placement" Value="Top"/>
                 <Setter Property="ToolTipService.VerticalOffset" Value="-3"/>
                 <Setter Property="ToolTipService.InitialShowDelay" Value="2"/>
+                
+                
 
                 <Setter Property="Template">
                     <Setter.Value>
@@ -396,6 +424,12 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}" Value="MouseOver">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
             </Style>
 
             <Style TargetType="Image" x:Key="CommandButtonImage" BasedOn="{StaticResource BasicImage}">

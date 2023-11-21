@@ -65,7 +65,7 @@
         </Border>
 
 
-        <Border Background="#E1ECF6" CornerRadius="0,10,10,0">
+        <Border Background="#E1ECF6">
             <Grid Margin="0,0,0,15">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -107,5 +107,6 @@
             </Grid>
         </Border>
         <Frame Grid.Column="1" x:Name="Main" NavigationUIVisibility="Hidden"/>
+
     </Grid>
 </Window>

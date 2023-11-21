@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\arrow.png" />
     <None Remove="Images\clock.png" />
     <None Remove="Images\copy.png" />
     <None Remove="Images\delete.png" />
@@ -40,6 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\clock.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

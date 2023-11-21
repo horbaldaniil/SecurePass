@@ -149,14 +149,23 @@
                                     <Border x:Name="RootBorder" Style="{StaticResource PageHorizontalLine}" Margin="0,0,60,0">
                                         <ContentPresenter/>
                                     </Border>
+
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Tag" Value="MouseOver"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Tag" Value="MouseNotOver"/>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate >
-                        <Grid Height="90">
+                        <Grid Style="{StaticResource ListItemGrid}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="400"/>
                                 <ColumnDefinition Width="*"/>

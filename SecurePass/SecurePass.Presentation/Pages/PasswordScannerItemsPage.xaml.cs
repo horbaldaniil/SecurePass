@@ -92,5 +92,9 @@ namespace SecurePass.Presentation.Pages
             GetData();
         }
 
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
+        }
     }
 }
