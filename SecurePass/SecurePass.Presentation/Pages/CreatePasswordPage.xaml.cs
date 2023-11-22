@@ -3,12 +3,9 @@ using SecurePass.DAL.Model;
 using SecurePass.Presentation.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace SecurePass.Presentation.Pages;
 
@@ -20,13 +17,11 @@ public partial class CreatePasswordPage : Page
     public event EventHandler OnPasswordCreated;
     private readonly PasswordManager passwordManager;
     private readonly FolderManager folderManager;
-
-    private bool test = false;
     public CreatePasswordPage()
     {
         InitializeComponent();
         this.Loaded += CreatePasswordPage_Loaded;
-
+        
         UserModel currentUser = CurrentUserManager.CurrentUser;
         passwordManager = new PasswordManager(currentUser);
         folderManager = new FolderManager(currentUser);

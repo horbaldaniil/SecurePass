@@ -1,14 +1,9 @@
 ﻿using SecurePass.BLL;
 using SecurePass.DAL.Model;
-using SecurePass.Presentation.ViewModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SecurePass.Presentation.Pages;
 

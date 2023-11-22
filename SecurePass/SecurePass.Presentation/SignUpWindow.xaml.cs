@@ -1,13 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SecurePass.BLL;
-using SecurePass.DAL.Model;
+﻿using SecurePass.BLL;
 using System;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace SecurePass.Presentation
@@ -17,12 +14,10 @@ namespace SecurePass.Presentation
     /// </summary>
     public partial class SignUpWindow : Window
     {
-        private SignUpLogic signUpLogic;
         public SignUpWindow()
         {
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
-            signUpLogic = new SignUpLogic();
         }
 
         private void Lang_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -67,19 +62,19 @@ namespace SecurePass.Presentation
             string email = EmailTextBox.Text;
             string password = PasswordTextBox.Text;
 
-            if (!signUpLogic.IsValidEmail(email))
+            if (!SignUpLogic.IsValidEmail(email))
             {
                 EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
                 return;
             }
 
-            if (!signUpLogic.IsValidPassword(password))
+            if (!SignUpLogic.IsValidPassword(password))
             {
                 PasswordErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatPassword");
                 return;
             }
 
-            var signUpResult = await signUpLogic.UserRegistration(email, password);
+            var signUpResult = await SignUpLogic.UserRegistration(email, password);
 
             if (signUpResult != null)
             {

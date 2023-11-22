@@ -9,13 +9,13 @@ namespace SecurePass.BLL;
 public class LoginLogic
 {
 
-    public bool IsValidEmail(string email)
+    public static bool IsValidEmail(string email)
     {
         string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
         return Regex.IsMatch(email, pattern);
     }
 
-    public async Task<bool> VerifyPasswordAsync(string enteredPassword, string storedHashedPassword)
+    public static bool VerifyPassword(string enteredPassword, string storedHashedPassword)
     {
         try
         {
@@ -28,7 +28,7 @@ public class LoginLogic
         }
     }
 
-    public async Task<string?> VerifyUser(string email, string password)
+    public static async Task<string?> VerifyUser(string email, string password)
     {
         return await Task.Run(async () =>
         {
@@ -38,7 +38,7 @@ public class LoginLogic
 
                 if (user != null)
                 {
-                    if (await VerifyPasswordAsync(password, user.Password).ConfigureAwait(false))
+                    if (VerifyPassword(password, user.Password))
                     {
                         CurrentUserManager.SetCurrentUser(user);
                     }

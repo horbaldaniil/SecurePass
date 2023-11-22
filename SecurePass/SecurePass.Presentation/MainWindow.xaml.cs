@@ -3,7 +3,6 @@ using SecurePass.DAL.Model;
 using SecurePass.Presentation.Pages;
 using System;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,18 +15,14 @@ namespace SecurePass.Presentation
     /// </summary>
     public partial class MainWindow : Window
     {
-        private UserModel currentUser = CurrentUserManager.CurrentUser;
+        private readonly UserModel? currentUser = CurrentUserManager.CurrentUser;
         public MainWindow()
         {
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
             Main.Navigate(new PasswordsPage());
 
-            using (var db = new SecurePassDbContext())
-            {
-                var User = db.Users.FirstOrDefault(u => u.Id == currentUser.Id);
-                UserEmail.Text = User.Email; 
-            }
+            UserEmail.Text = currentUser?.Email;
         }
         private void SwitchMenuStyle()
         {
@@ -86,6 +81,8 @@ namespace SecurePass.Presentation
 
         private void LogOut_Click(object sender, RoutedEventArgs e)
         {
+            CurrentUserManager.ClearCurrentUser();
+
             LogInWindow logInWindow = new LogInWindow();
             logInWindow.Show();
             Close();

@@ -3,16 +3,10 @@ using SecurePass.BLL;
 using SecurePass.DAL.Model;
 using SecurePass.Presentation.ViewModel;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Navigation;
 
 namespace SecurePass.Presentation.Pages;
@@ -26,6 +20,7 @@ public partial class PasswordsPage : Page
     private ObservableCollection<PasswordViewModel> passwordViewModels;
     private SnackbarMessageQueue snackbarMessageQueue = new SnackbarMessageQueue();
     private readonly PasswordManager passwordManager;
+    private int? FolderId;
 
     public PasswordsPage()
     {
@@ -38,10 +33,10 @@ public partial class PasswordsPage : Page
     public PasswordsPage(int folderId, string folderTitle)
     {
         InitializeComponent();
-        AddPasswordButton.Visibility = Visibility.Collapsed;
         PasswordsPageLabel.Content = $"📁 {folderTitle}";
         Snackbar.MessageQueue = snackbarMessageQueue;
         passwordManager = new PasswordManager(currentUser);
+        this.FolderId = folderId;
         GetData(folderId);
     }
 
@@ -81,7 +76,14 @@ public partial class PasswordsPage : Page
         if (navigationService != null)
         {
             var CreatePasswordPage = new CreatePasswordPage();
-            CreatePasswordPage.OnPasswordCreated += PasswordCreatedHandler;
+            if (FolderId == null)
+            {
+                CreatePasswordPage.OnPasswordCreated += PasswordCreatedHandler;
+            }
+            else
+            {
+                CreatePasswordPage.OnPasswordCreated += PasswordCreatedFolderHandler;
+            }
             navigationService.Navigate(CreatePasswordPage);
         }
     }
@@ -89,6 +91,7 @@ public partial class PasswordsPage : Page
     {
         GetData();
     }
+
 
     private void TrashButton_Click(object sender, RoutedEventArgs e)
     {
@@ -147,10 +150,22 @@ public partial class PasswordsPage : Page
                 DataContext = passwordViewModel, 
             };
 
-            createPasswordPage.OnPasswordCreated += PasswordCreatedHandler;
+            if (FolderId == null)
+            {
+                createPasswordPage.OnPasswordCreated += PasswordCreatedHandler;
+            }
+            else
+            {
+                createPasswordPage.OnPasswordCreated += PasswordCreatedFolderHandler;
+            }
+            
 
             NavigationService.Navigate(createPasswordPage);
         }
     }
 
+    private void PasswordCreatedFolderHandler(object? sender, EventArgs e)
+    {
+        GetData(FolderId);
+    }
 }

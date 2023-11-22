@@ -2,7 +2,6 @@
 using System;
 using System.Globalization;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,14 +14,12 @@ namespace SecurePass.Presentation
     /// </summary>
     public partial class LogInWindow : Window
     {
-        private LoginLogic loginLogic;
         private bool loading;
 
         public LogInWindow()
         {
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
-            loginLogic = new LoginLogic();
 
             EmailTextBox.Text = "gorbaldaniil@gmail.com";
             PasswordTextBox.Text = "Gorbal1234!";
@@ -77,13 +74,13 @@ namespace SecurePass.Presentation
                     string email = EmailTextBox.Text;
                     string password = PasswordTextBox.Text;
 
-                    if (!loginLogic.IsValidEmail(email))
+                    if (!LoginLogic.IsValidEmail(email))
                     {
                         EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
                         return;
                     }
 
-                    var loginResult = await loginLogic.VerifyUser(email, password);
+                    var loginResult = await LoginLogic.VerifyUser(email, password);
 
                     if (loginResult != null)
                     {
