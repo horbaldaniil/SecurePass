@@ -1,19 +1,29 @@
-﻿using SecurePass.DAL.Model;
+﻿// <copyright file="CurrentUserManager.cs" company="SecurePass">
+// Copyright (c) SecurePass. All rights reserved.
+// </copyright>
 
-namespace SecurePass.BLL;
-
-public class CurrentUserManager
+namespace SecurePass.BLL
 {
-    public static UserModel? CurrentUser { get; private set; }
+    using SecurePass.DAL.Model;
 
-    public static void SetCurrentUser(UserModel user)
+    /// <summary>
+    /// The <c>CurrentUserManager</c> class provides a centralized and static management
+    /// of the currently logged-in user within the application.
+    /// </summary>
+    public class CurrentUserManager
     {
-        CurrentUser = user;
-    }
+        /// <summary>
+        /// Gets or represents the currently logged-in user.
+        /// </summary>
+        public static UserModel CurrentUser { get; private set; }
 
-    public static void ClearCurrentUser()
-    {
-        CurrentUser = null;
+        /// <summary>
+        /// Sets the currently logged-in user.
+        /// </summary>
+        /// <param name="user">The user to set as the current user.</param>
+        public static void SetCurrentUser(UserModel user)
+        {
+            CurrentUser = user;
+        }
     }
-
 }

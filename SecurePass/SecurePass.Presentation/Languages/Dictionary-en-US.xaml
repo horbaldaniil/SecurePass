@@ -17,10 +17,13 @@
     <System:String x:Key="MenuOptionPasswords">Passwords</System:String>
     <System:String x:Key="MenuOptionFolders">Folders</System:String>
     <System:String x:Key="MenuOptionTrash">Trash</System:String>
+    <System:String x:Key="PasswordScannerStr">Password Scanner</System:String>
     
     <!-- Passwords Page -->
     <System:String x:Key="PasswordsPageTitle">All Passwords</System:String>
     <System:String x:Key="AddPasswordButton">Add password</System:String>
+    <System:String x:Key="PasswordToTrash">Password moved to trash</System:String>
+    <System:String x:Key="PasswordCopied">Password copied</System:String>
     
     <!-- Folders Page -->
     <System:String x:Key="FoldersPageTitle">Folders</System:String>
@@ -34,6 +37,7 @@
     <!-- Trash Page -->
     <System:String x:Key="TrashPageTitle">Trash</System:String>
     <System:String x:Key="TrashPageEmptyTitle">Trash is empty</System:String>
+    <System:String x:Key="EmptyTrash">Empty trash</System:String>
 
     <!-- CreatePassword Page -->
     <System:String x:Key="CreatePasswordPageTitle">New Password</System:String>
@@ -53,6 +57,9 @@
     <System:String x:Key="SymbolsStr">Use symbols (!@#$%^*)</System:String>
     <System:String x:Key="FillPasswordStr">Fill password</System:String>
     <System:String x:Key="ChangePassword">Change Password</System:String>
+    <System:String x:Key="PasswordTitleEmpty">Please enter title!</System:String>
+    <System:String x:Key="PasswordEmpty">Please enter password!</System:String>
+    <System:String x:Key="NoFolder">No folder</System:String>
 
     <!-- Login/SignUp Page -->
     <System:String x:Key="LoginTitle">Login</System:String>
@@ -68,5 +75,20 @@
     <System:String x:Key="InvalidFormatPassword">Invalid password format</System:String>
     <System:String x:Key="NotFoundEmail">Email not found</System:String>
     <System:String x:Key="InUseEmail">Email already in use</System:String>
-    
+    <System:String x:Key="OpenItem">Open</System:String>
+    <System:String x:Key="CopyItem">Copy</System:String>
+    <System:String x:Key="ChangeItem">Change</System:String>
+    <System:String x:Key="ShowItem">Show</System:String>
+    <System:String x:Key="DeleteItem">Delete</System:String>
+    <System:String x:Key="RestoreItem">Restore</System:String>
+
+    <!-- PasswordScanner Page -->
+    <System:String x:Key="WeakPasswordsStr">Weak Passwords</System:String>
+    <System:String x:Key="WeakPasswordsSubTitleStr">Makes your acccounts easy-to-hack</System:String>
+    <System:String x:Key="ReusedPasswordsStr">Reused Passwords</System:String>
+    <System:String x:Key="ReusedPasswordsSubTitleStr">Used for multiple accounts</System:String>
+    <System:String x:Key="OldPasswordsStr">Old Passwords</System:String>
+    <System:String x:Key="OldPasswordsSubTitleStr">Over 90 days old</System:String>
+    <System:String x:Key="AccountsStr">accounts</System:String>
+
 </ResourceDictionary>

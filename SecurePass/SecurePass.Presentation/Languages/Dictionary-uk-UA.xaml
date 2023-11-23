@@ -17,10 +17,13 @@
     <System:String x:Key="MenuOptionPasswords">Паролі</System:String>
     <System:String x:Key="MenuOptionFolders">Папки</System:String>
     <System:String x:Key="MenuOptionTrash">Смітник</System:String>
+    <System:String x:Key="PasswordScannerStr">Сканер паролів</System:String>
 
     <!-- Passwords Page -->
     <System:String x:Key="PasswordsPageTitle">Всі паролі</System:String>
     <System:String x:Key="AddPasswordButton">Додати пароль</System:String>
+    <System:String x:Key="PasswordToTrash">Пароль переміщено в смітник</System:String>
+    <System:String x:Key="PasswordCopied">Пароль скопійовано</System:String>
 
     <!-- Folders Page -->
     <System:String x:Key="FoldersPageTitle">Папки</System:String>
@@ -34,6 +37,7 @@
     <!-- Trash Page -->
     <System:String x:Key="TrashPageTitle">Смітник</System:String>
     <System:String x:Key="TrashPageEmptyTitle">Смітник пустий</System:String>
+    <System:String x:Key="EmptyTrash">Очистити смітник</System:String>
 
     <!-- CreatePassword Page -->
     <System:String x:Key="CreatePasswordPageTitle">Новий пароль</System:String>
@@ -53,8 +57,11 @@
     <System:String x:Key="SymbolsStr">Символи (!@#$%^*)</System:String>
     <System:String x:Key="FillPasswordStr">Використати</System:String>
     <System:String x:Key="ChangePassword">Змінити пароль</System:String>
+    <System:String x:Key="PasswordTitleEmpty">Введіть назву!</System:String>
+    <System:String x:Key="PasswordEmpty">Введіть пароль!</System:String>
+    <System:String x:Key="NoFolder">Без папки</System:String>
 
-    <!-- Login Page -->
+    <!-- Login/SignUp Page -->
     <System:String x:Key="LoginTitle">Логін</System:String>
     <System:String x:Key="SignUpTitle">Реєстрація</System:String>
     <System:String x:Key="EmailTitle">Пошта</System:String>
@@ -68,5 +75,20 @@
     <System:String x:Key="InvalidFormatPassword">Недійсний формат пароля</System:String>
     <System:String x:Key="NotFoundEmail">Електронна пошта не знайдена</System:String>
     <System:String x:Key="InUseEmail">Електронна пошта вже використовується</System:String>
+    <System:String x:Key="OpenItem">Відкрити</System:String>
+    <System:String x:Key="CopyItem">Скопіювати</System:String>
+    <System:String x:Key="ChangeItem">Змінити</System:String>
+    <System:String x:Key="ShowItem">Показати</System:String>
+    <System:String x:Key="DeleteItem">Видалити</System:String>
+    <System:String x:Key="RestoreItem">Відновити</System:String>
+    
+    <!-- PasswordScanner Page -->
+    <System:String x:Key="WeakPasswordsStr">Слабкі паролі</System:String>
+    <System:String x:Key="WeakPasswordsSubTitleStr">Робить ваші акаунти легкодоступними для злому</System:String>
+    <System:String x:Key="ReusedPasswordsStr">Повторювані паролі</System:String>
+    <System:String x:Key="ReusedPasswordsSubTitleStr">Використовується для кількох акаунтів</System:String>
+    <System:String x:Key="OldPasswordsStr">Старі паролі</System:String>
+    <System:String x:Key="OldPasswordsSubTitleStr">Старше 90 днів</System:String>
+    <System:String x:Key="AccountsStr">аккаунти</System:String>
 
 </ResourceDictionary>

@@ -1,152 +1,185 @@
-﻿using MaterialDesignThemes.Wpf;
-using SecurePass.BLL;
-using SecurePass.DAL.Model;
-using SecurePass.Presentation.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Navigation;
+﻿// <copyright file="PasswordsPage.xaml.cs" company="SecurePass">
+// Copyright (c) SecurePass. All rights reserved.
+// </copyright>
 
-namespace SecurePass.Presentation.Pages;
-
-/// <summary>
-/// Interaction logic for PasswordsPage.xaml
-/// </summary>
-public partial class PasswordsPage : Page
+namespace SecurePass.Presentation.Pages
 {
-    private UserModel currentUser = CurrentUserManager.CurrentUser;
-    private ObservableCollection<PasswordViewModel> passwordViewModels;
-    private SnackbarMessageQueue snackbarMessageQueue = new SnackbarMessageQueue();
-    private readonly PasswordManager passwordManager;
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Navigation;
+    using MaterialDesignThemes.Wpf;
+    using SecurePass.BLL;
+    using SecurePass.DAL.Model;
+    using SecurePass.Presentation.ViewModel;
 
-    public PasswordsPage()
+    /// <summary>
+    /// Interaction logic for PasswordsPage.xaml.
+    /// </summary>
+    public partial class PasswordsPage : Page
     {
-        InitializeComponent();
-        Snackbar.MessageQueue = snackbarMessageQueue;
-        passwordManager = new PasswordManager(currentUser);
-        GetData();
-    }
+        private readonly PasswordManager passwordManager;
+        private readonly int? folderId;
+        private readonly UserModel currentUser = CurrentUserManager.CurrentUser;
+        private readonly SnackbarMessageQueue snackbarMessageQueue = new ();
 
-    public PasswordsPage(int folderId, string folderTitle)
-    {
-        InitializeComponent();
-        PasswordsPageLabel.Content = $"📁 {folderTitle}";
-        Snackbar.MessageQueue = snackbarMessageQueue;
-        passwordManager = new PasswordManager(currentUser);
-        GetData(folderId);
-    }
-
-
-    public void GetData(int? folderId = null)
-    {
-        
-        if (folderId == null)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PasswordsPage"/> class.
+        /// </summary>
+        public PasswordsPage()
         {
-            var passwords = passwordManager.GetPasswords()
-                .Where(p => p.Deleted == false)
-                .OrderByDescending(p => p.LastUpdated)
-                .ToList();
-      
-            passwordViewModels = new ObservableCollection<PasswordViewModel>(
-            passwords.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
-            );
-        }
-        else
-        {
-            var passwords = passwordManager.GetPasswords()
-                .Where(p => p.Deleted == false && p.FolderId == folderId)
-                .OrderByDescending(p => p.LastUpdated)
-                .ToList();
-                
-            passwordViewModels = new ObservableCollection<PasswordViewModel>(
-            passwords.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
-            );
-        }
-            
-        DataBinding.ItemsSource = passwordViewModels;
-        
-    }
-
-    private void AddNewPassword_Click(object sender, RoutedEventArgs e)
-    {
-        NavigationService navigationService = NavigationService.GetNavigationService(this);
-
-        if (navigationService != null)
-        {
-            var CreatePasswordPage = new CreatePasswordPage();
-            CreatePasswordPage.OnPasswordCreated += PasswordCreatedHandler;
-            navigationService.Navigate(CreatePasswordPage);
-        }
-    }
-    private void PasswordCreatedHandler(object sender, EventArgs e)
-    {
-        GetData();
-    }
-
-    private void TrashButton_Click(object sender, RoutedEventArgs e)
-    {
-        Button deleteButton = (Button)sender;
-        PasswordViewModel passwordViewModel = (PasswordViewModel)deleteButton.DataContext;
-
-        if (passwordViewModel != null)
-        {
-            passwordManager.SendPasswordToTrash(passwordViewModel.Password);
-            ShowSnackbar("Password moved to trash!");
+            InitializeComponent();
+            Snackbar.MessageQueue = snackbarMessageQueue;
+            passwordManager = new PasswordManager(currentUser);
             GetData();
         }
-    }
 
-    private void ShowButton_Click(object sender, RoutedEventArgs e)
-    {
-        Button showButton = (Button)sender;
-        PasswordViewModel passwordViewModel = (PasswordViewModel)showButton.DataContext;
-
-        if (passwordViewModel != null)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PasswordsPage"/> class.
+        /// </summary>
+        /// <param name="folderId">ID of the folder.</param>
+        /// <param name="folderTitle">Title of the folder.</param>
+        public PasswordsPage(int folderId, string folderTitle)
         {
-            passwordViewModel.IsPasswordVisible = !passwordViewModel.IsPasswordVisible;
-
-            DataBinding.Items.Refresh();
+            InitializeComponent();
+            PasswordsPageLabel.Content = $"📁 {folderTitle}";
+            Snackbar.MessageQueue = snackbarMessageQueue;
+            passwordManager = new PasswordManager(currentUser);
+            this.folderId = folderId;
+            GetData(folderId);
         }
-    }
-    private void CopyButton_Click(object sender, RoutedEventArgs e)
-    {
-        Button copyButton = (Button)sender;
-        PasswordViewModel passwordViewModel = (PasswordViewModel)copyButton.DataContext;
 
-        if (passwordViewModel != null)
+        /// <summary>
+        /// Retrieves data from the database and updates it on the user page.
+        /// </summary>
+        /// <param name="folderId">ID of the folder.</param>
+        public void GetData(int? folderId = null)
         {
-            Clipboard.SetText(passwordViewModel.Password.Password);
-            ShowSnackbar("Password copied!");
-        }
-    }
-
-    private void ShowSnackbar(string message)
-    {
-        Snackbar.MessageQueue.Enqueue(message);
-    }
-
-    private void ChangeButton_Click(object sender, RoutedEventArgs e)
-    {
-        Button changeButton = (Button)sender;
-        PasswordViewModel passwordViewModel = (PasswordViewModel)changeButton.DataContext;
-
-        if (passwordViewModel != null)
-        {
-            var createPasswordPage = new CreatePasswordPage
+            ObservableCollection<PasswordViewModel> passwordViewModels;
+            if (folderId == null)
             {
-                IsEditMode = true,
-                DataContext = passwordViewModel, 
-            };
+                var passwords = passwordManager.GetPasswords()
+                    .Where(p => p.Deleted == false)
+                    .OrderByDescending(p => p.LastUpdated)
+                    .ToList();
+                passwordViewModels = new ObservableCollection<PasswordViewModel>(
+                passwords.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false }));
+            }
+            else
+            {
+                var passwords = passwordManager.GetPasswords()
+                    .Where(p => p.Deleted == false && p.FolderId == folderId)
+                    .OrderByDescending(p => p.LastUpdated)
+                    .ToList();
 
-            createPasswordPage.OnPasswordCreated += PasswordCreatedHandler;
+                passwordViewModels = new ObservableCollection<PasswordViewModel>(
+                passwords.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false }));
+            }
 
-            NavigationService.Navigate(createPasswordPage);
+            DataBinding.ItemsSource = passwordViewModels;
+        }
+
+        private void AddNewPassword_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService navigationService = NavigationService.GetNavigationService(this);
+
+            if (navigationService != null)
+            {
+                var createPasswordPage = new CreatePasswordPage();
+                if (folderId == null)
+                {
+                    createPasswordPage.OnPasswordCreated += PasswordCreatedHandler;
+                }
+                else
+                {
+                    createPasswordPage.OnPasswordCreated += PasswordCreatedFolderHandler;
+                }
+
+                navigationService.Navigate(createPasswordPage);
+            }
+        }
+
+        private void PasswordCreatedHandler(object? sender, EventArgs e)
+        {
+            GetData();
+        }
+
+        private void TrashButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button deleteButton = (Button)sender;
+            PasswordViewModel passwordViewModel = (PasswordViewModel)deleteButton.DataContext;
+
+            if (passwordViewModel != null)
+            {
+                passwordManager.SendPasswordToTrash(passwordViewModel.Password);
+                string passwordToTrash = (string)Application.Current.FindResource("PasswordToTrash");
+                ShowSnackbar(passwordToTrash);
+                GetData();
+            }
+        }
+
+        private void ShowButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button showButton = (Button)sender;
+            PasswordViewModel passwordViewModel = (PasswordViewModel)showButton.DataContext;
+
+            if (passwordViewModel != null)
+            {
+                passwordViewModel.IsPasswordVisible = !passwordViewModel.IsPasswordVisible;
+
+                DataBinding.Items.Refresh();
+            }
+        }
+
+        private void CopyButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button copyButton = (Button)sender;
+            PasswordViewModel passwordViewModel = (PasswordViewModel)copyButton.DataContext;
+
+            if (passwordViewModel != null)
+            {
+                Clipboard.SetText(passwordViewModel.Password.Password);
+                string passwordCopied = (string)Application.Current.FindResource("PasswordCopied");
+                ShowSnackbar(passwordCopied);
+            }
+        }
+
+        private void ShowSnackbar(string message)
+        {
+            Snackbar.MessageQueue.Enqueue(message);
+        }
+
+        private void ChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button changeButton = (Button)sender;
+            PasswordViewModel passwordViewModel = (PasswordViewModel)changeButton.DataContext;
+
+            if (passwordViewModel != null)
+            {
+                var createPasswordPage = new CreatePasswordPage
+                {
+                    IsEditMode = true,
+                    DataContext = passwordViewModel,
+                };
+
+                if (folderId == null)
+                {
+                    createPasswordPage.OnPasswordCreated += PasswordCreatedHandler;
+                }
+                else
+                {
+                    createPasswordPage.OnPasswordCreated += PasswordCreatedFolderHandler;
+                }
+
+                NavigationService.Navigate(createPasswordPage);
+            }
+        }
+
+        private void PasswordCreatedFolderHandler(object? sender, EventArgs e)
+        {
+            GetData(folderId);
         }
     }
-
 }

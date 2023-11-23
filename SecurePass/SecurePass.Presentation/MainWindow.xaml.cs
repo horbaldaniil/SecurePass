@@ -1,41 +1,45 @@
-﻿using SecurePass.BLL;
-using SecurePass.DAL.Model;
-using SecurePass.Presentation.Pages;
-using System;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿// <copyright file="MainWindow.xaml.cs" company="SecurePass">
+// Copyright (c) SecurePass. All rights reserved.
+// </copyright>
 
 namespace SecurePass.Presentation
 {
+    using System;
+    using System.Globalization;
+    using System.Threading;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using SecurePass.BLL;
+    using SecurePass.DAL.Model;
+    using SecurePass.Presentation.Pages;
+
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml.
     /// </summary>
     public partial class MainWindow : Window
     {
-        private UserModel currentUser = CurrentUserManager.CurrentUser;
+        private readonly UserModel? currentUser = CurrentUserManager.CurrentUser;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
             Main.Navigate(new PasswordsPage());
 
-            using (var db = new SecurePassDbContext())
-            {
-                var User = db.Users.FirstOrDefault(u => u.Id == currentUser.Id);
-                UserEmail.Content = User.Email; 
-            }
+            UserEmail.Text = currentUser?.Email;
         }
+
         private void SwitchMenuStyle()
         {
             FoldersMenuLabel.Style = (Style)FindResource("MenuLabel");
             PasswordsMenuLabel.Style = (Style)FindResource("MenuLabel");
             TrashMenuLabel.Style = (Style)FindResource("MenuLabel");
+            PasswordScannerPanel.Style = (Style)FindResource("PasswordScannerPanelStyle");
         }
-
 
         private void Folders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -77,6 +81,7 @@ namespace SecurePass.Presentation
             {
                 UserInfoPanel.Visibility = Visibility.Collapsed;
             }
+
             if (!SettingsPanel.IsMouseOver)
             {
                 SettingsPanel.Visibility = Visibility.Collapsed;
@@ -85,7 +90,7 @@ namespace SecurePass.Presentation
 
         private void LogOut_Click(object sender, RoutedEventArgs e)
         {
-            LogInWindow logInWindow = new LogInWindow();
+            LogInWindow logInWindow = new ();
             logInWindow.Show();
             Close();
         }
@@ -101,7 +106,7 @@ namespace SecurePass.Presentation
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
 
             Application.Current.Resources.MergedDictionaries.Clear();
-            ResourceDictionary resdict = new ResourceDictionary()
+            ResourceDictionary resdict = new ()
             {
                 Source = new Uri($"/Languages/Dictionary-{lang}.xaml", UriKind.Relative)
             };
@@ -123,6 +128,14 @@ namespace SecurePass.Presentation
                 default:
                     break;
             }
+        }
+
+        private void PasswordScanner_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            SwitchMenuStyle();
+            PasswordScannerPanel.Style = (Style)FindResource("PasswordScannerPanelActiveStyle");
+
+            Main.Navigate(new PasswordScannerPage());
         }
     }
 }

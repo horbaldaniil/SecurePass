@@ -11,14 +11,16 @@
         <Style TargetType="Border" x:Key="CreateNewFolderPanel">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Setter Property="Width" Value="500"/>
-            <Setter Property="Height" Value="280"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Background" Value="White"/>
             <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="Padding" Value="45,40,60,0"/>
+            <Setter Property="Padding" Value="30,30,30,30"/>
         </Style>
         <Style TargetType="Label" x:Key="NewFolderLabel" BasedOn="{StaticResource BasicLabel}">
-            <Setter Property="FontSize" Value="28"/>
-            <Setter Property="Margin" Value="0,0,0,40"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
             <Setter Property="Padding" Value="0"/>
         </Style>
         
@@ -36,7 +38,7 @@
                                 Panel.ZIndex="2" 
                                 VerticalContentAlignment="Center"
                                 BorderBrush="#444444"
-                                BorderThickness="0,0,0,2">
+                                BorderThickness="0,0,0,1">
        
                             </TextBox>
                             <TextBox Text="{TemplateBinding Tag}" Background="Transparent" BorderThickness="0" Panel.ZIndex="1">
@@ -47,7 +49,6 @@
                                             <DataTrigger Binding="{Binding Path=Text, Source={x:Reference textSource}}" Value="">
                                                 <Setter Property="Foreground" Value="#A9B1B8"/>
                                                 <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                                
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -58,7 +59,7 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="Height" Value="45"/>
-            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="Margin" Value="25,0,0,6"/>
         </Style>
 
@@ -73,6 +74,7 @@
             <Setter Property="FontFamily" Value="/Fonts/#Inria Sans"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -106,10 +108,10 @@
                 <Label Content="{DynamicResource AddNewFolderPanelTitle}" Style="{StaticResource NewFolderLabel}"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Source="/Images/folder.png"/>
+                    <Image Height="60" Source="/Images/folder.png"/>
                     <TextBox x:Name="NewFolderTextBox" Tag="{DynamicResource FolderName}" Grid.Column="1" Style="{StaticResource NewFolderTextBox}"/>
                 </Grid>
                 <Label x:Name="FolderNameError" Visibility="Collapsed" Style="{StaticResource ErrorLabel}" Content="{DynamicResource FolderNameExist}"/>
@@ -147,14 +149,23 @@
                                     <Border x:Name="RootBorder" Style="{StaticResource PageHorizontalLine}" Margin="0,0,60,0">
                                         <ContentPresenter/>
                                     </Border>
+
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Tag" Value="MouseOver"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Tag" Value="MouseNotOver"/>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate >
-                        <Grid Height="100">
+                        <Grid Style="{StaticResource ListItemGrid}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="400"/>
                                 <ColumnDefinition Width="*"/>
@@ -164,13 +175,34 @@
 
                             <StackPanel Grid.Column="1" Style="{StaticResource CommandButtonPanel}">
                                 <Button x:Name="OpenButton" Style="{StaticResource CommandButton}" Click="OpenButton_Click">
-                                    <Image Source="../Images/folder_open.png"/>
+                                    <Image Style="{StaticResource CommandButtonImage}" Source="../Images/folder_open.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip Style="{StaticResource ToolTipStyle}" Content="{DynamicResource OpenItem}">
+                                            <ToolTip.Resources>
+                                                <Style TargetType="Border" BasedOn="{StaticResource ToolTipBorderStyle}"/>
+                                            </ToolTip.Resources>
+                                        </ToolTip>
+                                    </Button.ToolTip>
                                 </Button>
                                 <Button x:Name="ChangeButton" Style="{StaticResource CommandButton}" Click="ChangeButton_Click" >
-                                    <Image Source="../Images/edit.png"/>
+                                    <Image Style="{StaticResource CommandButtonImage}" Source="../Images/edit.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip Style="{StaticResource ToolTipStyle}" Content="{DynamicResource ChangeItem}">
+                                            <ToolTip.Resources>
+                                                <Style TargetType="Border" BasedOn="{StaticResource ToolTipBorderStyle}"/>
+                                            </ToolTip.Resources>
+                                        </ToolTip>
+                                    </Button.ToolTip>
                                 </Button>
                                 <Button x:Name="DeleteButton" Style="{StaticResource CommandButton}" Click="DeleteButton_Click">
-                                    <Image Source="../Images/delete.png"/>
+                                    <Image Style="{StaticResource CommandButtonImage}" Source="../Images/delete.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip Style="{StaticResource ToolTipStyle}" Content="{DynamicResource DeleteItem}">
+                                            <ToolTip.Resources>
+                                                <Style TargetType="Border" BasedOn="{StaticResource ToolTipBorderStyle}"/>
+                                            </ToolTip.Resources>
+                                        </ToolTip>
+                                    </Button.ToolTip>
                                 </Button>
                             </StackPanel>
                         </Grid>

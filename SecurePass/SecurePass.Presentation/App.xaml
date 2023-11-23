@@ -18,7 +18,15 @@
             <!-- Basic styles -->
             <Style TargetType="Label" x:Key="BasicLabel">
                 <Setter Property="FontFamily" Value="OpenSans"/>
-                <Setter Property="IsEnabled" Value="True"/>
+            </Style>
+
+            <Style TargetType="TextBlock" x:Key="BasicTextBlock">
+                <Setter Property="FontFamily" Value="OpenSans"/>
+            </Style>
+
+            <Style TargetType="Image" x:Key="BasicImage">
+                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
             </Style>
 
             <Style TargetType="Label" x:Key="ErrorLabel" BasedOn="{StaticResource BasicLabel}">
@@ -27,7 +35,7 @@
                 <Setter Property="Margin" Value="0,0,0,-15"/>
             </Style>
 
-            <Style TargetType="Image" x:Key="LangImage">
+            <Style TargetType="Image" x:Key="LangImage" BasedOn="{StaticResource BasicImage}">
                 <Setter Property="Width" Value="25"/>
                 <Setter Property="Canvas.Right" Value="-40"/>
                 <Setter Property="Canvas.Bottom" Value="20"/>
@@ -85,12 +93,45 @@
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="Cursor" Value="Hand"/>
                 <Setter Property="BorderBrush" Value="White"/>
-                <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                <Setter Property="BorderThickness" Value="0,0,0,1"/>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Background" Value="#DCE8F3"/>
                     </Trigger>
                 </Style.Triggers>
+            </Style>
+
+            <Style TargetType="Label" x:Key="PasswordScannerStyle">
+                <Setter Property="Foreground" Value="#444444"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="Padding" Value="15,15,0,15"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+            </Style>
+
+            <Style TargetType="StackPanel" x:Key="PasswordScannerPanelStyle">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#D9E5EF"/>
+                    </Trigger>
+                </Style.Triggers>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Orientation" Value="Horizontal"/>
+            </Style>
+
+            <Style TargetType="StackPanel" x:Key="PasswordScannerPanelActiveStyle" BasedOn="{StaticResource PasswordScannerPanelStyle}">
+                <Setter Property="Background" Value="White"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#F9F9F9"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="Image" x:Key="PasswordScannerImageStyle" BasedOn="{StaticResource BasicImage}">
+                <Setter Property="Margin" Value="20,15,0,15"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Height" Value="25"/>
             </Style>
 
             <Style TargetType="Label" x:Key="ActiveMenu" BasedOn="{StaticResource MenuLabel}">
@@ -114,6 +155,8 @@
                 </Style.Triggers>
             </Style>
 
+           
+
             <Style TargetType="Border" x:Key="UserMenuIcon" BasedOn="{StaticResource MenuIcon}">
                 <Setter Property="Margin" Value="-45,0,0,0"/>
             </Style>
@@ -132,13 +175,14 @@
 
             <Style TargetType="Border" x:Key="SettingsPanelStyle" BasedOn="{StaticResource PanelStyle}">
                 <Setter Property="Margin" Value="190,60,0,0"/>
-                <Setter Property="Height" Value="200"/>
+                <Setter Property="Padding" Value="30,20,30,30"/>
+                <Setter Property="Height" Value="Auto"/>
                 <Setter Property="Width" Value="440"/>
             </Style>
 
             <Style TargetType="Border" x:Key="UserPanelStyle" BasedOn="{StaticResource PanelStyle}">
                 <Setter Property="Margin" Value="15,60,0,0"/>
-                <Setter Property="Height" Value="223"/>
+                <Setter Property="Height" Value="230"/>
                 <Setter Property="Width" Value="250"/>
             </Style>
 
@@ -178,10 +222,12 @@
             </Style>
 
 
-            <Style TargetType="Label" x:Key="UserInfoPanelLabel" BasedOn="{StaticResource BasicLabel}">
+            <Style TargetType="TextBlock" x:Key="UserInfoPanelLabel" BasedOn="{StaticResource BasicTextBlock}">
                 <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="Margin" Value="0,5,0,0"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                <Setter Property="Margin" Value="10,10,10,0"/>
                 <Setter Property="Padding" Value="0" />
             </Style>
 
@@ -225,15 +271,51 @@
 
             <Style TargetType="Button" x:Key="AddNewButton">
                 <Setter Property="HorizontalAlignment" Value="Right"/>
-                <Setter Property="Width" Value="Auto"/>
-                <Setter Property="Padding" Value="10,0,10,0"/>
                 <Setter Property="Cursor" Value="Hand"/>
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="#D9D9D9"/>
                 <Setter Property="Margin" Value="0,0,0,10"/>
                 <Setter Property="FontSize" Value="16"/>
                 <Setter Property="FontFamily" Value="OpenSans"/>
-                
+                <Setter Property="Foreground" Value="#444444"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Padding="15,0,15,0" Background="{TemplateBinding Background}" BorderBrush="#D9D9D9" BorderThickness="1">
+                                <ContentPresenter VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="Background" Value="#f4f7fa"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="Button" x:Key="EmptyButton" BasedOn="{StaticResource AddNewButton}">
+                <Setter Property="Foreground" Value="#f04c59"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="border" Padding="15,0,15,0" Background="{TemplateBinding Background}" BorderBrush="#D9D9D9" BorderThickness="1">
+                                <ContentPresenter VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#f04c59"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="#f04c59"/>
+                        <Setter Property="Background" Value="#fff5f5"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
 
             <Style TargetType="Border" x:Key="PageHorizontalLine">
@@ -257,15 +339,52 @@
                 <Setter Property="Foreground" Value="#444444"/>
                 <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="FontSize" Value="28"/>
+                <Setter Property="FontSize" Value="24"/>
+            </Style>
+
+            <Style TargetType="Grid" x:Key="ListItemGrid">
+                <Setter Property="Height" Value="90"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="Grid.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation 
+                                    Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" 
+                                    To="#F9F9F9" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Grid.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation 
+                                    Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" 
+                                    To="Transparent" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
             </Style>
 
             <Style TargetType="TextBlock" x:Key="ItemTitle" BasedOn="{StaticResource ItemElement}">
                 <Setter Property="MaxWidth" Value="250"/>
             </Style>
 
+            <Style TargetType="TextBlock" x:Key="ItemEmailUsername" BasedOn="{StaticResource ItemTitle}">
+                <Style.Triggers>
+                    <Trigger Property="Text" Value="">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                </Style.Triggers>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Foreground" Value="Gray"/>
+            </Style>
+
             <Style TargetType="TextBlock" x:Key="ItemPassword" BasedOn="{StaticResource ItemElement}">
-                <Setter Property="Text" Value="************"/>
+                <Setter Property="Text" Value="********************"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontSize" Value="22"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding IsPasswordVisible}" Value="True">
                         <Setter Property="Text" Value="{Binding Password.Password}"/>
@@ -277,19 +396,23 @@
                 <Setter Property="Orientation" Value="Horizontal"/>
                 <Setter Property="HorizontalAlignment" Value="Right"/>
             </Style>
-
             <Style TargetType="Button" x:Key="CommandButton">
-                <Setter Property="Width" Value="30"/>
-                <Setter Property="Height" Value="30"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Margin" Value="0,0,35,0"/>
+                <Setter Property="Width" Value="35"/>
+                <Setter Property="Height" Value="35"/>
+                <Setter Property="Background" Value="White"/>
+                
+                <Setter Property="Margin" Value="0,0,20,0"/>
                 <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="ToolTipService.Placement" Value="Top"/>
+                <Setter Property="ToolTipService.VerticalOffset" Value="-3"/>
+                <Setter Property="ToolTipService.InitialShowDelay" Value="2"/>
+                
+                
 
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="20" BorderThickness="1" BorderBrush="Gray">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
@@ -301,6 +424,16 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}" Value="MouseOver">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="Image" x:Key="CommandButtonImage" BasedOn="{StaticResource BasicImage}">
+                <Setter Property="Margin" Value="7"/>
             </Style>
 
             <Style TargetType="materialDesign:Snackbar" x:Key="NotificationPanel">
@@ -309,6 +442,34 @@
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="Margin" Value="0,0,0,30"/>
                 <Setter Property="MinWidth" Value="150"/>
+            </Style>
+
+            <Style x:Key="ToolTipStyle" TargetType="ToolTip">
+                <Setter Property="Placement" Value="Top"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="Padding" Value="10,0,10,0"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="#444851"/>
+            </Style>
+
+            <Style x:Key="ToolTipBorderStyle" TargetType="Border">
+                <Setter Property="CornerRadius" Value="5"/>
+            </Style>
+
+
+            <Style TargetType="Border" x:Key="PasswordScannerList">
+                <Setter Property="Background" Value="#f0f2f4"/>
+                <Setter Property="Padding" Value="30,60,30,0"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="PasswordScannerTitleStyle" BasedOn="{StaticResource BasicLabel}">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="#444444"/>
+                <Setter Property="Margin" Value="0,30,0,30"/>
             </Style>
 
         </ResourceDictionary>

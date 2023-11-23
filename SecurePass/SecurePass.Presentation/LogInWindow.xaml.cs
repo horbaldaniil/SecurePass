@@ -1,28 +1,32 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SecurePass.BLL;
-using SecurePass.DAL.Model;
-using System;
-using System.Globalization;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
+﻿// <copyright file="LogInWindow.xaml.cs" company="SecurePass">
+// Copyright (c) SecurePass. All rights reserved.
+// </copyright>
 
 namespace SecurePass.Presentation
 {
+    using System;
+    using System.Globalization;
+    using System.Threading;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using System.Windows.Media.Imaging;
+    using SecurePass.BLL;
+
     /// <summary>
-    /// Interaction logic for LogInWindow.xaml
+    /// Interaction logic for LogInWindow.xaml.
     /// </summary>
     public partial class LogInWindow : Window
     {
-        private LoginLogic loginLogic;
+        private bool loading;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogInWindow"/> class.
+        /// </summary>
         public LogInWindow()
         {
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
-            loginLogic = new LoginLogic();
 
             EmailTextBox.Text = "gorbaldaniil@gmail.com";
             PasswordTextBox.Text = "Gorbal1234!";
@@ -39,9 +43,9 @@ namespace SecurePass.Presentation
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
 
             Application.Current.Resources.MergedDictionaries.Clear();
-            ResourceDictionary resdict = new ResourceDictionary()
+            ResourceDictionary resdict = new ()
             {
-                Source = new Uri($"/Languages/Dictionary-{lang}.xaml", UriKind.Relative)
+                Source = new Uri($"/Languages/Dictionary-{lang}.xaml", UriKind.Relative),
             };
             Application.Current.Resources.MergedDictionaries.Add(resdict);
 
@@ -65,41 +69,48 @@ namespace SecurePass.Presentation
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            LoginButton.IsEnabled = false;
-
-            try
+            if (!loading)
             {
-                ValidErrorLabel.Content = "";
-                EmailErrorLabel.Content = "";
-
-                string email = EmailTextBox.Text;
-                string password = PasswordTextBox.Text;
-
-                if (!loginLogic.IsValidEmail(email))
+                loading = true;
+                LoginButton.Style = (Style)FindResource("LoginButtonLoaded");
+                try
                 {
-                    EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
-                    return;
+                    ValidErrorLabel.Content = string.Empty;
+                    EmailErrorLabel.Content = string.Empty;
+
+                    string email = EmailTextBox.Text;
+                    string password = PasswordTextBox.Text;
+
+                    if (!LoginLogic.IsValidEmail(email))
+                    {
+                        EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
+                        return;
+                    }
+
+                    var loginResult = await LoginLogic.VerifyUser(email, password);
+
+                    if (loginResult != null)
+                    {
+                        ValidErrorLabel.SetResourceReference(ContentProperty, loginResult);
+                    }
+                    else
+                    {
+                        var window = new MainWindow();
+                        window.Show();
+                        Close();
+                    }
                 }
-
-                var loginResult = await loginLogic.VerifyUser(email, password);
-
-                if (loginResult != null)
+                finally
                 {
-                    ValidErrorLabel.SetResourceReference(ContentProperty, loginResult);
-                }
-                else
-                {
-                    MainWindow window = new MainWindow();
-                    window.Show();
-                    Close();
+                    LoginButton.Style = (Style)FindResource("LoginButton");
+                    loading = false;
                 }
             }
-            finally { LoginButton.IsEnabled = true; }
         }
 
         private void SignUpLabel_Click(object sender, RoutedEventArgs e)
         {
-            SignUpWindow window = new SignUpWindow();
+            SignUpWindow window = new ();
             window.Show();
             Close();
         }
@@ -107,8 +118,11 @@ namespace SecurePass.Presentation
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
         }
+
         private void ButtonMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;

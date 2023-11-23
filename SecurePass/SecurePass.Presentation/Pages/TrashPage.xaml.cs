@@ -1,96 +1,101 @@
-﻿using SecurePass.BLL;
-using SecurePass.DAL.Model;
-using SecurePass.Presentation.ViewModel;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
+﻿// <copyright file="TrashPage.xaml.cs" company="SecurePass">
+// Copyright (c) SecurePass. All rights reserved.
+// </copyright>
 
-
-namespace SecurePass.Presentation.Pages;
-
-/// <summary>
-/// Interaction logic for TrashPage.xaml
-/// </summary>
-public partial class TrashPage : Page
+namespace SecurePass.Presentation.Pages
 {
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using SecurePass.BLL;
+    using SecurePass.DAL.Model;
+    using SecurePass.Presentation.ViewModel;
 
-    private readonly UserModel? currentUser = CurrentUserManager.CurrentUser;
-    private ObservableCollection<PasswordViewModel> passwordViewModels;
-    private readonly PasswordManager passwordManager;
-
-    public TrashPage()
+    /// <summary>
+    /// Interaction logic for TrashPage.xaml.
+    /// </summary>
+    public partial class TrashPage : Page
     {
-        InitializeComponent();
-        passwordManager = new PasswordManager(currentUser);
-        GetData();
-    }
+        private readonly PasswordManager passwordManager;
+        private readonly UserModel? currentUser = CurrentUserManager.CurrentUser;
 
-    public void GetData()
-    {     
-        var passwordItems = passwordManager.GetPasswords().FindAll(f => f.Deleted == true);
-
-        passwordViewModels = new ObservableCollection<PasswordViewModel>(
-                                passwordItems.Select(PasswordViewModel.CreateFromPassword));
-
-        TrashEmpty.Visibility = passwordItems.Any() ? Visibility.Collapsed : Visibility.Visible;
-        TrashLabel.Visibility = passwordItems.Any() ? Visibility.Visible : Visibility.Collapsed;
-        DataBinding.ItemsSource = passwordViewModels;
-        
-    }
-
-    private void EmptyTrash_Click(object sender, RoutedEventArgs e)
-    {
-        
-        var passwordItems = passwordManager.GetPasswords().FindAll(f => f.Deleted == true);
-        foreach (var password in passwordItems)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrashPage"/> class.
+        /// </summary>
+        public TrashPage()
         {
-            passwordManager.DeletePassword(password);
+            InitializeComponent();
+            passwordManager = new PasswordManager(currentUser);
+            GetData();
         }
-        
-        GetData();
 
-    }
-
-    private void ShowButton_Click(object sender, RoutedEventArgs e)
-    {
-        Button showButton = (Button)sender;
-        PasswordViewModel passwordViewModel = (PasswordViewModel)showButton.DataContext;
-
-        if (passwordViewModel != null)
+        /// <summary>
+        /// Retrieves data from the database and updates it on the user page.
+        /// </summary>
+        public void GetData()
         {
-            passwordViewModel.IsPasswordVisible = !passwordViewModel.IsPasswordVisible;
+            var passwordItems = passwordManager.GetPasswords().FindAll(f => f.Deleted == true);
 
-            DataBinding.Items.Refresh();
+            var passwordViewModels = new ObservableCollection<PasswordViewModel>(
+                                    passwordItems.Select(PasswordViewModel.CreateFromPassword));
+
+            TrashEmpty.Visibility = passwordItems.Any() ? Visibility.Collapsed : Visibility.Visible;
+            TrashLabel.Visibility = passwordItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+            DataBinding.ItemsSource = passwordViewModels;
         }
-    }
 
-    private void HandleDeleteOrRestoreButtonClick(Button button, bool isDelete)
-    {
-        PasswordViewModel passwordViewModel = (PasswordViewModel)button.DataContext;
-
-        if (passwordViewModel != null)
+        private void EmptyTrash_Click(object sender, RoutedEventArgs e)
         {
-            if (isDelete)
+            var passwordItems = passwordManager.GetPasswords().FindAll(f => f.Deleted == true);
+            foreach (var password in passwordItems)
             {
-                passwordManager.DeletePassword(passwordViewModel.Password);
-            }
-            else
-            {
-                passwordManager.RestorePassword(passwordViewModel.Password);
+                passwordManager.DeletePassword(password);
             }
 
             GetData();
         }
-    }
 
-    private void DeleteButton_Click(object sender, RoutedEventArgs e)
-    {
-        HandleDeleteOrRestoreButtonClick((Button)sender, isDelete: true);
-    }
+        private void ShowButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button showButton = (Button)sender;
+            PasswordViewModel passwordViewModel = (PasswordViewModel)showButton.DataContext;
 
-    private void RestoreButton_Click(object sender, RoutedEventArgs e)
-    {
-        HandleDeleteOrRestoreButtonClick((Button)sender, isDelete: false);
+            if (passwordViewModel != null)
+            {
+                passwordViewModel.IsPasswordVisible = !passwordViewModel.IsPasswordVisible;
+
+                DataBinding.Items.Refresh();
+            }
+        }
+
+        private void HandleDeleteOrRestoreButtonClick(Button button, bool isDelete)
+        {
+            PasswordViewModel passwordViewModel = (PasswordViewModel)button.DataContext;
+
+            if (passwordViewModel != null)
+            {
+                if (isDelete)
+                {
+                    passwordManager.DeletePassword(passwordViewModel.Password);
+                }
+                else
+                {
+                    passwordManager.RestorePassword(passwordViewModel.Password);
+                }
+
+                GetData();
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            HandleDeleteOrRestoreButtonClick((Button)sender, isDelete: true);
+        }
+
+        private void RestoreButton_Click(object sender, RoutedEventArgs e)
+        {
+            HandleDeleteOrRestoreButtonClick((Button)sender, isDelete: false);
+        }
     }
 }

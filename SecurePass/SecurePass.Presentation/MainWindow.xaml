@@ -18,7 +18,7 @@
             <Border.Effect>
                 <DropShadowEffect BlurRadius="3" ShadowDepth="0" Direction="250"  Opacity="0.25"/>
             </Border.Effect>
-            <StackPanel Margin="30,20,30,0">
+            <StackPanel>
                 <Label Content="Settings" Style="{StaticResource SettingsLabel}"/>
                 <Border Style="{StaticResource SettingsItemBorder}">
                     <Grid>
@@ -32,7 +32,7 @@
                         <Label x:Name="EnLang" Content="English" MouseLeftButtonDown="Lang_MouseLeftButtonDown" Tag="en-US" Grid.Column="2" Style="{StaticResource SettingItemLabelActive}"/>
                     </Grid>
                 </Border>
-                <Border Style="{StaticResource SettingsItemBorder}" Margin="0,20,0,0">
+                <!--<Border Style="{StaticResource SettingsItemBorder}" Margin="0,20,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -43,7 +43,7 @@
                         <Label Content="{DynamicResource ThemeOptionLight}" Grid.Column="1" Style="{StaticResource SettingItemLabelActive}"/>
                         <Label Content="{DynamicResource ThemeOptionDark}" Grid.Column="2" Style="{StaticResource SettingItemLabel}"/>
                     </Grid>
-                </Border>
+                </Border>-->
             </StackPanel>
         </Border>
 
@@ -53,7 +53,7 @@
             </Border.Effect>
             <StackPanel Margin="0,40,0,0">
                 <Image Height="70" Width="70" Source="/Images/user.png"/>
-                <Label x:Name="UserEmail" Style="{StaticResource UserInfoPanelLabel}"/>
+                <TextBlock x:Name="UserEmail" Style="{StaticResource UserInfoPanelLabel}"/>
                 <Button Content="{DynamicResource LogOutButton}" Style="{StaticResource UserInfoPanelButton}" Click="LogOut_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
@@ -65,20 +65,21 @@
         </Border>
 
 
-        <Border Background="#E1ECF6" CornerRadius="0,10,10,0">
-            <Grid>
+        <Border Background="#E1ECF6">
+            <Grid Margin="0,0,0,15">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70"/>
-                    <RowDefinition Height="70"/>
-                    <RowDefinition Height="70"/>
-                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Border  Style="{StaticResource UserMenuIcon}" MouseLeftButtonDown="UserImage_MouseLeftButtonDown">
+                <Border Style="{StaticResource UserMenuIcon}" MouseLeftButtonDown="UserImage_MouseLeftButtonDown">
                     <Ellipse>
                         <Ellipse.Fill>
                             <ImageBrush ImageSource="/Images/user.png"/>
@@ -93,13 +94,19 @@
                         </Ellipse.Fill>
                     </Ellipse>
                 </Border>
-
+                <Border Grid.ColumnSpan="2" BorderBrush="White" Style="{StaticResource PageHorizontalLine}"/>
 
                 <Label x:Name="PasswordsMenuLabel" Style="{StaticResource ActiveMenu}" Grid.ColumnSpan="2" Grid.Row="1" Content="{DynamicResource MenuOptionPasswords}" MouseLeftButtonDown="Passwords_MouseLeftButtonDown"/>
                 <Label x:Name="FoldersMenuLabel" Style="{StaticResource MenuLabel}" Grid.ColumnSpan="2" Grid.Row="2" Content="{DynamicResource MenuOptionFolders}" MouseLeftButtonDown="Folders_MouseLeftButtonDown"/>
                 <Label x:Name="TrashMenuLabel" Style="{StaticResource MenuLabel}" Grid.ColumnSpan="2" Grid.Row="3" Content="{DynamicResource MenuOptionTrash}" MouseLeftButtonDown="Trash_MouseLeftButtonDown"/>
+                <StackPanel x:Name="PasswordScannerPanel" Style="{StaticResource PasswordScannerPanelStyle}" Grid.ColumnSpan="2" Grid.Row="4" MouseLeftButtonDown="PasswordScanner_MouseLeftButtonDown">
+                    <Image Source="Images/scanning.png" Style="{StaticResource PasswordScannerImageStyle}"/>
+                    <Label Content="{DynamicResource PasswordScannerStr}" Style="{StaticResource PasswordScannerStyle}"/>
+                </StackPanel>
+
             </Grid>
         </Border>
         <Frame Grid.Column="1" x:Name="Main" NavigationUIVisibility="Hidden"/>
+
     </Grid>
 </Window>

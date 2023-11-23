@@ -13,7 +13,7 @@ namespace SecurePass.Tests
             string validEmail = "test@example.com";
 
             // Act
-            bool isValid = loginLogic.IsValidEmail(validEmail);
+            bool isValid = LoginLogic.IsValidEmail(validEmail);
 
             // Assert
             Assert.IsTrue(isValid);
@@ -27,7 +27,7 @@ namespace SecurePass.Tests
             string invalidEmail = "invalid-email";
 
             // Act
-            bool isValid = loginLogic.IsValidEmail(invalidEmail);
+            bool isValid = LoginLogic.IsValidEmail(invalidEmail);
 
             // Assert
             Assert.IsFalse(isValid);
@@ -42,7 +42,7 @@ namespace SecurePass.Tests
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
             // Act
-            bool isVerified = loginLogic.VerifyPasswordAsync(password, hashedPassword).Result;
+            bool isVerified = LoginLogic.VerifyPassword(password, hashedPassword).Result;
 
             // Assert
             Assert.IsTrue(isVerified);
@@ -58,7 +58,7 @@ namespace SecurePass.Tests
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(correctPassword);
 
             // Act
-            bool isVerified = loginLogic.VerifyPasswordAsync(incorrectPassword, hashedPassword).Result;
+            bool isVerified = LoginLogic.VerifyPassword(incorrectPassword, hashedPassword).Result;
 
             // Assert
             Assert.IsFalse(isVerified);

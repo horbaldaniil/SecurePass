@@ -1,28 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SecurePass.BLL;
-using SecurePass.DAL.Model;
-using System;
-using System.Globalization;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿// <copyright file="SignUpWindow.xaml.cs" company="SecurePass">
+// Copyright (c) SecurePass. All rights reserved.
+// </copyright>
 
 namespace SecurePass.Presentation
 {
+    using System;
+    using System.Globalization;
+    using System.Threading;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using System.Windows.Media.Imaging;
+    using SecurePass.BLL;
+
     /// <summary>
-    /// Interaction logic for SignUpWindow.xaml
+    /// Interaction logic for SignUpWindow.xaml.
     /// </summary>
     public partial class SignUpWindow : Window
     {
-        private SignUpLogic signUpLogic;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SignUpWindow"/> class.
+        /// </summary>
         public SignUpWindow()
         {
             InitializeComponent();
             SetLang(Properties.Settings.Default.lang);
-            signUpLogic = new SignUpLogic();
         }
 
         private void Lang_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -36,7 +38,7 @@ namespace SecurePass.Presentation
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
 
             Application.Current.Resources.MergedDictionaries.Clear();
-            ResourceDictionary resdict = new ResourceDictionary()
+            ResourceDictionary resdict = new ()
             {
                 Source = new Uri($"/Languages/Dictionary-{lang}.xaml", UriKind.Relative)
             };
@@ -59,6 +61,7 @@ namespace SecurePass.Presentation
             Properties.Settings.Default.lang = lang;
             Properties.Settings.Default.Save();
         }
+
         private async void SignUpButton_Click(object sender, RoutedEventArgs e)
         {
             EmailErrorLabel.Content = "";
@@ -67,19 +70,19 @@ namespace SecurePass.Presentation
             string email = EmailTextBox.Text;
             string password = PasswordTextBox.Text;
 
-            if (!signUpLogic.IsValidEmail(email))
+            if (!SignUpLogic.IsValidEmail(email))
             {
                 EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
                 return;
             }
 
-            if (!signUpLogic.IsValidPassword(password))
+            if (!SignUpLogic.IsValidPassword(password))
             {
                 PasswordErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatPassword");
                 return;
             }
 
-            var signUpResult = await signUpLogic.UserRegistration(email, password);
+            var signUpResult = await SignUpLogic.UserRegistration(email, password);
 
             if (signUpResult != null)
             {
@@ -89,7 +92,7 @@ namespace SecurePass.Presentation
             {
                 MessageBox.Show("Registration successful. You can now log in.");
 
-                LogInWindow loginWindow = new LogInWindow();
+                LogInWindow loginWindow = new ();
                 loginWindow.Show();
                 Close();
             }
@@ -97,7 +100,7 @@ namespace SecurePass.Presentation
 
         private void LoginLabel_Click(object sender, RoutedEventArgs e)
         {
-            LogInWindow window = new LogInWindow();
+            LogInWindow window = new ();
             window.Show();
             Close();
         }
@@ -105,8 +108,11 @@ namespace SecurePass.Presentation
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
         }
+
         private void ButtonMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
