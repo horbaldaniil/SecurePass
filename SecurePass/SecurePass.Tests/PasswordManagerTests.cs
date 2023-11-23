@@ -6,9 +6,9 @@ namespace SecurePass.Tests
     [TestFixture]
     public class PasswordManagerTests
     {
-        private UserModel CreateUser() => new UserModel { Id = 73, Email = "jerem@gmail.com", Password = "bobobA$1cool" };
-        private PasswordModel CreatePassword1() => new PasswordModel { Id = 70, Title = "Test", Password = "test", UserId = 73, Deleted = false };
-        private PasswordModel CreatePassword2() => new PasswordModel { Id = 81, Title = "trash", Password = "trash", UserId = 73, Deleted = true };
+        private UserModel CreateUser() => new UserModel { Id = 81, Email = "unittest@gmail.com", Password = "UnitTest1234!" };
+        private PasswordModel CreatePassword1() => new PasswordModel { Id = 160, Title = "Test", Password = "test", UserId = 81, Deleted = false };
+        private PasswordModel CreatePassword2() => new PasswordModel { Id = 161, Title = "trash", Password = "trash", UserId = 81, Deleted = true };
 
         [Test]
         public void GetPasswords_ReturnsListOfPasswords()
