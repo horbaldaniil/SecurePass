@@ -1,19 +1,26 @@
-﻿using SecurePass.BLL;
-using System;
-using System.Globalization;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
+﻿// <copyright file="SignUpWindow.xaml.cs" company="SecurePass">
+// Copyright (c) SecurePass. All rights reserved.
+// </copyright>
 
 namespace SecurePass.Presentation
 {
+    using System;
+    using System.Globalization;
+    using System.Threading;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using System.Windows.Media.Imaging;
+    using SecurePass.BLL;
+
     /// <summary>
-    /// Interaction logic for SignUpWindow.xaml
+    /// Interaction logic for SignUpWindow.xaml.
     /// </summary>
     public partial class SignUpWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SignUpWindow"/> class.
+        /// </summary>
         public SignUpWindow()
         {
             InitializeComponent();
@@ -31,7 +38,7 @@ namespace SecurePass.Presentation
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
 
             Application.Current.Resources.MergedDictionaries.Clear();
-            ResourceDictionary resdict = new ResourceDictionary()
+            ResourceDictionary resdict = new ()
             {
                 Source = new Uri($"/Languages/Dictionary-{lang}.xaml", UriKind.Relative)
             };
@@ -54,6 +61,7 @@ namespace SecurePass.Presentation
             Properties.Settings.Default.lang = lang;
             Properties.Settings.Default.Save();
         }
+
         private async void SignUpButton_Click(object sender, RoutedEventArgs e)
         {
             EmailErrorLabel.Content = "";
@@ -84,7 +92,7 @@ namespace SecurePass.Presentation
             {
                 MessageBox.Show("Registration successful. You can now log in.");
 
-                LogInWindow loginWindow = new LogInWindow();
+                LogInWindow loginWindow = new ();
                 loginWindow.Show();
                 Close();
             }
@@ -92,7 +100,7 @@ namespace SecurePass.Presentation
 
         private void LoginLabel_Click(object sender, RoutedEventArgs e)
         {
-            LogInWindow window = new LogInWindow();
+            LogInWindow window = new ();
             window.Show();
             Close();
         }
@@ -100,8 +108,11 @@ namespace SecurePass.Presentation
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
         }
+
         private void ButtonMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;

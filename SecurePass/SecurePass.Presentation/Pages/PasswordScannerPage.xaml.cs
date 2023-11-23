@@ -1,19 +1,26 @@
-﻿using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Navigation;
-using SecurePass.BLL;
-using SecurePass.DAL.Model;
+﻿// <copyright file="PasswordScannerPage.xaml.cs" company="SecurePass">
+// Copyright (c) SecurePass. All rights reserved.
+// </copyright>
 
 namespace SecurePass.Presentation.Pages
 {
-    /// <summary>
-    /// Interaction logic for PasswordScannerPage.xaml
-    /// </summary>
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using System.Windows.Navigation;
+    using SecurePass.BLL;
+    using SecurePass.DAL.Model;
 
+    /// <summary>
+    /// Interaction logic for PasswordScannerPage.xaml.
+    /// </summary>
     public partial class PasswordScannerPage : Page
     {
         private readonly PasswordManager passwordManager;
-        private UserModel currentUser = CurrentUserManager.CurrentUser;
+        private readonly UserModel currentUser = CurrentUserManager.CurrentUser;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PasswordScannerPage"/> class.
+        /// </summary>
         public PasswordScannerPage()
         {
             InitializeComponent();

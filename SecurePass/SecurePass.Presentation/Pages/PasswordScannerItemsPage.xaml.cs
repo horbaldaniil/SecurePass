@@ -1,32 +1,37 @@
-﻿using SecurePass.BLL;
-using SecurePass.DAL.Model;
-using SecurePass.Presentation.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-
+﻿// <copyright file="PasswordScannerItemsPage.xaml.cs" company="SecurePass">
+// Copyright (c) SecurePass. All rights reserved.
+// </copyright>
 
 namespace SecurePass.Presentation.Pages
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Navigation;
+    using SecurePass.BLL;
+    using SecurePass.DAL.Model;
+    using SecurePass.Presentation.ViewModel;
+
     /// <summary>
-    /// Interaction logic for PasswordScannerItemsPage.xaml
+    /// Interaction logic for PasswordScannerItemsPage.xaml.
     /// </summary>
     public partial class PasswordScannerItemsPage : Page
     {
-
-        private readonly PasswordManager.PasswordCategory PasswordCategory;
+        private readonly PasswordManager.PasswordCategory passwordCategory;
         private readonly PasswordManager passwordManager;
         private readonly UserModel currentUser = CurrentUserManager.CurrentUser;
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PasswordScannerItemsPage"/> class.
+        /// </summary>
+        /// <param name="pCategory">Category of the passwords.</param>
         public PasswordScannerItemsPage(PasswordManager.PasswordCategory pCategory)
         {
             InitializeComponent();
-            PasswordCategory = pCategory;
+            passwordCategory = pCategory;
             passwordManager = new PasswordManager(currentUser);
             GetData();
         }
@@ -34,7 +39,7 @@ namespace SecurePass.Presentation.Pages
         private void GetData()
         {
             var passwords = new List<PasswordModel>();
-            switch (PasswordCategory)
+            switch (passwordCategory)
             {
                 case PasswordManager.PasswordCategory.Weak:
                     passwords = passwordManager.GetWeakPasswords();
@@ -49,9 +54,9 @@ namespace SecurePass.Presentation.Pages
                     PasswordScannerItemsTitle.SetResourceReference(ContentProperty, "OldPasswordsStr");
                     break;
             }
+
             var passwordViewModels = new ObservableCollection<PasswordViewModel>(
-            passwords.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false })
-            );
+            passwords.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false }));
             DataBinding.ItemsSource = passwordViewModels;
         }
 
@@ -81,13 +86,13 @@ namespace SecurePass.Presentation.Pages
                     DataContext = passwordViewModel,
                 };
 
-                createPasswordPage.OnPasswordCreated += onUpdate;
+                createPasswordPage.OnPasswordCreated += OnUpdate;
 
                 NavigationService.Navigate(createPasswordPage);
             }
         }
 
-        private void onUpdate(object? sender, EventArgs e)
+        private void OnUpdate(object? sender, EventArgs e)
         {
             GetData();
         }

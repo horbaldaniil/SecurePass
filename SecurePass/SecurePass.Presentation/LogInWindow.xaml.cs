@@ -1,21 +1,28 @@
-﻿using SecurePass.BLL;
-using System;
-using System.Globalization;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
+﻿// <copyright file="LogInWindow.xaml.cs" company="SecurePass">
+// Copyright (c) SecurePass. All rights reserved.
+// </copyright>
 
 namespace SecurePass.Presentation
 {
+    using System;
+    using System.Globalization;
+    using System.Threading;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using System.Windows.Media.Imaging;
+    using SecurePass.BLL;
+
     /// <summary>
-    /// Interaction logic for LogInWindow.xaml
+    /// Interaction logic for LogInWindow.xaml.
     /// </summary>
     public partial class LogInWindow : Window
     {
         private bool loading;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogInWindow"/> class.
+        /// </summary>
         public LogInWindow()
         {
             InitializeComponent();
@@ -36,9 +43,9 @@ namespace SecurePass.Presentation
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
 
             Application.Current.Resources.MergedDictionaries.Clear();
-            ResourceDictionary resdict = new ResourceDictionary()
+            ResourceDictionary resdict = new ()
             {
-                Source = new Uri($"/Languages/Dictionary-{lang}.xaml", UriKind.Relative)
+                Source = new Uri($"/Languages/Dictionary-{lang}.xaml", UriKind.Relative),
             };
             Application.Current.Resources.MergedDictionaries.Add(resdict);
 
@@ -68,8 +75,8 @@ namespace SecurePass.Presentation
                 LoginButton.Style = (Style)FindResource("LoginButtonLoaded");
                 try
                 {
-                    ValidErrorLabel.Content = "";
-                    EmailErrorLabel.Content = "";
+                    ValidErrorLabel.Content = string.Empty;
+                    EmailErrorLabel.Content = string.Empty;
 
                     string email = EmailTextBox.Text;
                     string password = PasswordTextBox.Text;
@@ -93,14 +100,17 @@ namespace SecurePass.Presentation
                         Close();
                     }
                 }
-                finally { LoginButton.Style = (Style)FindResource("LoginButton"); loading = false; }
+                finally
+                {
+                    LoginButton.Style = (Style)FindResource("LoginButton");
+                    loading = false;
+                }
             }
-            
         }
 
         private void SignUpLabel_Click(object sender, RoutedEventArgs e)
         {
-            SignUpWindow window = new SignUpWindow();
+            SignUpWindow window = new ();
             window.Show();
             Close();
         }
@@ -108,8 +118,11 @@ namespace SecurePass.Presentation
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
         }
+
         private void ButtonMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
