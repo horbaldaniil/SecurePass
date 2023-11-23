@@ -11,11 +11,10 @@ namespace SecurePass.Tests
         public void IsValidEmail_ValidEmail_ReturnsTrue()
         {
             // Arrange
-            var signUpLogic = new SignUpLogic();
             string validEmail = "test@example.com";
 
             // Act
-            bool isValid = signUpLogic.IsValidEmail(validEmail);
+            bool isValid = SignUpLogic.IsValidEmail(validEmail);
 
             // Assert
             Assert.IsTrue(isValid);
@@ -25,11 +24,10 @@ namespace SecurePass.Tests
         public void IsValidEmail_InvalidEmail_ReturnsFalse()
         {
             // Arrange
-            var signUpLogic = new SignUpLogic();
             string invalidEmail = "invalid-email";
 
             // Act
-            bool isValid = signUpLogic.IsValidEmail(invalidEmail);
+            bool isValid = SignUpLogic.IsValidEmail(invalidEmail);
 
             // Assert
             Assert.IsFalse(isValid);
@@ -39,11 +37,10 @@ namespace SecurePass.Tests
         public void IsValidPassword_ValidPassword_ReturnsTrue()
         {
             // Arrange
-            var signUpLogic = new SignUpLogic();
             string validPassword = "test1test!testA";
 
             // Act
-            bool isValid = signUpLogic.IsValidPassword(validPassword);
+            bool isValid = SignUpLogic.IsValidPassword(validPassword);
 
             // Assert
             Assert.IsTrue(isValid);
@@ -53,11 +50,10 @@ namespace SecurePass.Tests
         public void IsValidPassword_InvalidPassword_ReturnsFalse()
         {
             // Arrange
-            var signUpLogic = new SignUpLogic();
             string invalidPassword = "weakpassword";
 
             // Act
-            bool isValid = signUpLogic.IsValidPassword(invalidPassword);
+            bool isValid = SignUpLogic.IsValidPassword(invalidPassword);
 
             // Assert
             Assert.IsFalse(isValid);
@@ -67,12 +63,11 @@ namespace SecurePass.Tests
         public async Task UserRegistration_NewUser_ReturnsNull()
         {
             // Arrange
-            var signUpLogic = new SignUpLogic();
             string email = "newuser@example.com";
             string password = "Test123!";
 
             // Act
-            string result = await signUpLogic.UserRegistration(email, password);
+            string result = await SignUpLogic.UserRegistration(email, password);
 
             // Assert
             Assert.IsNull(result);
@@ -93,12 +88,11 @@ namespace SecurePass.Tests
         public async Task UserRegistration_ExistingUser_ReturnsInUseEmail()
         {
             // Arrange
-            var signUpLogic = new SignUpLogic();
             string existingEmail = "existinguser@example.com";
             string password = "Test123!";
 
             // Act
-            string result = await signUpLogic.UserRegistration(existingEmail, password);
+            string result = await SignUpLogic.UserRegistration(existingEmail, password);
 
             // Assert
             Assert.AreEqual("InUseEmail", result);
@@ -108,11 +102,10 @@ namespace SecurePass.Tests
         public void HashPassword_ValidPassword_ReturnsHashedPassword()
         {
             // Arrange
-            var signUpLogic = new SignUpLogic();
             string password = "Test123!";
 
             // Act
-            string hashedPassword = signUpLogic.HashPassword(password);
+            string hashedPassword = SignUpLogic.HashPassword(password);
 
             // Assert
             Assert.IsNotNull(hashedPassword);

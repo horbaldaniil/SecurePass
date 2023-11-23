@@ -9,6 +9,7 @@ namespace SecurePass.BLL
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+    using Microsoft.EntityFrameworkCore;
     using SecurePass.DAL.Model;
 
     /// <summary>

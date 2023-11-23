@@ -1,14 +1,13 @@
 ﻿using SecurePass.BLL;
 using SecurePass.DAL.Model;
+using System.Diagnostics;
 
 namespace SecurePass.Tests
 {
     [TestFixture]
     public class PasswordManagerTests
     {
-        private UserModel CreateUser() => new UserModel { Id = 81, Email = "unittest@gmail.com", Password = "UnitTest1234!" };
-        private PasswordModel CreatePassword1() => new PasswordModel { Id = 160, Title = "Test", Password = "test", UserId = 81, Deleted = false };
-        private PasswordModel CreatePassword2() => new PasswordModel { Id = 161, Title = "trash", Password = "trash", UserId = 81, Deleted = true };
+        private UserModel CreateUser() => new UserModel { Id = 86, Email = "Test@gmail.com", Password = "Test123456!" };
 
         [Test]
         public void GetPasswords_ReturnsListOfPasswords()
@@ -21,33 +20,31 @@ namespace SecurePass.Tests
             List<PasswordModel> passwords = passwordManager.GetPasswords();
 
             // Assert
-            Assert.IsNotNull(passwords);
-            Assert.AreEqual(2, passwords.Count);
+            Assert.That(passwords.Count, Is.EqualTo(0));
         }
 
         [Test]
         public void SendPasswordToTrash_MarksPasswordAsDeleted()
         {
             // Arrange
+            var db = new SecurePassDbContext();
             var user = CreateUser();
             var passwordManager = new PasswordManager(user);
-            var password = CreatePassword1();
+            passwordManager.SavePassword("Password", "Password1234!", null, null);
+            var password = db.Passwords.Where(p => p.Title == "Password").First();
 
             // Act
             passwordManager.SendPasswordToTrash(password);
-
             // Assert
             // Verify that the password is marked as deleted
-            using (var db = new SecurePassDbContext())
-            {
-                var updatedPassword = db.Passwords.Find(password.Id);
+            var db1 = new SecurePassDbContext();
+            var updatedPassword = db1.Passwords.Where(p => p.Title == "Password").First();
 
-                Assert.IsNotNull(updatedPassword);
-                Assert.IsTrue(updatedPassword.Deleted);
-            }
+            Assert.IsNotNull(updatedPassword);
+            Assert.That(updatedPassword.Deleted, Is.EqualTo(true));
 
             // cleanup
-            passwordManager.RestorePassword(password);
+            passwordManager.DeletePassword(updatedPassword);
         }
 
         [Test]
@@ -56,7 +53,10 @@ namespace SecurePass.Tests
             // Arrange
             var user = CreateUser();
             var passwordManager = new PasswordManager(user);
-            var password = CreatePassword2();
+            passwordManager.SavePassword("Password", "Password1234!", null, null);
+            var database = new SecurePassDbContext();
+            var password = database.Passwords.Where(p => p.Title == "Password").First();
+            passwordManager.SendPasswordToTrash(password);
 
             // Act
             passwordManager.RestorePassword(password);
@@ -72,7 +72,7 @@ namespace SecurePass.Tests
             }
 
             // cleanup
-            passwordManager.SendPasswordToTrash(password);
+            passwordManager.DeletePassword(password);
         }
 
         [Test]
@@ -116,7 +116,6 @@ namespace SecurePass.Tests
             Assert.AreEqual(newPassword.Password, updatedPassword.Password);
 
             // cleanup
-            passwordManager.SendPasswordToTrash(newPassword);
             passwordManager.DeletePassword(newPassword);
         }
 

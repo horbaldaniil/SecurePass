@@ -6,7 +6,7 @@ namespace SecurePass.Tests
     [TestFixture]
     public class FolderManagerTests
     {
-        private UserModel CreateUser() => new UserModel { Id = 73, Email = "jerem@gmail.com", Password = "bobobA$1cool" };
+        private UserModel CreateUser() => new UserModel { Id = 86, Email = "Test@gmail.com", Password = "Test123456!" };
 
         [Test]
         public void GetUserFolders_ReturnsUserFolders()
@@ -19,8 +19,7 @@ namespace SecurePass.Tests
             var folders = folderManager.GetUserFolders();
 
             // Assert
-            Assert.IsNotNull(folders);
-            Assert.AreEqual(0, folders.Count);
+            Assert.That(folders.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -39,8 +38,8 @@ namespace SecurePass.Tests
 
             // Additional check to verify the folder was actually added
             var folders = folderManager.GetUserFolders();
-            Assert.AreEqual(1, folders.Count);
-            Assert.AreEqual(folderName, folders[0].Title);
+            Assert.That(folders.Count, Is.EqualTo(1));
+            Assert.That(folders[0].Title, Is.EqualTo(folderName));
 
             // cleanup
             folderManager.DeleteFolder(folders[0]);
@@ -57,7 +56,7 @@ namespace SecurePass.Tests
             var originalFolderName = "bobik";
             folderManager.AddNewFolder(originalFolderName);
 
-            var folderId = folderManager.GetUserFolders().First().Id;
+            var folderId = folderManager.GetUserFolders().Where(f => f.Title ==  originalFolderName).Single().Id;
             var newFolderName = "NewFolderName";
 
             // Act
@@ -68,7 +67,7 @@ namespace SecurePass.Tests
 
             // Additional check to verify the folder name was actually changed
             var folders = folderManager.GetUserFolders();
-            Assert.AreEqual(newFolderName, folders[0].Title);
+            Assert.That(folders[0].Title, Is.EqualTo(newFolderName));
 
             // cleanup
             folderManager.DeleteFolder(folders[0]);
@@ -95,7 +94,7 @@ namespace SecurePass.Tests
 
             // Additional check to verify the folder was actually deleted
             var folders = folderManager.GetUserFolders();
-            Assert.AreEqual(0, folders.Count);
+            Assert.That(folders.Count, Is.EqualTo(0));
         }
     }
 }

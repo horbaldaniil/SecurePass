@@ -87,7 +87,7 @@ namespace SecurePass.Presentation
                         return;
                     }
 
-                    var loginResult = await LoginLogic.VerifyUser(email, password);
+                    var loginResult = await LoginLogic.VerifyUserAsync(email, password);
 
                     if (loginResult != null)
                     {

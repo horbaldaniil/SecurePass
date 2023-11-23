@@ -54,7 +54,7 @@ namespace SecurePass.BLL
         /// Null if the user is successfully verified and the current user is set; otherwise, a string indicating
         /// "NotValidData" if the provided credentials are not valid.
         /// </returns>
-        public static async Task<string?> VerifyUser(string email, string password)
+        public static async Task<string?> VerifyUserAsync(string email, string password)
         {
             return await Task.Run(async () =>
             {
