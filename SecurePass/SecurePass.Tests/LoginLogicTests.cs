@@ -63,7 +63,5 @@ namespace SecurePass.Tests
             // Assert
             Assert.IsFalse(isVerified);
         }
-
-        // Add more tests as needed for the VerifyUser method
     }
 }

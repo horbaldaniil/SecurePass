@@ -1,4 +1,4 @@
-﻿// <copyright file="SignUpLogic.cs" company="SecurePass">
+// <copyright file="SignUpLogic.cs" company="SecurePass">
 // Copyright (c) SecurePass. All rights reserved.
 // </copyright>
 

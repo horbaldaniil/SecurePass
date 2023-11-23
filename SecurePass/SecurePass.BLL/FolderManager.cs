@@ -1,4 +1,4 @@
-﻿// <copyright file="FolderManager.cs" company="SecurePass">
+// <copyright file="FolderManager.cs" company="SecurePass">
 // Copyright (c) SecurePass. All rights reserved.
 // </copyright>
 
