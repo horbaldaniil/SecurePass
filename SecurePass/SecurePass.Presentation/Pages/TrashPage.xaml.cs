@@ -4,10 +4,13 @@
 
 namespace SecurePass.Presentation.Pages
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Media.Animation;
     using SecurePass.BLL;
     using SecurePass.DAL.Model;
     using SecurePass.Presentation.ViewModel;
@@ -28,6 +31,45 @@ namespace SecurePass.Presentation.Pages
             InitializeComponent();
             passwordManager = new PasswordManager(currentUser);
             GetData();
+        }
+
+        private async void LoadingAnimation()
+        {
+            var items = DataBinding.Items;
+
+            foreach (var item in items)
+            {
+                var container = DataBinding.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
+
+                if (container != null)
+                {
+                    container.Opacity = 0;
+                }
+            }
+
+            foreach (var item in items)
+            {
+                var container = DataBinding.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
+
+                if (container != null)
+                {
+                    var animation = new DoubleAnimation
+                    {
+                        From = 0,
+                        To = 1,
+                        Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                    };
+
+                    container.BeginAnimation(UIElement.OpacityProperty, animation);
+                }
+
+                await Task.Delay(100);
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadingAnimation();
         }
 
         /// <summary>

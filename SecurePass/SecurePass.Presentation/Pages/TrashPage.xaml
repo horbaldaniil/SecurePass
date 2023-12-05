@@ -8,6 +8,7 @@
       mc:Ignorable="d" 
       d:Width="1500"
       d:Height="1080"
+      Loaded="Page_Loaded"
       Background="White">
     <Page.Resources>
         <Style TargetType="Label" x:Key="TrashEmpty" BasedOn="{StaticResource BasicLabel}">

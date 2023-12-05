@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:SecurePass.Presentation"
       mc:Ignorable="d" 
       d:Width="1500"
+      Loaded="Page_Loaded"
       Title="FoldersPage" PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown">
     <Page.Resources>
         <Style TargetType="Border" x:Key="CreateNewFolderPanel">
