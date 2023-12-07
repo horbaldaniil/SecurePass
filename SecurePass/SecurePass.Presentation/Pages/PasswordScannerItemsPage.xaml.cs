@@ -13,6 +13,7 @@ namespace SecurePass.Presentation.Pages
     using System.Windows.Controls;
     using System.Windows.Media.Animation;
     using System.Windows.Navigation;
+    using log4net;
     using SecurePass.BLL;
     using SecurePass.DAL.Model;
     using SecurePass.Presentation.ViewModel;
@@ -22,6 +23,8 @@ namespace SecurePass.Presentation.Pages
     /// </summary>
     public partial class PasswordScannerItemsPage : Page
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly PasswordManager.PasswordCategory passwordCategory;
         private readonly PasswordManager passwordManager;
         private readonly UserModel currentUser = CurrentUserManager.CurrentUser;
@@ -85,14 +88,17 @@ namespace SecurePass.Presentation.Pages
                 case PasswordManager.PasswordCategory.Weak:
                     passwords = passwordManager.GetWeakPasswords();
                     PasswordScannerItemsTitle.SetResourceReference(ContentProperty, "WeakPasswordsStr");
+                    log.Info("Received information about weak passwords.");
                     break;
                 case PasswordManager.PasswordCategory.Reused:
                     passwords = passwordManager.GetDuplicatePasswords();
                     PasswordScannerItemsTitle.SetResourceReference(ContentProperty, "ReusedPasswordsStr");
+                    log.Info("Received information about reused passwords.");
                     break;
                 case PasswordManager.PasswordCategory.Old:
                     passwords = passwordManager.GetOldPasswords();
                     PasswordScannerItemsTitle.SetResourceReference(ContentProperty, "OldPasswordsStr");
+                    log.Info("Received information about old passwords.");
                     break;
             }
 

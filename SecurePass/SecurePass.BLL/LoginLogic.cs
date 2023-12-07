@@ -7,6 +7,7 @@ namespace SecurePass.BLL
     using System;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using log4net;
     using Microsoft.EntityFrameworkCore;
     using SecurePass.DAL.Model;
 
@@ -16,6 +17,8 @@ namespace SecurePass.BLL
     /// </summary>
     public class LoginLogic
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Validates whether the given string is a valid email address.
         /// </summary>
@@ -39,8 +42,9 @@ namespace SecurePass.BLL
             {
                 return BCrypt.Net.BCrypt.Verify(enteredPassword, storedHashedPassword);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.Error($"Exception in VerifyPassword: {ex}");
                 return false;
             }
         }
@@ -58,26 +62,39 @@ namespace SecurePass.BLL
         {
             return await Task.Run(async () =>
             {
-                using var db = new SecurePassDbContext();
-                var user = await db.Users.SingleOrDefaultAsync(u => u.Email == email).ConfigureAwait(false);
-
-                if (user != null)
+                try
                 {
-                    if (VerifyPassword(password, user.Password))
+                    log.Info($"Verifying user with email: {email}");
+
+                    using var db = new SecurePassDbContext();
+                    var user = await db.Users.SingleOrDefaultAsync(u => u.Email == email).ConfigureAwait(false);
+
+                    if (user != null)
                     {
-                        CurrentUserManager.SetCurrentUser(user);
+                        if (VerifyPassword(password, user.Password))
+                        {
+                            CurrentUserManager.SetCurrentUser(user);
+                            log.Info($"User verified and set as the current user: {user.Email}");
+                        }
+                        else
+                        {
+                            log.Warn($"User verification failed for email: {user.Email}. Invalid password.");
+                            return "NotValidData";
+                        }
                     }
                     else
                     {
+                        log.Warn($"User not found for email: {email}. Verification failed.");
                         return "NotValidData";
                     }
+
+                    return null;
                 }
-                else
+                catch (Exception ex)
                 {
+                    log.Error($"Exception in VerifyUserAsync: {ex}");
                     return "NotValidData";
                 }
-
-                return null;
             }).ConfigureAwait(false);
         }
     }

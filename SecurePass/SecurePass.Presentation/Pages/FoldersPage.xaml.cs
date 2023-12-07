@@ -13,12 +13,16 @@ namespace SecurePass.Presentation.Pages
     using System.Windows.Navigation;
     using SecurePass.BLL;
     using SecurePass.DAL.Model;
+    using log4net;
+    using SecurePass.Presentation.ViewModel;
 
     /// <summary>
     /// Interaction logic for FoldersPage.xaml.
     /// </summary>
     public partial class FoldersPage : Page
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly UserModel? currentUser = CurrentUserManager.CurrentUser;
         private readonly FolderManager folderManager;
         private int? currentEditingFolderId;
@@ -80,45 +84,63 @@ namespace SecurePass.Presentation.Pages
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            string newFolderName = NewFolderTextBox.Text;
-
-            if (!string.IsNullOrWhiteSpace(newFolderName))
+            try
             {
-                if (currentEditingFolderId.HasValue)
-                {
-                    bool folderUpdated = folderManager.ChangeFolder(currentEditingFolderId.Value, newFolderName);
+                string newFolderName = NewFolderTextBox.Text;
 
-                    if (folderUpdated)
+                if (!string.IsNullOrWhiteSpace(newFolderName))
+                {
+                    if (currentEditingFolderId.HasValue)
                     {
-                        LoadFolders();
-                        SetVisibility(false);
-                        ClearNewFolderTextBox();
-                        currentEditingFolderId = null;
+                        log.Info($"Editing existing folder. User : {CurrentUserManager.CurrentUser.Email}.");
+                        bool folderUpdated = folderManager.ChangeFolder(currentEditingFolderId.Value, newFolderName);
+
+                        if (folderUpdated)
+                        {
+                            log.Info($"Folder changed. Folder : {currentEditingFolderId}. User : {CurrentUserManager.CurrentUser.Email}.");
+                            LoadFolders();
+                            SetVisibility(false);
+                            ClearNewFolderTextBox();
+                            currentEditingFolderId = null;
+                        }
+                        else
+                        {
+                            log.Warn($"Folder with this name already exists. User : {CurrentUserManager.CurrentUser.Email}.");
+
+                            FolderError("FolderNameExist");
+                        }
                     }
                     else
                     {
-                        FolderError("FolderNameExist");
+                        log.Info($"Adding new folder. User : {CurrentUserManager.CurrentUser.Email}.");
+                        bool folderAdded = folderManager.AddNewFolder(newFolderName);
+
+                        if (folderAdded)
+                        {
+                            log.Info($"Folder added. Folder : {newFolderName}. User : {CurrentUserManager.CurrentUser.Email}.");
+
+                            LoadFolders();
+                            SetVisibility(false);
+                            ClearNewFolderTextBox();
+                        }
+                        else
+                        {
+                            log.Warn($"Folder with this name already exists. User : {CurrentUserManager.CurrentUser.Email}.");
+
+                            FolderError("FolderNameExist");
+                        }
                     }
                 }
                 else
                 {
-                    bool folderAdded = folderManager.AddNewFolder(newFolderName);
+                    log.Warn($"Folder name is empty. User : {CurrentUserManager.CurrentUser.Email}.");
 
-                    if (folderAdded)
-                    {
-                        LoadFolders();
-                        SetVisibility(false);
-                        ClearNewFolderTextBox();
-                    }
-                    else
-                    {
-                        FolderError("FolderNameExist");
-                    }
+                    FolderError("FolderNameEmpty");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                FolderError("FolderNameEmpty");
+                log.Error($"Exception in folder save func: {ex}");
             }
         }
 
@@ -153,8 +175,10 @@ namespace SecurePass.Presentation.Pages
         {
             Button deleteButton = sender as Button;
             FolderModel folder = (FolderModel)deleteButton.DataContext;
-
             folderManager.DeleteFolder(folder);
+
+            log.Info($"Folder deleted. Folder : {folder.Id}. User : {CurrentUserManager.CurrentUser.Email}.");
+
             LoadFolders();
         }
 

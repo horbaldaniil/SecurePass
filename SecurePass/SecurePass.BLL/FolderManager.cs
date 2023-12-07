@@ -6,6 +6,7 @@ namespace SecurePass.BLL
 {
     using System.Collections.Generic;
     using System.Linq;
+    using log4net;
     using SecurePass.DAL.Model;
 
     /// <summary>
@@ -13,6 +14,8 @@ namespace SecurePass.BLL
     /// </summary>
     public class FolderManager
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly UserModel currentUser;
 
         /// <summary>
@@ -56,6 +59,9 @@ namespace SecurePass.BLL
                 };
                 db.Folders.Add(newFolder);
                 db.SaveChanges();
+
+                log.Info($"New folder '{folderTitle}' added for user {this.currentUser.Email}.");
+
                 return true;
             }
 
@@ -84,6 +90,9 @@ namespace SecurePass.BLL
                     folderToUpdate.Title = newFolderTitle;
 
                     db.SaveChanges();
+
+                    log.Info($"Folder ID {folderId} title updated to '{newFolderTitle}' by user {this.currentUser.Email}.");
+
                     return true;
                 }
             }
@@ -109,6 +118,9 @@ namespace SecurePass.BLL
             db.Folders.Remove(folder);
 
             db.SaveChanges();
+
+            log.Info($"Folder '{folder.Title}' and associated passwords deleted by user {this.currentUser.Email}.");
+
             return true;
         }
     }

@@ -4,8 +4,10 @@
 
 namespace SecurePass.BLL
 {
+    using System;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using log4net;
     using Microsoft.EntityFrameworkCore;
     using SecurePass.DAL.Model;
 
@@ -15,6 +17,8 @@ namespace SecurePass.BLL
     /// </summary>
     public class SignUpLogic
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Validates whether the given string is a valid email address.
         /// </summary>
@@ -66,24 +70,36 @@ namespace SecurePass.BLL
         {
             return await Task.Run(async () =>
             {
-                using var db = new SecurePassDbContext();
-                if (await db.Users.AnyAsync(u => u.Email == email).ConfigureAwait(false))
+                try
                 {
-                    return "InUseEmail";
+                    log.Info($"Registering new user with email: {email}");
+
+                    using var db = new SecurePassDbContext();
+                    if (await db.Users.AnyAsync(u => u.Email == email).ConfigureAwait(false))
+                    {
+                        log.Warn($"User registration failed for email: {email}. Email is already in use.");
+                        return "InUseEmail";
+                    }
+
+                    string hashedPassword = HashPassword(password);
+
+                    var newUser = new UserModel
+                    {
+                        Email = email,
+                        Password = hashedPassword,
+                    };
+
+                    await db.Users.AddAsync(newUser).ConfigureAwait(false);
+                    await db.SaveChangesAsync().ConfigureAwait(false);
+
+                    log.Info($"User registered successfully with email: {email}");
+                    return null;
                 }
-
-                string hashedPassword = HashPassword(password);
-
-                var newUser = new UserModel
+                catch (Exception ex)
                 {
-                    Email = email,
-                    Password = hashedPassword,
-                };
-
-                await db.Users.AddAsync(newUser).ConfigureAwait(false);
-                await db.SaveChangesAsync().ConfigureAwait(false);
-
-                return null;
+                    log.Error($"Exception in UserRegistration: {ex}");
+                    return "RegistrationFailed";
+                }
             }).ConfigureAwait(false);
         }
     }

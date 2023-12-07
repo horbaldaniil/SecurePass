@@ -11,6 +11,7 @@ namespace SecurePass.Presentation
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media.Imaging;
+    using log4net;
     using SecurePass.BLL;
 
     /// <summary>
@@ -18,6 +19,8 @@ namespace SecurePass.Presentation
     /// </summary>
     public partial class SignUpWindow : Window
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SignUpWindow"/> class.
         /// </summary>
@@ -64,6 +67,8 @@ namespace SecurePass.Presentation
 
         private async void SignUpButton_Click(object sender, RoutedEventArgs e)
         {
+            log.Info("User is attempting to sign up.");
+
             EmailErrorLabel.Content = "";
             PasswordErrorLabel.Content = "";
 
@@ -86,10 +91,12 @@ namespace SecurePass.Presentation
 
             if (signUpResult != null)
             {
+                log.Warn($"Failed sign up attempt for user: {email}. Reason: {signUpResult}");
                 EmailErrorLabel.SetResourceReference(ContentProperty, signUpResult);
             }
             else
             {
+                log.Info($"User {email} successfully signed up.");
                 MessageBox.Show("Registration successful. You can now log in.");
 
                 LogInWindow loginWindow = new ();

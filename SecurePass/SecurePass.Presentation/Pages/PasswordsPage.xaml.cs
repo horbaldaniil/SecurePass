@@ -12,6 +12,7 @@ namespace SecurePass.Presentation.Pages
     using System.Windows.Controls;
     using System.Windows.Media.Animation;
     using System.Windows.Navigation;
+    using log4net;
     using MaterialDesignThemes.Wpf;
     using SecurePass.BLL;
     using SecurePass.DAL.Model;
@@ -22,6 +23,8 @@ namespace SecurePass.Presentation.Pages
     /// </summary>
     public partial class PasswordsPage : Page
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly PasswordManager passwordManager;
         private readonly int? folderId;
         private readonly UserModel currentUser = CurrentUserManager.CurrentUser;
@@ -119,6 +122,8 @@ namespace SecurePass.Presentation.Pages
                 passwords.Select(password => new PasswordViewModel { Password = password, IsPasswordVisible = false }));
             }
 
+            log.Info($"Received a list of passwords from the database. User : {CurrentUserManager.CurrentUser.Email}.");
+
             DataBinding.ItemsSource = passwordViewModels;
         }
 
@@ -154,10 +159,16 @@ namespace SecurePass.Presentation.Pages
 
             if (passwordViewModel != null)
             {
+                log.Info($"Move password to trash. Password : {passwordViewModel.Password.Id}. User : {CurrentUserManager.CurrentUser.Email}.");
+
                 passwordManager.SendPasswordToTrash(passwordViewModel.Password);
                 string passwordToTrash = (string)Application.Current.FindResource("PasswordToTrash");
                 ShowSnackbar(passwordToTrash);
                 GetData();
+            }
+            else
+            {
+                log.Error($"The password that the user wanted to delete does not exist! User : {CurrentUserManager.CurrentUser.Email}.");
             }
         }
 
@@ -168,9 +179,15 @@ namespace SecurePass.Presentation.Pages
 
             if (passwordViewModel != null)
             {
+                log.Info($"The password is shown. Password : {passwordViewModel.Password.Id}. User : {CurrentUserManager.CurrentUser.Email}.");
+
                 passwordViewModel.IsPasswordVisible = !passwordViewModel.IsPasswordVisible;
 
                 DataBinding.Items.Refresh();
+            }
+            else
+            {
+                log.Error($"The password that the user wanted to be shown does not exist! User : {CurrentUserManager.CurrentUser.Email}.");
             }
         }
 
@@ -181,9 +198,15 @@ namespace SecurePass.Presentation.Pages
 
             if (passwordViewModel != null)
             {
+                log.Info($"Password copied. Password : {passwordViewModel.Password.Id}. User : {CurrentUserManager.CurrentUser.Email}.");
+
                 Clipboard.SetText(passwordViewModel.Password.Password);
                 string passwordCopied = (string)Application.Current.FindResource("PasswordCopied");
                 ShowSnackbar(passwordCopied);
+            }
+            else
+            {
+                log.Error($"The password that the user wanted to сopy does not exist! User : {CurrentUserManager.CurrentUser.Email}.");
             }
         }
 
@@ -199,6 +222,8 @@ namespace SecurePass.Presentation.Pages
 
             if (passwordViewModel != null)
             {
+                log.Info($"User changes password. Password : {passwordViewModel.Password.Id}. User : {CurrentUserManager.CurrentUser.Email}.");
+
                 var createPasswordPage = new CreatePasswordPage
                 {
                     IsEditMode = true,
@@ -215,6 +240,10 @@ namespace SecurePass.Presentation.Pages
                 }
 
                 NavigationService.Navigate(createPasswordPage);
+            }
+            else
+            {
+                log.Error($"The password that the user wanted to change does not exist! User : {CurrentUserManager.CurrentUser.Email}.");
             }
         }
 

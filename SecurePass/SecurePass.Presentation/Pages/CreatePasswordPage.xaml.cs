@@ -9,6 +9,7 @@ namespace SecurePass.Presentation.Pages
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using log4net;
     using SecurePass.BLL;
     using SecurePass.DAL.Model;
     using SecurePass.Presentation.ViewModel;
@@ -18,6 +19,8 @@ namespace SecurePass.Presentation.Pages
     /// </summary>
     public partial class CreatePasswordPage : Page
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly PasswordManager passwordManager;
 
         private readonly FolderManager folderManager;
@@ -87,6 +90,8 @@ namespace SecurePass.Presentation.Pages
             {
                 if (IsEditMode)
                 {
+                    log.Info($"Saving changes to existing password. User : {CurrentUserManager.CurrentUser.Email}");
+
                     PasswordViewModel passwordViewModel = (PasswordViewModel)DataContext;
                     passwordViewModel.UpdatePasswordModel(passwordTitle, emailUsername, password, folderId);
 
@@ -94,6 +99,7 @@ namespace SecurePass.Presentation.Pages
                 }
                 else
                 {
+                    log.Info($"Creating a new password. User : {CurrentUserManager.CurrentUser.Email}");
                     passwordManager.SavePassword(passwordTitle, password,
                                                         emailUsername, folderId);
                 }
@@ -103,6 +109,7 @@ namespace SecurePass.Presentation.Pages
             }
             else
             {
+                log.Warn($"Invalid password. Showing error message. User : {CurrentUserManager.CurrentUser.Email}");
                 ShowError();
             }
         }

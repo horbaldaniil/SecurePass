@@ -11,6 +11,7 @@ namespace SecurePass.Presentation.Pages
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media.Animation;
+    using log4net;
     using SecurePass.BLL;
     using SecurePass.DAL.Model;
     using SecurePass.Presentation.ViewModel;
@@ -20,6 +21,8 @@ namespace SecurePass.Presentation.Pages
     /// </summary>
     public partial class TrashPage : Page
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly PasswordManager passwordManager;
         private readonly UserModel? currentUser = CurrentUserManager.CurrentUser;
 
@@ -84,6 +87,9 @@ namespace SecurePass.Presentation.Pages
 
             TrashEmpty.Visibility = passwordItems.Any() ? Visibility.Collapsed : Visibility.Visible;
             TrashLabel.Visibility = passwordItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+
+            log.Info($"Received a list of deleted passwords from the database. User : {CurrentUserManager.CurrentUser.Email}.");
+
             DataBinding.ItemsSource = passwordViewModels;
         }
 
@@ -95,6 +101,8 @@ namespace SecurePass.Presentation.Pages
                 passwordManager.DeletePassword(password);
             }
 
+            log.Info($"The trash is cleaned. User : {CurrentUserManager.CurrentUser.Email}.");
+
             GetData();
         }
 
@@ -105,9 +113,15 @@ namespace SecurePass.Presentation.Pages
 
             if (passwordViewModel != null)
             {
+                log.Info($"The password is shown. Password : {passwordViewModel.Password.Id}. User : {CurrentUserManager.CurrentUser.Email}.");
+
                 passwordViewModel.IsPasswordVisible = !passwordViewModel.IsPasswordVisible;
 
                 DataBinding.Items.Refresh();
+            }
+            else
+            {
+                log.Error($"The password that the user wanted to be shown does not exist! User : {CurrentUserManager.CurrentUser.Email}.");
             }
         }
 
@@ -119,10 +133,14 @@ namespace SecurePass.Presentation.Pages
             {
                 if (isDelete)
                 {
+                    log.Info($"Password deleted. Password : {passwordViewModel.Password.Id}. User : {CurrentUserManager.CurrentUser.Email}.");
+
                     passwordManager.DeletePassword(passwordViewModel.Password);
                 }
                 else
                 {
+                    log.Info($"Password restored. Password : {passwordViewModel.Password.Id}. User : {CurrentUserManager.CurrentUser.Email}.");
+
                     passwordManager.RestorePassword(passwordViewModel.Password);
                 }
 

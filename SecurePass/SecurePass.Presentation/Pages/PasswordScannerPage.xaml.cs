@@ -7,6 +7,7 @@ namespace SecurePass.Presentation.Pages
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Navigation;
+    using log4net;
     using SecurePass.BLL;
     using SecurePass.DAL.Model;
 
@@ -15,6 +16,8 @@ namespace SecurePass.Presentation.Pages
     /// </summary>
     public partial class PasswordScannerPage : Page
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly PasswordManager passwordManager;
         private readonly UserModel currentUser = CurrentUserManager.CurrentUser;
 
@@ -33,6 +36,8 @@ namespace SecurePass.Presentation.Pages
             WeakPasswordCount.Content = passwordManager.GetWeakPasswords().Count;
             ReusedPasswordCount.Content = passwordManager.GetDuplicatePasswords().Count;
             OldPasswordCount.Content = passwordManager.GetOldPasswords().Count;
+
+            log.Info("Received information about weak/reused/old passwords count.");
         }
 
         private void NavigateToScannerItemsPage(PasswordManager.PasswordCategory category)

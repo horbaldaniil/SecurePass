@@ -9,6 +9,7 @@ namespace SecurePass.BLL
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+    using log4net;
     using Microsoft.EntityFrameworkCore;
     using SecurePass.DAL.Model;
 
@@ -18,6 +19,8 @@ namespace SecurePass.BLL
     /// </summary>
     public class PasswordManager
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly UserModel currentUser;
 
         /// <summary>
@@ -185,6 +188,8 @@ namespace SecurePass.BLL
             var existingPassword = db.Passwords.Single(p => p.Id == password.Id);
             existingPassword.Deleted = true;
             db.SaveChanges();
+
+            log.Info($"Password with ID {password.Id} sent to trash by user {this.currentUser.Email}.");
         }
 
         /// <summary>
@@ -198,6 +203,8 @@ namespace SecurePass.BLL
             existingPassword.Deleted = false;
 
             db.SaveChanges();
+
+            log.Info($"Password with ID {password.Id} restored by user {this.currentUser.Email}.");
         }
 
         /// <summary>
@@ -209,6 +216,8 @@ namespace SecurePass.BLL
             using var db = new SecurePassDbContext();
             db.Passwords.Remove(password);
             db.SaveChanges();
+
+            log.Info($"Password with ID {password.Id} permanently deleted by user {this.currentUser.Email}.");
         }
 
         /// <summary>
@@ -239,6 +248,8 @@ namespace SecurePass.BLL
             }
 
             db.SaveChanges();
+
+            log.Info($"Password with ID {password.Id} updated by user {this.currentUser.Email}.");
         }
 
         /// <summary>
@@ -269,6 +280,8 @@ namespace SecurePass.BLL
                 db.Passwords.Add(newPassword);
 
                 db.SaveChanges();
+
+                log.Info($"New password added for user {this.currentUser.Email}.");
             }
         }
     }

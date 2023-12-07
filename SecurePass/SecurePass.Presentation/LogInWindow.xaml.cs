@@ -19,6 +19,7 @@ namespace SecurePass.Presentation
     public partial class LogInWindow : Window
     {
         private bool loading;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LogInWindow"/> class.
@@ -75,6 +76,7 @@ namespace SecurePass.Presentation
                 LoginButton.Style = (Style)FindResource("LoginButtonLoaded");
                 try
                 {
+                    log.Info("User is trying to log in.");
                     ValidErrorLabel.Content = string.Empty;
                     EmailErrorLabel.Content = string.Empty;
 
@@ -83,6 +85,7 @@ namespace SecurePass.Presentation
 
                     if (!LoginLogic.IsValidEmail(email))
                     {
+                        log.Warn($"Invalid email format entered: {email}");
                         EmailErrorLabel.SetResourceReference(ContentProperty, "InvalidFormatEmail");
                         return;
                     }
@@ -91,14 +94,20 @@ namespace SecurePass.Presentation
 
                     if (loginResult != null)
                     {
+                        log.Warn($"Failed login attempt for user: {email}. Reason: {loginResult}");
                         ValidErrorLabel.SetResourceReference(ContentProperty, loginResult);
                     }
                     else
                     {
+                        log.Info($"User {email} successfully logged in.");
                         var window = new MainWindow();
                         window.Show();
                         Close();
                     }
+                }
+                catch (Exception ex)
+                {
+                    log.Error($"Exception during login: {ex}");
                 }
                 finally
                 {
@@ -110,6 +119,7 @@ namespace SecurePass.Presentation
 
         private void SignUpLabel_Click(object sender, RoutedEventArgs e)
         {
+            log.Info("User clicked on Sign Up label.");
             SignUpWindow window = new ();
             window.Show();
             Close();
